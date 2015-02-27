@@ -1,0 +1,28 @@
+.block_header{
+    width:960px;
+    height:80px;
+    background:#36f;
+}
+.block_header_container{
+    width:100%;
+    height:100%;
+    position:relative;
+}
+.block_header h1{
+    position:absolute;
+    left:0;
+    top:0;
+}
+.block_header ul{
+    position:absolute;
+    right:0;
+    bottom:0;
+}
+.block_header li{
+    float:left;
+    background:#8ac;
+    text-align:center;
+    border-left:1px solid #ca8;
+    padding:0 10px;
+    list-style-type:none;
+}

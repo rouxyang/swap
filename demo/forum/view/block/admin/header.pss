@@ -1,0 +1,8 @@
+.block_admin_header {
+    width: 960px;
+    height: 60px;
+    background: #88c;
+}
+.block_admin_header li {
+    display: inline;
+}

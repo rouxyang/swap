@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+ul, ol {
+    list-style-type: none;
+}
+.code {
+	font-family: Monospace;
+}
+</style>
+<title>Swap Web 应用开发框架参考手册</title>
+</head>
+<body>
+
+    <h1>Swap Web 应用开发框架参考手册</h1>
+    
+    <div>
+        <h2>action 里可用的 api 列表</h2>
+        <ul class="code">
+		<li>self::use_skeleton($true_or_false);</li>
+		<li>self::render_tpl($_tpl_file, array $_args = [], $_escape_args = true);</li>
+		<li>self::helper_set($key, $value);</li>
+		<li>self::dump(...);</li>
+		<li>self::method($request_method);</li>
+		<li>self::role($role, $method = 'redirect_to', $target = '');</li>
+		<li>self::csrf($csrf_role);</li>
+		<li>self::set($key, $value);</li>
+		<li>self::show_page();</li>
+		<li>self::show_page($page_name);</li>
+		<li>self::show_page($page_name, false);</li>
+		<li>self::show_page('', $layout_name);</li>
+		<li>self::show_page('', false);</li>
+		<li>self::show_page($page_name, $layout_name);</li>
+                <li>self::show_block($block_name);</li>
+                <li>self::show_block($block_name, false);</li>
+                <li>self::show_block($block_name, $alias);</li>
+                <li>self::show_block($block_name, $layout_name);</li>
+                <li>self::show_block($block_name, $layout_name, $alias);</li>
+                <li>self::show_block($block_name, false, $alias);</li>
+                <li>self::send_page();</li>
+                <li>self::send_page($page_name);</li>
+                <li>self::send_page($page_name, $with_pps = true);</li>
+                <li>self::send_block($block_name);</li>
+                <li>self::send_block($block_name, $alias);</li>
+                <li>self::send_block($block_name, $with_pps = true);</li>
+                <li>self::send_block($block_name, $with_pps = true, $alias);</li>
+		<li>self::json_result($result, $msg = '', $code = 0, $extra = '');</li>
+		<li>self::send_json($value);</li>
+		<li>self::puts($str);</li>
+		<li>self::send($content, $content_type = 'text/html; charset=utf-8');</li>
+		<li>self::send_file($file, $filename_ext = '');</li>
+		<li>self::redirect_to($target);</li>
+		<li>self::redirect_to_url($url);</li>
+		<li>self::forward_to($target, $deny_self = true);</li>
+		<li>self::forward_404($msg = '');</li>
+		<li>self::forward_404_if($condition, $msg = '');</li>
+		<li>self::set_title($title, $escape_html = true);</li>
+		<li>self::set_keywords($keywords, $escape_html = true);</li>
+		<li>self::set_author($author, $escape_html = true);</li>
+	</ul>
+	<h2>tpl 里可用的 api 列表</h2>
+	<ul class="code">
+		<li>static::static_url($static_file, $for_html = null, $echo = true);</li>
+		<li>static::upload_url($upload_file, $echo = true);</li>
+		<li>static::pss_url($pss_name, $echo = true);</li>
+		<li>static::pjs_url($pjs_name, $echo = true);</li>
+		<li>static::php_url($target, $for_html = null, $echo = true);</li>
+		<li>static::php_uri($target, $for_html = null, $echo = true);</li>
+		<li>static::link_style($style_file, $in_place = false);</li>
+		<li>static::link_script($script_file, $in_place = false, $at_top = false);</li>
+		<li>static::link_pss($pss_name, $in_place = false);</li>
+		<li>static::link_pjs($pjs_name, $in_place = false, $at_top = false);</li>
+		<li>static::include_block($block_name, array $alias = []);</li>
+		<li>static::csrf_url($csrf_role, $target, $for_html = null, $echo = true);</li>
+		<li>static::csrf_arg($csrf_role, $echo = true);</li>
+		<li>static::csrf_field($csrf_role);</li>
+		<li>static::content(); // 主要用在 layout 模板里</li>
+	</ul>
+    </div>
+
+</body>
+</html>

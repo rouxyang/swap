@@ -1,0 +1,26 @@
+#page {
+    width: 958px;
+    height: 480px;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+#page p {
+    width: 898px;
+    margin: 20px auto 0;
+    border: 1px solid #d3d2d1;
+    background: #eee9dc;
+}
+#page table {
+    width: 900px;
+    margin: 20px auto;
+}
+#page th {
+    border: 1px solid #d3d2d1;
+    background: #eee9dc;
+}
+#page td {
+    border: 1px solid #d3d2d1;
+    background: #fff;
+    text-align: center;
+    vertical-align: middle;
+}

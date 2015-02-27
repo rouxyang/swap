@@ -1,0 +1,20 @@
+<?php
+define('swap\root_dir',       DIRECTORY_SEPARATOR === '\\' ? str_replace('\\', '/', __DIR__) : __DIR__);
+define('swap\swap_dir',       swap\root_dir . '/../../../../swap');
+define('swap\config_dir',     swap\root_dir . '/config');
+define('swap\controller_dir', swap\root_dir . '/controller');
+define('swap\data_dir',       swap\root_dir . '/data');
+define('swap\dbg_dir',        swap\data_dir . '/dbg');
+define('swap\log_dir',        swap\data_dir . '/log');
+define('swap\tmp_dir',        swap\data_dir . '/tmp');
+define('swap\var_dir',        swap\data_dir . '/var');
+define('swap\share_dir',      swap\data_dir . '/share');
+define('swap\filter_dir',     swap\root_dir . '/filter');
+define('swap\helper_dir',     swap\root_dir . '/helper');
+define('swap\library_dir',    swap\root_dir . '/library');
+define('swap\vendor_dir',     swap\root_dir . '/../../vendor');
+define('swap\logic_dir',      swap\root_dir . '/../../logic');
+define('swap\model_dir',      swap\logic_dir . '/model');
+define('swap\service_dir',    swap\logic_dir . '/service');
+define('swap\view_dir',       swap\root_dir . '/view');
+define('swap\web_dir',        swap\root_dir . '/web');

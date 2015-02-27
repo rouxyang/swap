@@ -1,0 +1,79 @@
+欢迎使用
+========
+
+    欢迎使用 Swap Web 应用开发框架。
+
+授权协议
+========
+
+    New BSD License，详见 “LICENSE” 文件。
+
+目录结构
+========
+
+    app/        - 基于 Swap 框架核心（即 swap/ 目录）的 Web 应用
+    demo/       - 基于 Swap 框架核心（即 swap/ 目录）的 Web 应用样例
+    doc/        - 框架的各类文档
+    swap/       - Swap 框架核心
+    AUTHOR      - 框架的开发人员
+    LICENSE     - 框架的授权协议
+    README      - 本说明文件
+
+环境要求
+========
+
+    PHP >= 5.4.0，至少包含以下扩展：
+    
+      * Core
+      * date
+      * iconv
+      * json
+      * pcre
+      * Reflection
+      * SPL
+      * standard
+    
+    注意，如果要运行 demo/blog、demo/forum 这两个样例应用，还需要添加 SQLite3 扩展。
+    其它扩展视应用程序需要自行添加，如果在使用框架某项功能时需要某个扩展，框架会提示。
+
+快速运行
+========
+
+    1、确认安装了命令行版本的 php，同时该 php 内置了上述“环境要求”部分列出的扩展；
+    2、将框架发布包（通常是 swap-x.y.z.tar.gz 或 swap-x.y.z.zip）解压到任意目录下；
+    3、进入 app/web（或 demo/blog/web、demo/forum/web 等），运行 serve 脚本；
+    4、打开浏览器，访问 http://127.0.0.1:8080/
+
+使用框架
+========
+
+    1、将框架发布包（通常是 swap-x.y.z.tar.gz 或 swap-x.y.z.zip）解压，得到 swap-x.y.z 目录；
+    2、把 swap-x.y.z 目录移到你存放 Web 应用的目录下，改个名，例如改成 myapp；
+    3、把 Web 服务器的根目录指向 myapp/app/web 目录（注意使用绝对路径）；
+    4、打开浏览器，使用你 Web 服务器配置文件里设的域名和端口访问该 Web 应用；
+    5、编码实现你的 Web 应用，开发过程中可以参考 myapp/demo 下的样例应用以及 myapp/doc 下的文档；
+    6、把 myapp 目录上传到线上服务器，完成上线（此时 myapp/demo 可以删除也可以不删除）。
+
+样例应用
+========
+
+    浏览 demo/ 目录下的样例应用。这些样例应用都很简单，很容易熟悉，建议在使用框架的过程中参考。
+    
+    样例应用中，blog/ 属于单 app 单 module 模式，forum/ 属于单 app 多 module 模式，而 official/
+    则属于多 app 单 module 模式。样例应用里暂时没有提供多 app 多 module 模式的应用。您可以根据
+    您的项目的大小来决定使用哪种模式，当然，可以很容易地从单 app 单 module 向上升级到 单 app
+    多 module 模式，甚至直接升级到多 app 多 module 模式。一句话：非常灵活。
+    
+    缺省状态下，swap app 使用单 app 多 module 模式。
+    
+    另外，test/ 样例应用只是输出一个 hello world，它代表了最小的 swap 应用，可用来做性能测试。
+
+学习框架
+========
+
+    见 doc 目录。
+
+社区反馈
+========
+
+    请访问：http://bitbucket.org/diogin/swap

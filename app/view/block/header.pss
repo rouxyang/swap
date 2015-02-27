@@ -1,0 +1,5 @@
+#header{
+    width:960px;
+    height:80px;
+    background:#abcdef;
+}

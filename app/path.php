@@ -1,0 +1,42 @@
+<?php
+/**
+ * Web 应用程序各类组件所在的位置定义。可以任意安排各组件的位置。
+ */
+# Web 应用根目录
+define('swap\root_dir',       DIRECTORY_SEPARATOR === '\\' ? str_replace('\\', '/', __DIR__) : __DIR__);
+# 框架核心目录
+define('swap\swap_dir',       swap\root_dir . '/../swap');
+# 配置文件
+define('swap\config_dir',     swap\root_dir . '/config');
+# 控制器
+define('swap\controller_dir', swap\root_dir . '/controller');
+# 相关数据
+define('swap\data_dir',       swap\root_dir . '/data');
+# 调试文件
+define('swap\dbg_dir',        swap\data_dir . '/dbg');
+# 日志文件
+define('swap\log_dir',        swap\data_dir . '/log');
+# 临时文件
+define('swap\tmp_dir',        swap\data_dir . '/tmp');
+# 程序运行时操作的数据文件
+define('swap\var_dir',        swap\data_dir . '/var');
+# 共享数据文件
+define('swap\share_dir',      swap\data_dir . '/share');
+# 过滤器
+define('swap\filter_dir',     swap\root_dir . '/filter');
+# 控制器助手
+define('swap\helper_dir',     swap\root_dir . '/helper');
+# 通用库
+define('swap\library_dir',    swap\root_dir . '/library');
+# 三方库
+define('swap\vendor_dir',     swap\root_dir . '/vendor');
+# 业务逻辑
+define('swap\logic_dir',      swap\root_dir . '/logic');
+# 领域模型
+define('swap\model_dir',      swap\logic_dir . '/model');
+# 领域服务
+define('swap\service_dir',    swap\logic_dir . '/service');
+# 视图文件
+define('swap\view_dir',       swap\root_dir . '/view');
+# Web 应用公共目录
+define('swap\web_dir',        swap\root_dir . '/web');

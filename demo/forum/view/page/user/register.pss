@@ -1,0 +1,6 @@
+#page {
+    width: 960px;
+    height: 320px;
+    border: 1px solid #ccc;
+    background: #fff;
+}

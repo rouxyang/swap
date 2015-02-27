@@ -1,0 +1,6 @@
+.block_footer {
+    width: 960px;
+    height: 60px;
+    background: #ccc;
+    text-align: center;
+}

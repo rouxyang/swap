@@ -1,0 +1,15 @@
+body {
+    width: 960px;
+    margin: 0 auto;
+}
+.block_admin_header {
+    float: left;
+    margin-bottom: 10px;
+}
+#layout_page {
+    float: left;
+}
+.block_admin_footer {
+    float: left;
+    margin-top: 10px;
+}

@@ -1,0 +1,80 @@
+请设置以下 hosts 记录：
+
+开发环境
+========
+  
+  前端开发者 foo
+  --------------
+  
+    foo.myapp.net
+    foo.module1.myapp.net
+    foo.module2.myapp.net
+    foo.module3.net
+    
+    foo.media.myapp-static.net
+    foo.style.myapp-static.net
+    foo.script.myapp-static.net
+    
+    dev.upload.myapp-static.net
+
+  后端开发者 bar
+  --------------
+  
+    bar.myapp.net
+    bar.module1.myapp.net
+    bar.module2.myapp.net
+    bar.module3.net
+    
+    bar.media.myapp-static.net
+    bar.style.myapp-static.net
+    bar.script.myapp-static.net
+    
+    dev.upload.myapp-static.net
+  
+  产品经理/UI/UE
+  --------------
+  
+    dev.myapp.net
+    dev.module1.myapp.net
+    dev.module2.myapp.net
+    dev.module3.net
+    
+    dev.media.myapp-static.net
+    dev.style.myapp-static.net
+    dev.script.myapp-static.net
+    
+    dev.upload.myapp-static.net
+
+测试环境
+========
+
+  QA
+  --
+
+    test.myapp.net
+    test.module1.myapp.net
+    test.module2.myapp.net
+    test.module3.net
+    
+    test.media.myapp-static.net
+    test.style.myapp-static.net
+    test.script.myapp-static.net
+    
+    test.upload.myapp-static.net
+
+线上环境
+========
+
+  公网
+  ----
+
+    myapp.com | www.myapp.com
+    module1.myapp.com
+    module2.myapp.com
+    module3.com | www.module3.com
+    
+    media.myapp-static.com
+    style.myapp-static.com
+    script.myapp-static.com
+    
+    upload.myapp-static.com

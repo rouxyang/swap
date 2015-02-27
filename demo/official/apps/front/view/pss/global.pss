@@ -1,0 +1,51 @@
+html, body, div, span, object, h1, h2, h3, h4, h5, h6, p, a, em, img, dl, dt, dd,
+ul, ol, li, form, fieldset, label, table, caption, tbody, tfoot, thead, tr, th,
+td, pre, blockquote {
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+html {
+    background: #9cf;
+}
+body {
+    position: relative;
+    left: 0;
+    top: 0;
+    font-family: Arial, Tahoma, Helvetica;
+    font-size: 12px;
+    letter-spacing: 0;
+    word-spacing: 0;
+    line-height: 1.5;
+    color: #000;
+}
+ul, ol {
+    list-style-type: none;
+}
+a {
+    color: #000;
+    text-decoration: none;
+}
+a:link {
+    color: #000;
+}
+a:visited {
+    color: #000;
+}
+a:hover {
+    color: #060;
+    text-decoration: underline;
+}
+a:active {
+    color: #060;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+:focus {
+    outline: 0;
+}
+.clearfix {
+    clear: both;
+}

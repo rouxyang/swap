@@ -1,0 +1,43 @@
+#page {
+    width: 940px;
+    padding: 10px;
+    background: #f0f0f0;
+}
+#page .about {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #fff;
+}
+#page .title {
+    background: #e0e0f0;
+}
+#page .article {
+    padding: 10px;
+    background: #eef;
+}
+#page .messages {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #e0e0e0;
+}
+#page .message {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #fff;
+}
+#page .guest {
+    background: #f0f0e0;
+}
+#page .content {
+    padding: 5px;
+    background: #d0d0d0;
+}
+#page .admin {
+    height: 20px;
+    line-height: 20px;
+    text-align: right;
+    background: #e0f0e0;
+}
+#page .admin li {
+    display: inline;
+}

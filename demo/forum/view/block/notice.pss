@@ -1,0 +1,6 @@
+.block_notice {
+    width: 958px;
+    border: 1px solid #c0c0c0;
+    color: #36f;
+    background: #f0f0f0;
+}

@@ -1,0 +1,8 @@
+.block_footer{
+    width:958px;
+    height:60px;
+    line-height:60px;
+    border:1px solid #ccc;
+    text-align:center;
+    background:#fff;
+}

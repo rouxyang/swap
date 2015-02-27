@@ -1,0 +1,58 @@
+/**
+ * Copyright (c) 2009-2014 by Jingcheng Zhang <diogin@gmail.com>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of SwapFramework.org nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY JINGCHENG ZHANG AND CONTRIBUTORS ``AS IS''
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL JINGCHENG ZHANG OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+/**
+ * 版权所有 (c) 2009-2014 张景埕 <diogin@gmail.com>
+ * 保留所有权利。
+ *
+ * 在遵循以下条款项的前提下，允许以源代码或二进制代码的方式重新发布和使用本
+ * 软件，而无论是否对本软件进行过修改：
+ *
+ * 1. 以源代码的方式重新发布本软件时，必须保留上述版权宣示、本三条款项及下述
+ *    免责声明条款；
+ *
+ * 2. 以二进制代码的方式重新发布本软件时，必须在随套件一起发布的文档以及/或者
+ *    其它物件上重制上述版权宣示、本三条款项及下述免责声明条款；
+ *
+ * 3. 未经事前书面许可，不得使用“张景埕”及其他贡献者的名称来为本软件的派生
+ *    品做任何表示支持、认可和推广、促销等行为。
+ *
+ * 免责声明：
+ *
+ * 本软件由张景埕与贡献者以现状提供，不提供任何明示的或默示的责任担保，包括但
+ * 不限于为某一特定目的所做的适销性及适用性的默示责任担保。任何情况下，张景埕
+ * 和贡献者对于任何直接的、间接的、偶然的、惩戒性质的，或任何结果的损失（包括
+ * 但不限于采购了替代品或服务、无法使用、丢失数据、盈利损失或业务中断），无论
+ * 此类损失是如何造成的、基于何种责任推断、是否属于合同范畴、是否需承担严格的
+ * 赔偿责任，或导致本软件的使用范围之外的民事侵权行为（包括疏忽或其它原因），
+ * 即使预先已被告知此类损害可能发生：均不承担任何责任。
+ */
+

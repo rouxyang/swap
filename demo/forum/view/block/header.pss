@@ -1,0 +1,28 @@
+.block_header{
+    width:958px;
+    border:1px solid #999;
+    background:#fff;
+}
+.block_header_container{
+    position:relative;
+    width:100%;
+    height:100%;
+}
+.block_header .nav{
+    height:30px;
+    line-height:30px;
+    background:url(<?php static::static_url('header_nav_bg.gif'); ?>) repeat-x;
+}
+.block_header ul{
+    float:right;
+    height:100%;
+    line-height:inherit;
+}
+.block_header li{
+    float:right;
+    border-left:1px solid #fff;
+    padding:0 10px;
+}
+.block_header .nav a{
+    color:#fff;
+}

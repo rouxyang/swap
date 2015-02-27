@@ -1,0 +1,5 @@
+#page {
+    width: 720px;
+    height: 680px;
+    background: #ca8;
+}

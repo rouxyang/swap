@@ -1,0 +1,5 @@
+.block_admin_footer {
+    width: 960px;
+    height: 60px;
+    background: #ca8;
+}

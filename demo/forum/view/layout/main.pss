@@ -1,0 +1,18 @@
+html {
+    background: #f3eeea;
+}
+body {
+    width: 960px;
+    margin: 0 auto;
+}
+.block_header {
+    float: left;
+    margin-bottom: 10px;
+}
+#layout_page {
+    float: left;
+}
+.block_footer {
+    float: left;
+    margin-top: 10px;
+}

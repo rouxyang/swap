@@ -1,0 +1,29 @@
+function delete_member(url) {
+    if (window.confirm('您确定要删除这个用户？该用户的所有文章都将删除')) {
+        $.ajax({
+            type: 'DELETE',
+            url: url,
+            dataType: 'json',
+            success: function (msg) {
+                if (msg === true) {
+                    window.location.reload();
+                } else {
+                    window.alert(msg);
+                }
+            }
+        });
+    }
+    return false;
+}
+$('#new_form').ajaxForm({
+    dataType: 'json',
+    success: function (response) {
+        if (response['result']) {
+            location.href = response['extra'];
+        } else {
+            for (var k in response['msg']) {
+                $('#new_form_tips').html(response['msg'][k]);
+            }
+        }
+    }
+});

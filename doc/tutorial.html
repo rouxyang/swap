@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+ul, ol {
+    list-style-type: none;
+}
+.zero {
+    margin-left: 0;
+}
+.first {
+    margin-left: 20px;
+}
+.second {
+    margin-left: 40px;
+}
+.third {
+    margin-left: 60px;
+}
+.conf {
+    background: #f0f0f0;
+}
+</style>
+<title>Swap Web 应用开发框架入门指南</title>
+</head>
+<body>
+
+    <h1 class="zero">Swap Web 应用开发框架入门指南</h1>
+    
+        <p class="first">感谢使用 Swap Web 应用开发框架。本文以从零开始开发一个 Blog 来介绍如何使用 Swap 开发 Web 应用。</p>
+    
+        <h2 class="first">一、建立 Web 应用工作目录</h2>
+        
+            <p class="second">假设想在 /path/to/myapp 目录下存放 Web 应用程序并在该目录下进行开发。只要把解压出来的框架目录（通常是 swap-x.y.z）里的 app/ 目录下的所有文件和子目录复制到该目录下即可。复制完成后，请确认该目录下的目录结构为如下结构：</p>
+            
+                <ul class="third conf">
+                    <li>config/</li>
+                    <li>controller/</li>
+                    <li>data/</li>
+                    <li>doc/</li>
+                    <li>filter/</li>
+                    <li>helper/</li>
+                    <li>library/</li>
+                    <li>model/</li>
+		    <li>schema/</li>
+                    <li>service/</li>
+                    <li>swap/</li>
+                    <li>task/</li>
+                    <li>view/</li>
+                    <li>web/</li>
+                    <li>path.php</li>
+                </ul>
+            
+        <h2 class="first">二、Web 应用运行环境安装与配置</h2>
+        
+            <p class="second">Swap 可以运行在 Nginx + PHP-FPM (Linux/Unix) 和 Apache 2.2 + mod_php (Linux/Unix/Windows) 环境上，目前还没测试在其它运行环境上是否也能正常工作，因此建议使用这两种运行环境之一来运行 Swap。</p>
+            
+            <p class="second">如果环境是 Apache 2.2 + mod_php，请参考以下配置参数：</p>
+            
+                <p class="third conf">@todo</p>
+                
+            <p class="second">如果 Web 服务器是 Nginx，请参考以下配置参数：</p>
+            
+                <p class="third conf">@todo</p>
+            
+            <p class="second">Swap 基于 PHP 5.3，因此运行环境的 PHP 版本号需要 >= 5.3.0。核心 Swap 对 PHP 扩展的要求如下：</p>
+            
+                <ul class="third conf">
+                    <li>Core</li>
+                    <li>date</li>
+                    <li>iconv</li>
+                    <li>json</li>
+                    <li>pcre</li>
+                    <li>Reflection</li>
+                    <li>SPL</li>
+                    <li>standard</li>
+                </ul>
+                
+            <p class="second">通常默认编译的 PHP 都包含了这些扩展。如果你喜欢手动编译 PHP，而且喜欢 --disable-all，那么请务必添加 --with-iconv --enable-json 以启用 iconv 和 json 扩展。</p>
+            
+        <h2 class="first">三、</h2>
+        
+            <p class="second">@todo</p>
+
+</body>
+</html>

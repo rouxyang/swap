@@ -1,0 +1,11 @@
+.block_admin_nav {
+    width: 240px;
+    height: 440px;
+    background: #36f;
+}
+.block_admin_nav li {
+    text-align: center;
+}
+.block_admin_nav a {
+    color: #fff;
+}

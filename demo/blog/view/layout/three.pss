@@ -1,0 +1,13 @@
+body {
+    width: 960px;
+    margin: 0 auto;
+}
+.block_header {
+    float: left;
+}
+#layout_page {
+    float: left;
+}
+.block_footer {
+    float: left;
+}

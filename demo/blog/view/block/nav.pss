@@ -1,0 +1,12 @@
+.block_nav {
+    width: 240px;
+    height: auto;
+    background: #eee;
+}
+.block_nav h2 {
+    color: #fff;
+    background: #369;
+}
+.block_nav li {
+    text-indent: 10px;
+}

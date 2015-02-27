@@ -1,0 +1,7 @@
+.block_footer{
+    width:960px;
+    height:40px;
+    line-height:40px;
+    background:#f63;
+    text-align:center;
+}

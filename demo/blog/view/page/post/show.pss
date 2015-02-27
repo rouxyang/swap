@@ -1,0 +1,57 @@
+#page {
+    width: 700px;
+    padding: 10px;
+    background: #e0e0e0;
+}
+#page .post {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #fff;
+}
+#page .title {
+    background: #e0e0f0;
+}
+#page .author {
+    background: #e0f0f0;
+}
+#page .article {
+    padding: 10px;
+    font-size: 14px;
+    background: #f0f0f0;
+}
+#page .meta {
+    height: 20px;
+    line-height: 20px;
+    background: #f0e0e0;
+}
+#page .meta li {
+    display: inline;
+    margin-right: 5px;
+}
+#page .comments {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #eee;
+}
+#page .commenter {
+    background: #f0f0e0;
+}
+#page .comment {
+    margin-bottom: 10px;
+    padding: 5px;
+    background: #fff;
+}
+#page .content {
+    padding: 5px;
+    background: #f0f0f0;
+}
+#page .admin {
+    height: 20px;
+    line-height: 20px;
+    text-align: right;
+    background: #e0f0e0;
+}
+#page .admin li {
+    display: inline;
+    margin-right: 5px;
+}

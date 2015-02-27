@@ -1,0 +1,27 @@
+#page {
+    width: 958px;
+    border:1px solid #ccc;
+    background: #fff;
+}
+#page p {
+    width: 898px;
+    margin: 20px auto 0;
+    border: 1px solid #d3d2d1;
+    background: #eee9dc;
+}
+#page ul.replies {
+    width:900px;
+    margin:20px auto;
+}
+#page .post{
+    margin:0 auto 10px;
+    border:1px solid #d3d2d1;
+}
+#page .info{
+    width:20%;
+    float:left;
+}
+#page .content{
+    float:right;
+    width:80%;
+}

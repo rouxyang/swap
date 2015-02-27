@@ -1,0 +1,17 @@
+function delete_post(url) {
+    if (window.confirm('您确定要删除这篇文章？')) {
+        $.ajax({
+            type: 'DELETE',
+            url: url,
+            dataType: 'json',
+            success: function (msg) {
+                if (msg === true) {
+                    window.location.reload();
+                } else {
+                    window.alert(msg);
+                }
+            }
+        });
+    }
+    return false;
+}
