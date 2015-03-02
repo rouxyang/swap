@@ -606,6 +606,18 @@ function strip_right($str, $right) {
     }
     return $str;
 }
+// 去除 $str 外边的 $left 和 $right
+function strip_edge($str, $left, $right) {
+    $pos = strpos($str, $left);
+    if ($pos === 0) {
+        $t = substr($str, strlen($left));
+        $pos = strrpos($t, $right);
+        if ($pos === strlen($t) - strlen($right)) {
+            $str = substr($t, 0, $pos);
+        }
+    }
+    return $str;
+}
 // 计算字符串的字节数
 function str_bytes($str) {
     return strlen($str);
