@@ -20,8 +20,8 @@ define('swap\log_dir',        swap\data_dir . '/log');
 define('swap\tmp_dir',        swap\data_dir . '/tmp');
 # 程序运行时操作的数据文件
 define('swap\var_dir',        swap\data_dir . '/var');
-# 共享数据文件
-define('swap\share_dir',      swap\data_dir . '/share');
+# 语言包文件
+define('swap\lang_dir',       swap\data_dir . '/lang');
 # 过滤器
 define('swap\filter_dir',     swap\root_dir . '/filter');
 # 控制器助手
