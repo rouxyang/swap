@@ -16,8 +16,6 @@ define('swap\data_dir',       swap\root_dir . '/data');
 define('swap\log_dir',        swap\data_dir . '/log');
 # 临时文件
 define('swap\tmp_dir',        swap\data_dir . '/tmp');
-# 语言包文件
-define('swap\lang_dir',       swap\data_dir . '/lang');
 # 过滤器
 define('swap\filter_dir',     swap\root_dir . '/filter');
 # 控制器助手
