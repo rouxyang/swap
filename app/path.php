@@ -22,10 +22,6 @@ define('swap\library_dir',    swap\root_dir . '/library');
 define('swap\third_dir',      swap\root_dir . '/third');
 # 业务逻辑
 define('swap\logic_dir',      swap\root_dir . '/logic');
-# 领域模型
-define('swap\model_dir',      swap\logic_dir . '/model');
-# 领域服务
-define('swap\service_dir',    swap\logic_dir . '/service');
 # 视图文件
 define('swap\view_dir',       swap\root_dir . '/view');
 # Web 应用公共目录

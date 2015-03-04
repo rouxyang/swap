@@ -350,9 +350,9 @@ class loader {
             self::load_third($namespace . '/' . $class_name . '.php');
         } else if (in_string('_', $class_name)) {
             if (ends_with('_model', $class_name)) {
-                self::load_file(model_dir . '/' . $class_name . '.php');
+                self::load_file(logic_dir . '/model/' . $class_name . '.php');
             } else if (ends_with('_service', $class_name)) {
-                self::load_file(service_dir . '/' . $class_name . '.php');
+                self::load_file(logic_dir . '/service/' . $class_name . '.php');
             } else if (ends_with('_filter', $class_name)) {
                 $class_file = filter_dir . '/' . $class_name . '.php';
                 if (is_readable($class_file)) {

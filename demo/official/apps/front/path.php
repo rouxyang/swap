@@ -9,7 +9,5 @@ define('swap\helper_dir',     swap\root_dir . '/helper');
 define('swap\library_dir',    swap\root_dir . '/library');
 define('swap\third_dir',      swap\root_dir . '/../../third');
 define('swap\logic_dir',      swap\root_dir . '/../../logic');
-define('swap\model_dir',      swap\logic_dir . '/model');
-define('swap\service_dir',    swap\logic_dir . '/service');
 define('swap\view_dir',       swap\root_dir . '/view');
 define('swap\web_dir',        swap\root_dir . '/web');
