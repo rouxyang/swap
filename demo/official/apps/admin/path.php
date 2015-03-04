@@ -4,7 +4,6 @@ define('swap\swap_dir',       swap\root_dir . '/../../../../swap');
 define('swap\setting_dir',    swap\root_dir . '/setting');
 define('swap\controller_dir', swap\root_dir . '/controller');
 define('swap\data_dir',       swap\root_dir . '/data');
-define('swap\dbg_dir',        swap\data_dir . '/dbg');
 define('swap\log_dir',        swap\data_dir . '/log');
 define('swap\tmp_dir',        swap\data_dir . '/tmp');
 define('swap\lang_dir',       swap\data_dir . '/lang');

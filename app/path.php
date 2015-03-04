@@ -12,8 +12,6 @@ define('swap\setting_dir',    swap\root_dir . '/setting');
 define('swap\controller_dir', swap\root_dir . '/controller');
 # 相关数据
 define('swap\data_dir',       swap\root_dir . '/data');
-# 调试文件
-define('swap\dbg_dir',        swap\data_dir . '/dbg');
 # 日志文件
 define('swap\log_dir',        swap\data_dir . '/log');
 # 临时文件

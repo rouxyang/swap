@@ -503,23 +503,23 @@ class i18n {
 // [实体] 调试器
 class debug {
     public static function dump(/* ... */) {
-        if (defined('swap\dbg_dir')) {
+        if (defined('swap\data_dir')) {
             ob_start();
             call_user_func_array('var_dump', func_get_args());
             $text = ob_get_clean();
-            $file = dbg_dir . '/dump.log';
+            $file = data_dir . '/debug/dump.log';
             @file_put_contents($file, '[' . clock::get_datetime() . '] ' . $text . "\n", FILE_APPEND);
         }
     }
     public static function save($filename, $text) {
         static $uri = '';
-        if (!defined('swap\dbg_dir')) {
+        if (!defined('swap\data_dir')) {
             return;
         }
         if ($uri === '' && !framework::is_cli_mode()) {
             $uri = visitor::uri();
         }
-        $file = dbg_dir . '/' . $filename . '.log';
+        $file = data_dir . '/debug/' . $filename . '.log';
         @file_put_contents($file, '[' . clock::get_datetime() . '][' . $uri . '] - ' . $text . "\n", FILE_APPEND);
     }
     public static function /* @swap */ save_required_files() {
