@@ -18,8 +18,6 @@ define('swap\dbg_dir',        swap\data_dir . '/dbg');
 define('swap\log_dir',        swap\data_dir . '/log');
 # 临时文件
 define('swap\tmp_dir',        swap\data_dir . '/tmp');
-# 程序运行时操作的数据文件
-define('swap\var_dir',        swap\data_dir . '/var');
 # 语言包文件
 define('swap\lang_dir',       swap\data_dir . '/lang');
 # 过滤器

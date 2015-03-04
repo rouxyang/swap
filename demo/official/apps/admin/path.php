@@ -7,7 +7,6 @@ define('swap\data_dir',       swap\root_dir . '/data');
 define('swap\dbg_dir',        swap\data_dir . '/dbg');
 define('swap\log_dir',        swap\data_dir . '/log');
 define('swap\tmp_dir',        swap\data_dir . '/tmp');
-define('swap\var_dir',        swap\data_dir . '/var');
 define('swap\lang_dir',       swap\data_dir . '/lang');
 define('swap\filter_dir',     swap\root_dir . '/filter');
 define('swap\helper_dir',     swap\root_dir . '/helper');

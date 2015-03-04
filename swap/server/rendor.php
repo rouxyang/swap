@@ -16,9 +16,9 @@ class /* @swap */ dispatcher {
         if (setting::get_module('view.use_skeleton', true)) {
             if (setting::get_module('view.cache_pps_in_server', false)) {
                 $use_cache = false;
-                if (defined('swap\var_dir')) {
+                if (defined('swap\data_dir')) {
                     $version_key = setting::get_swap('version_key', router::default_version_key);
-                    $cache_dir = var_dir . '/cache/' . $serve_mode . '/' . $target->get_param($version_key, '0');
+                    $cache_dir = data_dir . '/cache/' . $serve_mode . '/' . $target->get_param($version_key, '0');
                     $cache_file = $cache_dir . '/' . sha1($uri) . '.cache';
                     if (is_readable($cache_file)) {
                         $use_cache = true;
