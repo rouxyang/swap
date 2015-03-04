@@ -451,12 +451,12 @@ class logger {
     const warning = 'WARNING';
     const error = 'ERROR';
     public static function log_error($msg) {
-        if (defined('swap\log_dir')) {
+        if (defined('swap\data_dir')) {
             @file_put_contents(self::get_log_file_for('error'), '[' . clock::get_datetime() . '] ' . $msg . "\n", FILE_APPEND);
         }
     }
     public static function log($filename, $msg, $level = self::notice) {
-        if (defined('swap\log_dir')) {
+        if (defined('swap\data_dir')) {
             @file_put_contents(self::get_log_file_for($filename), '[' . clock::get_datetime() . '][' . $level . '] ' . $msg . "\n", FILE_APPEND);
         }
     }
@@ -465,11 +465,11 @@ class logger {
     }
     protected static function get_log_file_for($filename) {
         if (self::$rotate_method === 'day') {
-            $log_file = log_dir . '/' . $filename . '-' . clock::get('Y-m-d') . '.log';
+            $log_file = data_dir . '/log/' . $filename . '-' . clock::get('Y-m-d') . '.log';
         } else if (self::$rotate_method === 'hour') {
-            $log_file = log_dir . '/' . $filename . '-' . clock::get('Y-m-d-H') . '.log';
+            $log_file = data_dir . '/log/' . $filename . '-' . clock::get('Y-m-d-H') . '.log';
         } else {
-            $log_file = log_dir . '/' . $filename . '.log';
+            $log_file = data_dir . '/log/' . $filename . '.log';
         }
         return $log_file;
     }
