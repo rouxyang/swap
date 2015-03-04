@@ -7,7 +7,7 @@ define('swap\root_dir',       DIRECTORY_SEPARATOR === '\\' ? str_replace('\\', '
 # 框架核心目录
 define('swap\swap_dir',       swap\root_dir . '/../swap');
 # 配置文件
-define('swap\config_dir',     swap\root_dir . '/config');
+define('swap\setting_dir',    swap\root_dir . '/setting');
 # 控制器
 define('swap\controller_dir', swap\root_dir . '/controller');
 # 相关数据

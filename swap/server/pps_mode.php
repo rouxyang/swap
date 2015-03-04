@@ -23,7 +23,7 @@ class pps_rendor extends rendor {
             self::do_render_in(view_dir . '/skin/' . $skin, 'pss', $target);
         }
         $pss = ob_get_clean();
-        if (config::get_module('view.minify_pps', false)) {
+        if (setting::get_module('view.minify_pps', false)) {
             $pss = self::minify_pss($pss);
         }
         return $pss;
@@ -34,7 +34,7 @@ class pps_rendor extends rendor {
         ob_start();
         self::do_render_in(view_dir, 'pjs', $target);
         $pjs = ob_get_clean();
-        if (config::get_module('view.minify_pps', false)) {
+        if (setting::get_module('view.minify_pps', false)) {
             $pjs = self::minify_pjs($pjs);
         }
         return $pjs;

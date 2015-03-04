@@ -1,7 +1,7 @@
 <?php
 define('swap\root_dir',       DIRECTORY_SEPARATOR === '\\' ? str_replace('\\', '/', __DIR__) : __DIR__);
 define('swap\swap_dir',       swap\root_dir . '/../../../../swap');
-define('swap\config_dir',     swap\root_dir . '/config');
+define('swap\setting_dir',    swap\root_dir . '/setting');
 define('swap\controller_dir', swap\root_dir . '/controller');
 define('swap\data_dir',       swap\root_dir . '/data');
 define('swap\dbg_dir',        swap\data_dir . '/dbg');

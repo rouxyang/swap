@@ -327,7 +327,7 @@ class rdb implements rdb_api {
     protected static function get_master_rdb_node_from_source_name($source_name) {
         static $master_rdb_nodes_by_source_name = [];
         if (!array_key_exists($source_name, $master_rdb_nodes_by_source_name)) {
-            $dsn = config::get_logic('rdb.sources.' . $source_name . '.master');
+            $dsn = setting::get_logic('rdb.sources.' . $source_name . '.master');
             try {
                 $master_rdb_nodes_by_source_name[$source_name] = rdb_node_pool::get_rdb_node('master', $dsn);
             } catch (server_except $except) {
@@ -339,9 +339,9 @@ class rdb implements rdb_api {
     protected static function get_slave_rdb_node_from_source_name($source_name) {
         static $slave_rdb_nodes_by_source_name = [];
         if (!array_key_exists($source_name, $slave_rdb_nodes_by_source_name)) {
-            $dsns = config::get_logic('rdb.sources.' . $source_name . '.slaves', []);
+            $dsns = setting::get_logic('rdb.sources.' . $source_name . '.slaves', []);
             if ($dsns === []) {
-                $dsns = array(config::get_logic('rdb.sources.' . $source_name . '.master'));
+                $dsns = array(setting::get_logic('rdb.sources.' . $source_name . '.master'));
             }
             shuffle($dsns);
             $all_attempts_failed = true;
@@ -361,9 +361,9 @@ class rdb implements rdb_api {
         return $slave_rdb_nodes_by_source_name[$source_name];
     }
     protected static function get_source_name_from_table_name($table_name) {
-        $source_name = config::get_logic('rdb.tables.' . $table_name, null);
+        $source_name = setting::get_logic('rdb.tables.' . $table_name, null);
         if ($source_name === null) {
-            $source_name = config::get_logic('rdb.tables.*');
+            $source_name = setting::get_logic('rdb.tables.*');
         }
         return $source_name;
     }

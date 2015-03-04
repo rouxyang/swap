@@ -137,7 +137,7 @@ class session_manager {
         $current_time = clock::get_stamp();
         $last_active = $expire_time = $current_time;
         $login_seconds = (int)$login_seconds;
-        $expire_time += ($login_seconds === 0 ? self::$role_configs[$role_name]['default_alive_seconds'] : $login_seconds);
+        $expire_time += ($login_seconds === 0 ? self::$role_settings[$role_name]['default_alive_seconds'] : $login_seconds);
         $role_id = (int)$role_id;
         $role_secret = self::new_role_secret();
         $session_store = self::get_session_store($role_name);
@@ -151,7 +151,7 @@ class session_manager {
             return null;
         } else {
             $session = new session($role_name, $session_store, $sid, $record['expire_time'], $record['last_active'], $record['role_id'], $record['role_secret'], $record['role_vars']);
-            if (self::$role_configs[$role_name]['trace_last_active']) {
+            if (self::$role_settings[$role_name]['trace_last_active']) {
                 $session->needs_update(true);
             }
             return $session;
@@ -161,14 +161,14 @@ class session_manager {
         self::get_session_store($role_name)->remove($sid);
     }
     public static function /* @swap */ __init__() {
-        self::$role_configs = config::get_module('visitor.roles', []);
+        self::$role_settings = setting::get_module('visitor.roles', []);
     }
     protected static function new_role_secret() {
-        return sha1(config::get_swap('secret_key', '') . random_sha1());
+        return sha1(setting::get_swap('secret_key', '') . random_sha1());
     }
     protected static function get_session_store($role_name) {
-        return session_store_pool::get_session_store(self::$role_configs[$role_name]['session_dsn']);
+        return session_store_pool::get_session_store(self::$role_settings[$role_name]['session_dsn']);
     }
-    protected static $role_configs = [];
+    protected static $role_settings = [];
     protected static $sessions = [];
 }

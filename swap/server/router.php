@@ -20,36 +20,36 @@ class router {
     public static function /* @swap */ __init__() {
         // @todo: lazy initialization?
         self::$prefix = visitor::get_prefix();
-        self::$static_domain = config::get_swap('static_domain', '');
-        self::$upload_domain = config::get_swap('upload_domain', '');
-        self::$version_key = config::get_swap('version_key', self::default_version_key);
-        self::$version = config::get_swap('version', self::default_version);
-        self::$base_is_https = config::get_base('url.is_https', false);
-        self::$base_domains = config::get_base('url.domains', []);
+        self::$static_domain = setting::get_swap('static_domain', '');
+        self::$upload_domain = setting::get_swap('upload_domain', '');
+        self::$version_key = setting::get_swap('version_key', self::default_version_key);
+        self::$version = setting::get_swap('version', self::default_version);
+        self::$base_is_https = setting::get_base('url.is_https', false);
+        self::$base_domains = setting::get_base('url.domains', []);
         foreach (self::$base_domains as $domain) {
             # base 模块的 module_name 统一为 ''
             self::$domain_modules[$domain] = '';
         }
-        self::$base_enable_rewrite = config::get_base('url.enable_rewrite', false);
-        self::$base_csrf_key = config::get_base('url.csrf_key', self::default_csrf_key);
-        self::$base_target_key = config::get_base('url.target_key', self::default_target_key);
-        self::$base_routes = config::get_base('url.routes', []);
+        self::$base_enable_rewrite = setting::get_base('url.enable_rewrite', false);
+        self::$base_csrf_key = setting::get_base('url.csrf_key', self::default_csrf_key);
+        self::$base_target_key = setting::get_base('url.target_key', self::default_target_key);
+        self::$base_routes = setting::get_base('url.routes', []);
         self::$base_flipped_routes = array_flip(self::$base_routes);
-        foreach (config::get_module_names() as $module_name) {
-            config::set_module_name($module_name);
-            self::$module_is_https[$module_name] = config::get_module('url.is_https', false);
-            $domains = config::get_module('url.domains', []);
+        foreach (setting::get_module_names() as $module_name) {
+            setting::set_module_name($module_name);
+            self::$module_is_https[$module_name] = setting::get_module('url.is_https', false);
+            $domains = setting::get_module('url.domains', []);
             self::$module_domains[$module_name] = $domains;
             foreach ($domains as $domain) {
                 self::$domain_modules[$domain] = $module_name;
             }
-            self::$module_enable_rewrites[$module_name] = config::get_module('url.enable_rewrite', false);
-            self::$module_csrf_keys[$module_name] = config::get_module('url.csrf_key', self::default_csrf_key);
-            self::$module_target_keys[$module_name] = config::get_module('url.target_key', self::default_target_key);
-            self::$module_routes[$module_name] = config::get_module('url.routes', []);
+            self::$module_enable_rewrites[$module_name] = setting::get_module('url.enable_rewrite', false);
+            self::$module_csrf_keys[$module_name] = setting::get_module('url.csrf_key', self::default_csrf_key);
+            self::$module_target_keys[$module_name] = setting::get_module('url.target_key', self::default_target_key);
+            self::$module_routes[$module_name] = setting::get_module('url.routes', []);
             self::$module_flipped_routes[$module_name] = array_flip(self::$module_routes[$module_name]);
         }
-        config::set_module_name(null);
+        setting::set_module_name(null);
     }
     public static function /* @swap */ parse_php_uri($uri, $host) {
         $at_module_name = isset(self::$domain_modules[$host]) ? self::$domain_modules[$host] : '';
@@ -58,7 +58,7 @@ class router {
         } else {
             $enable_rewrite = self::$module_enable_rewrites[$at_module_name];
         }
-        config::set_module_name($at_module_name);
+        setting::set_module_name($at_module_name);
         return $enable_rewrite ? self::parse_rewrited_uri($uri, $at_module_name) : self::parse_standard_uri($uri, $at_module_name);
     }
     protected static function parse_standard_uri($uri, $at_module_name) {
@@ -176,7 +176,7 @@ class router {
         return new target([$target_name, $target_params]);
     }
     public static function /* @swap */ parse_pps_uri($uri) {
-        config::set_module_name('');
+        setting::set_module_name('');
         $target_name = '';
         $mark_pos = strpos($uri, '?');
         if ($mark_pos === false) {
@@ -207,7 +207,7 @@ class router {
                 if (is_identifier($target_controller) && is_identifier($target_action)) {
                     $target_name = $target_controller . '/' . $target_action;
                     if ($target_module !== '') {
-                        config::set_module_name($target_module);
+                        setting::set_module_name($target_module);
                         $target_name = $target_module . '-' . $target_name;
                     }
                 }
@@ -407,7 +407,7 @@ class router {
         if ($path !== '' && $path !== '/') {
             $web_url .= '/' . ltrim($path, '/');
         }
-        $at_module_name = config::get_module_name();
+        $at_module_name = setting::get_module_name();
         $domains = $at_module_name === '' ? self::$base_domains : self::$module_domains[$at_module_name];
         if ($domains !== []) {
             $is_https = $at_module_name === '' ? self::$base_is_https : self::$module_is_https[$at_module_name];
@@ -419,7 +419,7 @@ class router {
         if (self::$static_domain === '') {
             $static_url = self::web_url('/static'); # 包含 prefix
         } else {
-            $at_module_name = config::get_module_name();
+            $at_module_name = setting::get_module_name();
             $is_https = $at_module_name === '' ? self::$base_is_https : self::$module_is_https[$at_module_name];
             $static_url = ($is_https ? 'https://' : 'http://') . self::$static_domain . '/static'; # 独立域名不包含 prefix
         }
@@ -438,7 +438,7 @@ class router {
         if (self::$upload_domain === '') {
             $upload_url = self::web_url('/upload'); # 包含 prefix
         } else {
-            $at_module_name = config::get_module_name();
+            $at_module_name = setting::get_module_name();
             $is_https = $at_module_name === '' ? self::$base_is_https : self::$module_is_https[$at_module_name];
             $upload_url = ($is_https ? 'https://' : 'http://') . self::$upload_domain . '/upload';
         }
@@ -453,7 +453,7 @@ class router {
         if (self::$static_domain === '') {
             $pps_url = self::web_url('/'); # 包含 prefix
         } else {
-            $at_module_name = config::get_module_name();
+            $at_module_name = setting::get_module_name();
             $is_https = $at_module_name === '' ? self::$base_is_https : self::$module_is_https[$at_module_name];
             $pps_url = ($is_https ? 'https://' : 'http://') . self::$static_domain; # 独立域名不包含 prefix
         }

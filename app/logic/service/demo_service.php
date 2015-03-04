@@ -1,7 +1,7 @@
 <?php
-use swap\config;
+use swap\setting;
 class demo_service {
     public static function get_message() {
-        return config::get_logic('demo');
+        return setting::get_logic('demo');
     }
 }

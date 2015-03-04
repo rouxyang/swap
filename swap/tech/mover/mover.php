@@ -38,7 +38,7 @@ class mover_pool {
     public static function get_mover($target_name) {
         static $movers = [];
         if (!isset($movers[$target_name])) {
-            $dsn = config::get_logic('mover.' . $target_name);
+            $dsn = setting::get_logic('mover.' . $target_name);
             list($mover_type, ) = explode('://', $dsn, 2);
             $mover_class = __NAMESPACE__ . '\\' . $mover_type . '_mover';
             if (!class_exists($mover_class, true)) {

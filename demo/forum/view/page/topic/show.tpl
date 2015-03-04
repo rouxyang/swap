@@ -16,7 +16,7 @@
                     </ul>
                 </div>
                 <div class="content">
-                    <h5>发表时间：<?php echo date('Y-m-d H:i:s', $reply->pub_time); ?> <?php echo swap\config::get_swap('time_zone'); ?></h5>
+                    <h5>发表时间：<?php echo date('Y-m-d H:i:s', $reply->pub_time); ?> <?php echo swap\setting::get_swap('time_zone'); ?></h5>
                     <div><?php show_text($reply->content); ?></div>
                 </div>
                 <div class="clearfix"></div>

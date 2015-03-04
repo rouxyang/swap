@@ -13,11 +13,11 @@ class /* @swap */ dispatcher {
     public static function dispatch_pps() {
         $uri = visitor::uri();
         $target = router::parse_pps_uri($uri);
-        if (config::get_module('view.use_skeleton', true)) {
-            if (config::get_module('view.cache_pps_in_server', false)) {
+        if (setting::get_module('view.use_skeleton', true)) {
+            if (setting::get_module('view.cache_pps_in_server', false)) {
                 $use_cache = false;
                 if (defined('swap\var_dir')) {
-                    $version_key = config::get_swap('version_key', router::default_version_key);
+                    $version_key = setting::get_swap('version_key', router::default_version_key);
                     $cache_dir = var_dir . '/cache/' . $serve_mode . '/' . $target->get_param($version_key, '0');
                     $cache_file = $cache_dir . '/' . sha1($uri) . '.cache';
                     if (is_readable($cache_file)) {
@@ -54,13 +54,13 @@ class /* @swap */ dispatcher {
             if ($forward_times >= 8) {
                 throw new developer_error('too many forwards');
             }
-            self::$global_filters = config::get_module('global_filters', null);
+            self::$global_filters = setting::get_module('global_filters', null);
             try {
                 self::dispatch_to($target);
                 break;
             } catch (action_forward $forward) {
                 $target = $forward->get_target();
-                config::set_module_name($target->get_module_name());
+                setting::set_module_name($target->get_module_name());
                 visitor::forward_cookies();
                 $forward_times++;
                 continue;
@@ -161,7 +161,7 @@ class /* @swap */ dispatcher {
         }
         foreach ($filter_args as $filter => $action_to_arg) {
             if (!is_array($action_to_arg)) {
-                throw new developer_error('filter arg should be an assoc array with action as key, config as value');
+                throw new developer_error('filter arg should be an assoc array with action as key, setting as value');
             }
             if (isset($action_to_arg[$action])) {
                 $filter_arg = $action_to_arg[$action];
@@ -203,7 +203,7 @@ abstract class rendor {
         return self::$skin;
     }
     public static function /* @swap */ reset() {
-        self::$skin = config::get_module('view.default_skin', '');
+        self::$skin = setting::get_module('view.default_skin', '');
     }
     protected static function /* @view */ php_url($target, $for_html = null, $echo = true) {
         list($target, $for_html) = self::regularize($target, $for_html);

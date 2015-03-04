@@ -27,17 +27,17 @@ class framework {
     }
     protected static function init_swap_environment() {
         clock::stop();
-        config::load();
-        self::$log_execute_time = config::get_swap('log_execute_time', true);
+        setting::load();
+        self::$log_execute_time = setting::get_swap('log_execute_time', true);
         if (self::$log_execute_time) {
             self::$begin_microtime = clock::get_micro_stamp();
         }
-        clock::set_timezone(config::get_swap('time_zone', 'Asia/Shanghai'));
-        i18n::set_locale(config::get_swap('locale', 'en_us'));
-        self::$is_debug = config::get_swap('is_debug', false);
-        ini_set('display_errors', config::get_swap('display_errors', self::$is_debug));
+        clock::set_timezone(setting::get_swap('time_zone', 'Asia/Shanghai'));
+        i18n::set_locale(setting::get_swap('locale', 'en_us'));
+        self::$is_debug = setting::get_swap('is_debug', false);
+        ini_set('display_errors', setting::get_swap('display_errors', self::$is_debug));
         set_exception_handler([__CLASS__, 'exception_handler']);
-        $error_reporting = config::get_swap('error_reporting', self::$is_debug ? E_ALL | E_STRICT : E_ALL & ~E_NOTICE);
+        $error_reporting = setting::get_swap('error_reporting', self::$is_debug ? E_ALL | E_STRICT : E_ALL & ~E_NOTICE);
         set_error_handler([__CLASS__, 'error_handler'], $error_reporting);
         logger::init();
         loader::init();
@@ -61,11 +61,11 @@ class framework {
     }
     protected static function send_response($is_pps_mode, $content_type, $content, $gzippable = true) {
         header('Content-Type: ' . $content_type);
-        if (config::get_swap('send_x_powered_by', true)) {
+        if (setting::get_swap('send_x_powered_by', true)) {
             header('X-Powered-By: swap-' . version);
         }
         if ($is_pps_mode) {
-            if (config::get_module('view.cache_pps_in_client', false)) {
+            if (setting::get_module('view.cache_pps_in_client', false)) {
                 header('Cache-Control: max-age=2592000');
             } else {
                 header('Cache-Control: max-age=0');
@@ -156,9 +156,9 @@ class framework {
         }
     }
     public static function /* @swap */ exception_handler(\Exception $e) {
-        if (config::get_swap('log_errors', true)) {
+        if (setting::get_swap('log_errors', true)) {
             $msg = $e->getMessage() . ' in file: ' . $e->getFile() . ' in line: ' . $e->getLine();
-            if (config::get_swap('log_with_trace', true)) {
+            if (setting::get_swap('log_with_trace', true)) {
                 $msg .= ' with trace: ' . var_export($e->getTrace(), true);
             }
             logger::log_error($msg);
@@ -202,7 +202,7 @@ class clock {
     protected static $micro_stamp = 0.000;
 }
 // [实体] 配置参数维护器
-class config {
+class setting {
     public static function get_swap($key, $default_value = null) {
         return self::get('swap.' . $key, $default_value);
     }
@@ -214,9 +214,9 @@ class config {
     }
     public static function get_module($key, $default_value = null) {
         if (self::$module_name === null) {
-            throw new developer_error("you cannot use swap\config::get_module() when module_name is not set");
+            throw new developer_error("you cannot use swap\setting::get_module() when module_name is not set");
         }
-        if (isset(self::$configs['modules'][self::$module_name])) {
+        if (isset(self::$settings['modules'][self::$module_name])) {
             $value = self::get('modules.' . self::$module_name . '.' . $key, null);
             if ($value !== null) {
                 return $value;
@@ -238,7 +238,7 @@ class config {
     }
     public static function set_module($key, $value) {
         if (self::$module_name === null) {
-            throw new developer_error("you cannot use swap\config::set_module() when module_name is not set");
+            throw new developer_error("you cannot use swap\setting::set_module() when module_name is not set");
         }
         self::set('modules.' . self::$module_name . '.' . $key, $value);
     }
@@ -246,17 +246,17 @@ class config {
         self::set('third.' . $key, $value);
     }
     public static function /* @swap */ load() {
-        if (defined('swap\config_dir')) {
-            self::$configs = self::load_in_dir(config_dir);
-            if (array_key_exists('modules', self::$configs)) {
-                self::$module_names = array_keys(self::$configs['modules']);
+        if (defined('swap\setting_dir')) {
+            self::$settings = self::load_in_dir(setting_dir);
+            if (array_key_exists('modules', self::$settings)) {
+                self::$module_names = array_keys(self::$settings['modules']);
             }
         }
         if (defined('swap\third_dir')) {
-            self::$configs['third'] = self::load_in_dir(third_dir . '/config');
+            self::$settings['third'] = self::load_in_dir(third_dir . '/setting');
         }
         if (defined('swap\logic_dir')) {
-            self::$configs['logic'] = self::load_in_dir(logic_dir . '/config');
+            self::$settings['logic'] = self::load_in_dir(logic_dir . '/setting');
         }
     }
     public static function /* @swap */ set_module_name($module_name) {
@@ -269,7 +269,7 @@ class config {
         return self::$module_names;
     }
     protected static function get($key, $default_value = null) {
-        $value = self::$configs;
+        $value = self::$settings;
         if (strpos($key, '.') !== false) {
             $keys = explode('.', $key);
             foreach ($keys as $next_key) {
@@ -286,37 +286,37 @@ class config {
         return $value;
     }
     protected static function set($key, $value) {
-        $configs =& self::$configs;
+        $settings =& self::$settings;
         if (in_string('.', $key)) {
             $keys = explode('.', $key);
             $last_key = array_pop($keys);
             foreach ($keys as $next_key) {
-                if (!array_key_exists($next_key, $configs)) {
-                    $configs[$next_key] = [];
+                if (!array_key_exists($next_key, $settings)) {
+                    $settings[$next_key] = [];
                 }
-                $configs =& $configs[$next_key];
+                $settings =& $settings[$next_key];
             }
-            $configs[$last_key] = $value;
+            $settings[$last_key] = $value;
         } else {
-            $configs[$key] = $value;
+            $settings[$key] = $value;
         }
     }
     protected static function load_in_dir($dir) {
-        $configs = [];
+        $settings = [];
         $global_file = $dir . '/global.php';
         if (is_readable($global_file)) {
-            $configs = require $global_file;
+            $settings = require $global_file;
             $local_file = $dir . '/local.php';
             if (is_readable($local_file)) {
-                $local_configs = require $local_file;
-                if (is_array($local_configs)) {
-                    $configs = array_replace_recursive($configs, $local_configs);
+                $local_settings = require $local_file;
+                if (is_array($local_settings)) {
+                    $settings = array_replace_recursive($settings, $local_settings);
                 }
             }
         }
-        return $configs;
+        return $settings;
     }
-    protected static $configs = [];
+    protected static $settings = [];
     protected static $module_names = [];
     // 可更改
     protected static $module_name = null;
@@ -333,7 +333,7 @@ class loader {
         require_once $_file;
     }
     public static function /* @swap */ init() {
-        $include_pathes = implode(PATH_SEPARATOR, config::get_swap('include_pathes', []));
+        $include_pathes = implode(PATH_SEPARATOR, setting::get_swap('include_pathes', []));
         if ($include_pathes !== '') {
             set_include_path(get_include_path() . PATH_SEPARATOR . $include_pathes);
         }
@@ -461,7 +461,7 @@ class logger {
         }
     }
     public static function /* @swap */ init() {
-        self::$rotate_method = config::get_swap('log_rotate_method', '');
+        self::$rotate_method = setting::get_swap('log_rotate_method', '');
     }
     protected static function get_log_file_for($filename) {
         if (self::$rotate_method === 'day') {
@@ -567,7 +567,7 @@ function is_identifier_path($str, $slash_count = -1) {
 function random_sha1() {
     static $secret_key = null;
     if ($secret_key === null) {
-        $secret_key = config::get_swap('secret_key', '');
+        $secret_key = setting::get_swap('secret_key', '');
     }
     $random_str = '';
     foreach (['REMOTE_ADDR', 'REMOTE_PORT', 'HTTP_USER_AGENT'] as $key) {

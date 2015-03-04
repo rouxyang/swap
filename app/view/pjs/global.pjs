@@ -1,2 +1,2 @@
 <?php /* 本 pjs 文件由框架自动 link，所有的页面都会 link */ ?>
-var static_version = '<?php echo swap\config::get_module('router.version'); ?>';
+var static_version = '<?php echo swap\setting::get_module('router.version'); ?>';
