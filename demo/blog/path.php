@@ -12,7 +12,7 @@ define('swap\share_dir',      swap\data_dir . '/share');
 define('swap\filter_dir',     swap\root_dir . '/filter');
 define('swap\helper_dir',     swap\root_dir . '/helper');
 define('swap\library_dir',    swap\root_dir . '/library');
-define('swap\vendor_dir',     swap\root_dir . '/vendor');
+define('swap\third_dir',      swap\root_dir . '/third');
 define('swap\logic_dir',      swap\root_dir . '/logic');
 define('swap\model_dir',      swap\logic_dir . '/model');
 define('swap\service_dir',    swap\logic_dir . '/service');

@@ -29,7 +29,7 @@ define('swap\helper_dir',     swap\root_dir . '/helper');
 # 通用库
 define('swap\library_dir',    swap\root_dir . '/library');
 # 三方库
-define('swap\vendor_dir',     swap\root_dir . '/vendor');
+define('swap\third_dir',      swap\root_dir . '/third');
 # 业务逻辑
 define('swap\logic_dir',      swap\root_dir . '/logic');
 # 领域模型

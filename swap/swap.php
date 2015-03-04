@@ -224,8 +224,8 @@ class config {
         }
         return self::get_base($key, $default_value);
     }
-    public static function get_vendor($key, $default_value = null) {
-        return self::get('vendor.' . $key, $default_value);
+    public static function get_third($key, $default_value = null) {
+        return self::get('third.' . $key, $default_value);
     }
     public static function set_swap($key, $value) {
         self::set('swap.' . $key, $value);
@@ -242,8 +242,8 @@ class config {
         }
         self::set('modules.' . self::$module_name . '.' . $key, $value);
     }
-    public static function set_vendor($key, $value) {
-        self::set('vendor.' . $key, $value);
+    public static function set_third($key, $value) {
+        self::set('third.' . $key, $value);
     }
     public static function /* @swap */ load() {
         if (defined('swap\config_dir')) {
@@ -252,8 +252,8 @@ class config {
                 self::$module_names = array_keys(self::$configs['modules']);
             }
         }
-        if (defined('swap\vendor_dir')) {
-            self::$configs['vendor'] = self::load_in_dir(vendor_dir . '/config');
+        if (defined('swap\third_dir')) {
+            self::$configs['third'] = self::load_in_dir(third_dir . '/config');
         }
         if (defined('swap\logic_dir')) {
             self::$configs['logic'] = self::load_in_dir(logic_dir . '/config');
@@ -326,8 +326,8 @@ class loader {
     public static function load_library($file) {
         self::load_file(library_dir . '/' . $file);
     }
-    public static function load_vendor($file) {
-        self::load_file(vendor_dir . '/' . ltrim($file, '/'));
+    public static function load_third($file) {
+        self::load_file(third_dir . '/' . ltrim($file, '/'));
     }
     public static function load_file($_file) {
         require_once $_file;
@@ -347,7 +347,7 @@ class loader {
             $class_name = ltrim($class_name, '\\');
             $namespace = str_replace('\\', '/', substr($class_name, 0, $last_pos));
             $class_name = str_replace('_', '/', substr($class_name, $last_pos + 1));
-            self::load_vendor($namespace . '/' . $class_name . '.php');
+            self::load_third($namespace . '/' . $class_name . '.php');
         } else if (in_string('_', $class_name)) {
             if (ends_with('_model', $class_name)) {
                 self::load_file(model_dir . '/' . $class_name . '.php');
