@@ -17,7 +17,7 @@ define('swap\filter_dir',     swap\root_dir . '/filter');
 # 控制器助手
 define('swap\helper_dir',     swap\root_dir . '/helper');
 # 通用库
-define('swap\library_dir',    swap\root_dir . '/library');
+define('swap\utility_dir',    swap\root_dir . '/utility');
 # 三方库
 define('swap\third_dir',      swap\root_dir . '/third');
 # 业务逻辑

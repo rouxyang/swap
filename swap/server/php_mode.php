@@ -684,7 +684,7 @@ abstract class after_filter {
 // [实体] 自动加载拦截过滤器
 class autoload_filter extends before_filter {
     public static function run(array $files) {
-        // 例如：[swap\library_dir . '/library_one.php', swap\library_dir . '/library_two.php']
+        // 例如：[swap\utility_dir . '/utility_one.php', swap\utility_dir . '/utility_two.php']
         foreach ($files as $file) {
             loader::load_file($file);
         }

@@ -323,8 +323,8 @@ class setting {
 }
 // [实体] 组件加载器
 class loader {
-    public static function load_library($file) {
-        self::load_file(library_dir . '/' . $file);
+    public static function load_utility($file) {
+        self::load_file(utility_dir . '/' . $file);
     }
     public static function load_third($file) {
         self::load_file(third_dir . '/' . ltrim($file, '/'));

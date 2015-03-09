@@ -42,8 +42,8 @@ class /* @swap */ dispatcher {
         visitor::set_content($content);
     }
     public static function dispatch_php() {
-        if (defined('swap\library_dir')) {
-            $global_file = library_dir . '/global.php';
+        if (defined('swap\utility_dir')) {
+            $global_file = utility_dir . '/global.php';
             if (is_readable($global_file)) {
                 loader::load_file($global_file);
             }
