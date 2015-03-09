@@ -40,7 +40,6 @@ return [
             'minify_pps'          => false,
             'cache_pps_in_client' => false,
             'cache_pps_in_server' => false,
-            'default_skin'        => '',
         ],
         'global_filters' => [
             'before' => [],

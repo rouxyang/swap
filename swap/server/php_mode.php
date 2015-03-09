@@ -9,7 +9,6 @@ namespace swap;
 // [实体] 模板渲染器
 abstract class tpl_rendor extends rendor {
     public static function /* @swap */ reset() {
-        parent::reset();
         parent::use_viewlet('tpl');
         parent::use_app_viewlet('tpl');
         self::$target = visitor::get_target();
@@ -56,7 +55,7 @@ abstract class tpl_rendor extends rendor {
     protected static function /* @tpl */ link_pss($pss_name, $in_place = false) {
         if (self::$use_skeleton) {
             if ($in_place) {
-                self::echo_css_link(router::pps_url('pss.php?link=' . $pss_name, true, false));
+                self::echo_css_link(router::pps_url('pss.php?link=' . $pss_name, false));
             } else if (!array_key_exists($pss_name, self::$linked_psses)) {
                 self::$linked_psses[$pss_name] = $pss_name;
             }
@@ -65,7 +64,7 @@ abstract class tpl_rendor extends rendor {
     protected static function /* @tpl */ link_pjs($pjs_name, $in_place = false, $at_top = false) {
         if (self::$use_skeleton) {
             if ($in_place) {
-                self::echo_js_link(router::pps_url('pjs.php?link=' . $pjs_name, false, false));
+                self::echo_js_link(router::pps_url('pjs.php?link=' . $pjs_name, false));
             } else {
                 $linked_pjses =& self::$linked_pjses[$at_top ? 'top' : 'bottom'];
                 if (!array_key_exists($pjs_name, $linked_pjses)) {
@@ -301,9 +300,9 @@ abstract class controller extends tpl_rendor {
         $html = self::render_tpl('page/' . $target->get_target_file() . '.tpl', context::get_escaped(), false);
         if (parent::$use_skeleton && $with_pps) {
             ob_start();
-            parent::echo_css_link(router::pps_url('pss.php?page=' . $target->get_target_name(), true, false));
+            parent::echo_css_link(router::pps_url('pss.php?page=' . $target->get_target_name(), false));
             echo $html;
-            parent::echo_js_link(router::pps_url('pjs.php?page=' . $target->get_target_name(), false, false));
+            parent::echo_js_link(router::pps_url('pjs.php?page=' . $target->get_target_name(), false));
             self::send(ob_get_clean());
         } else {
             self::send($html);
@@ -348,9 +347,9 @@ abstract class controller extends tpl_rendor {
         $html = ob_get_clean();
         if (parent::$use_skeleton && $with_pps) {
             ob_start();
-            parent::echo_css_link(router::pps_url('pss.php?block=' . $block_name, true, false));
+            parent::echo_css_link(router::pps_url('pss.php?block=' . $block_name, false));
             echo $html;
-            parent::echo_js_link(router::pps_url('pjs.php?block=' . $block_name, false, false));
+            parent::echo_js_link(router::pps_url('pjs.php?block=' . $block_name, false));
             self::send(ob_get_clean());
         } else {
             self::send($html);
@@ -505,7 +504,7 @@ abstract class controller extends tpl_rendor {
         if (parent::$block_psses !== []) {
             $psses[] = 'block=' . implode(',', parent::$block_psses);
         }
-        parent::echo_css_link(router::pps_url('pss.php?' . implode(';', $psses), true, false));
+        parent::echo_css_link(router::pps_url('pss.php?' . implode(';', $psses), false));
         // link 进来的放在顶部的 js
         foreach (parent::$linked_scripts['top'] as $script_file) {
             parent::echo_js_link(parent::static_url($script_file, null, false));
@@ -516,7 +515,7 @@ abstract class controller extends tpl_rendor {
             if (!array_key_exists('global', $linked_top_pjses)) {
                 array_unshift($linked_top_pjses, 'global');
             }
-            parent::echo_js_link(router::pps_url('pjs.php?link=' . implode(',', $linked_top_pjses), false, false));
+            parent::echo_js_link(router::pps_url('pjs.php?link=' . implode(',', $linked_top_pjses), false));
         }
     }
     protected static function /* @tpl */ echo_bottom_links() {
@@ -550,7 +549,7 @@ abstract class controller extends tpl_rendor {
             $pjses[] = 'block=' . implode(',', parent::$block_pjses);
         }
         if ($pjses !== []) {
-            parent::echo_js_link(router::pps_url('pjs.php?' . implode(';', $pjses), false, false));
+            parent::echo_js_link(router::pps_url('pjs.php?' . implode(';', $pjses), false));
         }
     }
     protected static function /* @swap */ get_target_name_from_page_name($page_name = null) {

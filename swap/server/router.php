@@ -214,12 +214,10 @@ class router {
             }
         }
         $target_params = [];
-        foreach (['skin', 'layout'] as $arg_name) {
-            if (isset($dirty_params[$arg_name]) && is_string($dirty_params[$arg_name])) {
-                $arg = $dirty_params[$arg_name];
-                if (is_identifier_path($arg)) {
-                    $target_params[$arg_name] = $arg;
-                }
+        if (isset($dirty_params['layout']) && is_string($dirty_params['layout'])) {
+            $arg = $dirty_params['layout'];
+            if (is_identifier_path($arg)) {
+                $target_params['layout'] = $arg;
             }
         }
         foreach (['link', 'block'] as $arg_name) {
@@ -449,7 +447,7 @@ class router {
             return $upload_url;
         }
     }
-    public static function /* @swap */ pps_url($pps_uri, $with_skin, $echo) {
+    public static function /* @swap */ pps_url($pps_uri, $echo) {
         if (self::$static_domain === '') {
             $pps_url = self::web_url('/'); # 包含 prefix
         } else {
@@ -457,14 +455,7 @@ class router {
             $is_https = $at_module_name === '' ? self::$base_is_https : self::$module_is_https[$at_module_name];
             $pps_url = ($is_https ? 'https://' : 'http://') . self::$static_domain; # 独立域名不包含 prefix
         }
-        $pps_url .= '/' . ltrim($pps_uri, '/');
-        if ($with_skin) {
-            $skin = rendor::get_skin();
-            if ($skin !== '') {
-                $pps_url .= ';skin=' . $skin;
-            }
-        }
-        $pps_url .= ';' . self::$version_key . '=' . self::$version;
+        $pps_url .= '/' . ltrim($pps_uri, '/') . ';' . self::$version_key . '=' . self::$version;
         if ($echo) {
             echo $pps_url;
         } else {

@@ -10,7 +10,6 @@ namespace swap;
 class pps_rendor extends rendor {
     public static function /* @swap */ render_for(target $target) {
         visitor::set_target($target);
-        parent::set_skin($target->get_param('skin', ''));
         return framework::is_pss_mode() ? self::render_pss_for($target) : self::render_pjs_for($target);
     }
     protected static function /* @swap */ render_pss_for(target $target) {
@@ -18,10 +17,6 @@ class pps_rendor extends rendor {
         parent::use_app_viewlet('pss');
         ob_start();
         self::do_render_in(view_dir, 'pss', $target);
-        $skin = parent::get_skin();
-        if ($skin !== '') {
-            self::do_render_in(view_dir . '/skin/' . $skin, 'pss', $target);
-        }
         $pss = ob_get_clean();
         if (setting::get_module('view.minify_pps', false)) {
             $pss = self::minify_pss($pss);

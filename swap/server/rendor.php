@@ -196,15 +196,6 @@ class /* @swap */ dispatcher {
 }
 // [实体] 视图渲染器
 abstract class rendor {
-    public static function /* @php */ set_skin($skin) {
-        self::$skin = $skin;
-    }
-    public static function /* @swap */ get_skin() {
-        return self::$skin;
-    }
-    public static function /* @swap */ reset() {
-        self::$skin = setting::get_module('view.default_skin', '');
-    }
     protected static function /* @view */ php_url($target, $for_html = null, $echo = true) {
         list($target, $for_html) = self::regularize($target, $for_html);
         return router::build_php_url($target, $echo, $for_html, true);
@@ -219,22 +210,14 @@ abstract class rendor {
     protected static function /* @view */ static_url($static_file, $for_html = null, $echo = true) {
         return router::static_url(ltrim($static_file, '/'), $for_html, $echo);
     }
-    protected static function /* @view */ skin_static_url($static_file, $for_html = null, $echo = true) {
-        $static_file = ltrim($static_file, '/');
-        $skin = self::get_skin();
-        if ($skin !== '') {
-            $static_file = 'skin/' . $skin . '/' . $static_file;
-        }
-        return self::static_url($static_file, $for_html, $echo);
-    }
     protected static function /* @view */ upload_url($upload_file, $echo = true) {
         return router::upload_url($upload_file, $echo);
     }
     protected static function /* @view */ pss_url($pss_name, $echo = true) {
-        return router::pps_url('pss.php?link=' . $pss_name, true, $echo);
+        return router::pps_url('pss.php?link=' . $pss_name, $echo);
     }
     protected static function /* @view */ pjs_url($pjs_name, $echo = true) {
-        return router::pps_url('pjs.php?link=' . $pjs_name, false, $echo);
+        return router::pps_url('pjs.php?link=' . $pjs_name, $echo);
     }
     protected static function /* @swap */ use_viewlet($viewlet_name) {
         loader::load_file(swap_dir . '/server/view/viewlet/' . $viewlet_name . '.php');
@@ -259,5 +242,4 @@ abstract class rendor {
         }
         return [$target, $for_html];
     }
-    protected static $skin = '';
 }
