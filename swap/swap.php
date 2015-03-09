@@ -488,7 +488,7 @@ class i18n {
     }
     protected static function load() {
         if (defined('swap\run_dir')) {
-            $_i18n_file = run_dir . '/lang/' . self::$locale . '.php';
+            $_i18n_file = run_dir . '/i18n/' . self::$locale . '.php';
             if (is_readable($_i18n_file)) {
                 $_texts = require $_i18n_file;
                 if (is_array($_texts)) {
