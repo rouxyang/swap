@@ -59,7 +59,7 @@ return [
                     'sid_name'              => 'member_sid',
                     'default_alive_seconds' => 3600,
                     'trace_last_active'     => false,
-                    'session_dsn'           => 'sqlite://' . swap\data_dir . '/session/session.db/member_session',
+                    'session_dsn'           => 'sqlite://' . swap\run_dir . '/session/session.db/member_session',
                 ],
             ],
         ],

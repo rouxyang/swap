@@ -7,10 +7,10 @@ return [
             'main' => [
                 // 'master' => 'mysql://user:pass@ip:port/db_name',
                 // 'master' => 'pgsql://user:pass@ip:port/db_name',
-                'master' => 'sqlite://' . swap\data_dir . '/repo/rdb.db',
+                'master' => 'sqlite://' . swap\run_dir . '/repo/rdb.db',
                 'slaves' => [
-                    'sqlite://' . swap\data_dir . '/repo/rdb.db',
-                    'sqlite://' . swap\data_dir . '/repo/rdb.db',
+                    'sqlite://' . swap\run_dir . '/repo/rdb.db',
+                    'sqlite://' . swap\run_dir . '/repo/rdb.db',
                 ],
             ],
         ],

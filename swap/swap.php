@@ -451,12 +451,12 @@ class logger {
     const warning = 'WARNING';
     const error = 'ERROR';
     public static function log_error($msg) {
-        if (defined('swap\data_dir')) {
+        if (defined('swap\run_dir')) {
             @file_put_contents(self::get_log_file_for('error'), '[' . clock::get_datetime() . '] ' . $msg . "\n", FILE_APPEND);
         }
     }
     public static function log($filename, $msg, $level = self::notice) {
-        if (defined('swap\data_dir')) {
+        if (defined('swap\run_dir')) {
             @file_put_contents(self::get_log_file_for($filename), '[' . clock::get_datetime() . '][' . $level . '] ' . $msg . "\n", FILE_APPEND);
         }
     }
@@ -465,11 +465,11 @@ class logger {
     }
     protected static function get_log_file_for($filename) {
         if (self::$rotate_method === 'day') {
-            $log_file = data_dir . '/log/' . $filename . '-' . clock::get('Y-m-d') . '.log';
+            $log_file = run_dir . '/log/' . $filename . '-' . clock::get('Y-m-d') . '.log';
         } else if (self::$rotate_method === 'hour') {
-            $log_file = data_dir . '/log/' . $filename . '-' . clock::get('Y-m-d-H') . '.log';
+            $log_file = run_dir . '/log/' . $filename . '-' . clock::get('Y-m-d-H') . '.log';
         } else {
-            $log_file = data_dir . '/log/' . $filename . '.log';
+            $log_file = run_dir . '/log/' . $filename . '.log';
         }
         return $log_file;
     }
@@ -487,8 +487,8 @@ class i18n {
         }
     }
     protected static function load() {
-        if (defined('swap\data_dir')) {
-            $_i18n_file = data_dir . '/lang/' . self::$locale . '.php';
+        if (defined('swap\run_dir')) {
+            $_i18n_file = run_dir . '/lang/' . self::$locale . '.php';
             if (is_readable($_i18n_file)) {
                 $_texts = require $_i18n_file;
                 if (is_array($_texts)) {
@@ -503,23 +503,23 @@ class i18n {
 // [实体] 调试器
 class debug {
     public static function dump(/* ... */) {
-        if (defined('swap\data_dir')) {
+        if (defined('swap\run_dir')) {
             ob_start();
             call_user_func_array('var_dump', func_get_args());
             $text = ob_get_clean();
-            $file = data_dir . '/debug/dump.log';
+            $file = run_dir . '/debug/dump.log';
             @file_put_contents($file, '[' . clock::get_datetime() . '] ' . $text . "\n", FILE_APPEND);
         }
     }
     public static function save($filename, $text) {
         static $uri = '';
-        if (!defined('swap\data_dir')) {
+        if (!defined('swap\run_dir')) {
             return;
         }
         if ($uri === '' && !framework::is_cli_mode()) {
             $uri = visitor::uri();
         }
-        $file = data_dir . '/debug/' . $filename . '.log';
+        $file = run_dir . '/debug/' . $filename . '.log';
         @file_put_contents($file, '[' . clock::get_datetime() . '][' . $uri . '] - ' . $text . "\n", FILE_APPEND);
     }
     public static function /* @swap */ save_required_files() {

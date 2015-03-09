@@ -3,10 +3,10 @@ return [
     'rdb' => [
         'sources' => [
             'main' => [
-                'master' => 'sqlite://' . swap\data_dir . '/repo/rdb.db',
+                'master' => 'sqlite://' . swap\run_dir . '/repo/rdb.db',
                 'slaves' => [
-                    'sqlite://' . swap\data_dir . '/repo/rdb.db',
-                    'sqlite://' . swap\data_dir . '/repo/rdb.db',
+                    'sqlite://' . swap\run_dir . '/repo/rdb.db',
+                    'sqlite://' . swap\run_dir . '/repo/rdb.db',
                 ],
             ],
         ],
@@ -16,7 +16,7 @@ return [
     ],
     'cache' => [
         'misc' => [
-            'filesys://' . swap\data_dir . '/cache/data/misc',
+            'filesys://' . swap\run_dir . '/cache/data/misc',
         ],
     ],
     'mover' => [
