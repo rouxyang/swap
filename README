@@ -33,47 +33,51 @@
       * SPL
       * standard
     
-    注意，如果要运行 demo/blog、demo/forum 这两个样例应用，还需要添加 SQLite3 扩展。
-    其它扩展视应用程序需要自行添加，如果在使用框架某项功能时需要某个扩展，框架会提示。
+    注意，demo/blog、demo/forum 这两个样例应用还依赖于 SQLite3 扩展。其它扩展
+    视应用程序需要自行添加，如果在使用框架某项功能时需要某个扩展，框架会提示。
 
 快速运行
 ========
 
-    1、确认安装了命令行版本的 php，同时该 php 内置了上述“环境要求”部分列出的扩展；
-    2、将框架发布包（通常是 swap-x.y.z.tar.gz 或 swap-x.y.z.zip）解压到任意目录下；
-    3、进入 app/web（或 demo/blog/web、demo/forum/web 等），运行 serve 脚本；
+    1、确认安装了命令行下的 php，同时该 php 包含了“环境要求”部分列出的扩展；
+    2、将框架包（通常是 swap-x.y.z.tar.gz 或 swap-x.y.z.zip）解压到任意目录下；
+    3、进入 app/web/（或 demo/blog/web/、demo/forum/web/ 等），运行 serve 脚本；
     4、打开浏览器，访问 http://127.0.0.1:8080/
 
 使用框架
 ========
 
-    1、将框架发布包（通常是 swap-x.y.z.tar.gz 或 swap-x.y.z.zip）解压，得到 swap-x.y.z 目录；
-    2、把 swap-x.y.z 目录移到你存放 Web 应用的目录下，改个名，例如改成 myapp；
-    3、把 Web 服务器的根目录指向 myapp/app/web 目录（注意使用绝对路径）；
+    1、将框架包（通常是 swap-x.y.z.tar.gz 或 swap-x.y.z.zip）解压，得到
+       swap-x.y.z/ 目录；
+    2、把 swap-x.y.z/ 目录移到你存放 Web 应用的目录下，改名，例如改成 myapp/；
+    3、把 Web 服务器的根目录指向 myapp/app/web/ 目录（注意使用绝对路径）；
     4、打开浏览器，使用你 Web 服务器配置文件里设的域名和端口访问该 Web 应用；
-    5、编码实现你的 Web 应用，开发过程中可以参考 myapp/demo 下的样例应用以及 myapp/doc 下的文档；
-    6、把 myapp 目录上传到线上服务器，完成上线（此时 myapp/demo 可以删除也可以不删除）。
+    5、实现你的 Web 应用。开发过程中可参考 myapp/demo/ 下的样例应用；
+    6、把 myapp/ 目录部署到线上服务器，完成上线（myapp/demo/ 可删除也可留着）。
 
 样例应用
 ========
 
-    浏览 demo/ 目录下的样例应用。这些样例应用都很简单，很容易熟悉，建议在使用框架的过程中参考。
+    浏览 demo/ 目录下的样例应用。这些样例应用都很简单，很容易熟悉，建议在使用
+    框架的过程中参考。
     
-    样例应用中，blog/ 属于单 app 单 module 模式，forum/ 属于单 app 多 module 模式，而 official/
-    则属于多 app 单 module 模式。样例应用里暂时没有提供多 app 多 module 模式的应用。您可以根据
-    您的项目的大小来决定使用哪种模式，当然，可以很容易地从单 app 单 module 向上升级到 单 app
-    多 module 模式，甚至直接升级到多 app 多 module 模式。一句话：非常灵活。
+    样例应用中，blog/ 属于单 app 单 module 模式，forum/ 属于单 app 多 module
+    模式，而 official/ 则属于多 app 单 module 模式。样例应用里暂时没有提供多
+    app 多 module 模式的应用。您可以根据您的项目的大小来决定使用哪种模式，当然，
+    可以很容易地从单 app 单 module 向上升级到 单 app 多 module 模式，甚至直接升
+    级到多 app 多 module 模式。
     
     缺省状态下，swap app 使用单 app 多 module 模式。
     
-    另外，test/ 样例应用只是输出一个 hello world，它代表了最小的 swap 应用，可用来做性能测试。
+    另外，tester/ 样例应用只是输出一个 hello world，它代表了最小的 swap 应用，
+    可用来做框架性能测试。
 
 学习框架
 ========
 
-    见 doc 目录。
+    见 doc/ 目录。
 
 社区反馈
 ========
 
-    请访问：http://bitbucket.org/diogin/swap
+    请访问：http://github.com/diogin/swap
