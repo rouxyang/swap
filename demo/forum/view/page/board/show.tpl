@@ -34,5 +34,5 @@
         </tbody>
     </table>
     
-    <?php static::include_block('pager'); ?>
+    <?php static::block('pager'); ?>
 </div>

@@ -73,7 +73,7 @@ abstract class tpl_rendor extends rendor {
             }
         }
     }
-    protected static function /* @tpl */ include_block($block_name, array $alias = []) {
+    protected static function /* @tpl */ block($block_name, array $alias = []) {
         if (!in_array($block_name, self::$block_psses)) {
             self::$block_psses[] = $block_name;
             self::$block_pjses[] = $block_name;
@@ -343,7 +343,7 @@ abstract class controller extends tpl_rendor {
             throw new developer_error('bad call to send_block');
         }
         ob_start();
-        parent::include_block($block_name, $alias);
+        parent::block($block_name, $alias);
         $html = ob_get_clean();
         if (parent::$use_skeleton && $with_pps) {
             ob_start();
@@ -447,7 +447,7 @@ abstract class controller extends tpl_rendor {
         if (self::$target_block === []) { # 渲染 page
             echo self::render_tpl('page/' . parent::$target->get_target_file() . '.tpl', context::get_escaped(), false);
         } else { # 渲染 block
-            parent::include_block(self::$target_block['name'], self::$target_block['alias']);
+            parent::block(self::$target_block['name'], self::$target_block['alias']);
         }
     }
     protected static function /* @tpl */ echo_metas() {

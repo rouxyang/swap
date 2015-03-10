@@ -49,7 +49,7 @@
         <?php endif; ?>
     </ul>
     
-    <?php static::include_block('pager'); ?>
+    <?php static::block('pager'); ?>
     
     <form id="new_form" action="<?php static::php_url('comment/new?post_id=' . $post->id); ?>" method="POST" enctype="application/x-www-form-urlencoded">
         <h2>添加评论</h2>

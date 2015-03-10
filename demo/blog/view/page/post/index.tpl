@@ -33,7 +33,7 @@
                 
             <?php endforeach; ?>
         </ul>
-        <?php static::include_block('pager'); /* 分页条 */ ?>
+        <?php static::block('pager'); /* 分页条 */ ?>
         
     <?php endif; ?>
 </div>

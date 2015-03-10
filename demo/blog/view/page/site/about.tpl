@@ -31,7 +31,7 @@
         <?php endif; ?>
     </ul>
     
-    <?php static::include_block('pager'); ?>
+    <?php static::block('pager'); ?>
         
     <form id="new_form" action="<?php static::php_url('message/new'); ?>" method="POST" enctype="application/x-www-form-urlencoded">
         <h2>添加留言</h2>

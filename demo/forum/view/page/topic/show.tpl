@@ -23,7 +23,7 @@
             </li>
         <?php endforeach; ?>
     </ul>
-    <?php static::include_block('pager'); ?>
+    <?php static::block('pager'); ?>
     <?php if ($logined): ?>
         <?php static::link_script('jquery.js'); ?>
         <?php static::link_script('jquery.form.js'); ?>
