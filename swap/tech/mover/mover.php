@@ -2,7 +2,7 @@
 /**
  * 移动用户上传的文件到 Upload
  *
- * @copyright Copyright (c) 2009-2014 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
+ * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace swap;

@@ -2,7 +2,7 @@
 /**
  * 收集和渲染动态的 pss 和 pjs 文件
  *
- * @copyright Copyright (c) 2009-2014 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
+ * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace swap;

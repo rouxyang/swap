@@ -2,7 +2,7 @@
 /**
  * 来访者，是对客户端用户的抽象。来访者请求服务，并且带回响应
  *
- * @copyright Copyright (c) 2009-2014 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
+ * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace swap;

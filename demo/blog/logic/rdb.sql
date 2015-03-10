@@ -10,7 +10,7 @@ INSERT INTO `setting` (`id`, `value`) VALUES (4, '0');
 INSERT INTO `setting` (`id`, `value`) VALUES (5, '0');
 INSERT INTO `setting` (`id`, `value`) VALUES (6, '0');
 INSERT INTO `setting` (`id`, `value`) VALUES (7, '这是“关于”页面');
-INSERT INTO `setting` (`id`, `value`) VALUES (8, 'Copyright (c) 2009-2014 Jingcheng Zhang. All rights reserved.');
+INSERT INTO `setting` (`id`, `value`) VALUES (8, 'Copyright (c) 2009-2015 Jingcheng Zhang. All rights reserved.');
 INSERT INTO `setting` (`id`, `value`) VALUES (9, '六加三等于几？填阿拉伯数字');
 INSERT INTO `setting` (`id`, `value`) VALUES (10, '9');
 INSERT INTO `setting` (`id`, `value`) VALUES (11, 'swap, blog');

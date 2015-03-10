@@ -2,7 +2,7 @@
 /**
  * 以本地文件移动的方式将文件移到 Upload
  *
- * @copyright Copyright (c) 2009-2014 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
+ * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace swap;
