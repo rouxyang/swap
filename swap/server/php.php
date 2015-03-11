@@ -12,7 +12,7 @@ abstract class tpl_rendor extends rendor {
         parent::use_viewlet('tpl');
         parent::use_app_viewlet('tpl');
         self::$target = visitor::get_target();
-        self::$use_skeleton = setting::get_module('view.use_skeleton', true);
+        self::$skeleton = setting::get_module('view.default_skeleton', false);
         self::$linked_styles = [];
         self::$linked_scripts = ['top' => [], 'bottom' => []];
         self::$linked_psses = [];
@@ -25,14 +25,14 @@ abstract class tpl_rendor extends rendor {
         self::$block_pjses = [];
         self::$helper_args = [];
     }
-    public static function /* @php */ use_skeleton($true_or_false) {
-        self::$use_skeleton = $true_or_false;
+    public static function /* @php */ skeleton($name_or_false) {
+        self::$skeleton = $name_or_false;
     }
     public static function /* @php */ helper_set($key, $value) {
         self::$helper_args[$key] = $value;
     }
     protected static function /* @tpl */ link_style($style_file, $in_place = false) {
-        if (self::$use_skeleton) {
+        if (self::$skeleton !== false) {
             if ($in_place) {
                 self::echo_css_link(parent::static_url($style_file, null, false));
             } else if (!array_key_exists($style_file, self::$linked_styles)) {
@@ -41,7 +41,7 @@ abstract class tpl_rendor extends rendor {
         }
     }
     protected static function /* @tpl */ link_script($script_file, $in_place = false, $at_top = false) {
-        if (self::$use_skeleton) {
+        if (self::$skeleton !== false) {
             if ($in_place) {
                 self::echo_js_link(parent::static_url($script_file, null, false));
             } else {
@@ -53,7 +53,7 @@ abstract class tpl_rendor extends rendor {
         }
     }
     protected static function /* @tpl */ link_pss($pss_name, $in_place = false) {
-        if (self::$use_skeleton) {
+        if (self::$skeleton !== false) {
             if ($in_place) {
                 self::echo_css_link(router::pps_url('pss.php?link=' . $pss_name, false));
             } else if (!array_key_exists($pss_name, self::$linked_psses)) {
@@ -62,7 +62,7 @@ abstract class tpl_rendor extends rendor {
         }
     }
     protected static function /* @tpl */ link_pjs($pjs_name, $in_place = false, $at_top = false) {
-        if (self::$use_skeleton) {
+        if (self::$skeleton !== false) {
             if ($in_place) {
                 self::echo_js_link(router::pps_url('pjs.php?link=' . $pjs_name, false));
             } else {
@@ -139,7 +139,7 @@ abstract class tpl_rendor extends rendor {
     }
     // 可 reset 的属性
     protected static $target = null;
-    protected static $use_skeleton = true;
+    protected static $skeleton = false;
     protected static $linked_styles = [];
     protected static $linked_scripts = ['top' => [], 'bottom' => []];
     protected static $linked_psses = [];
@@ -278,7 +278,7 @@ abstract class controller extends tpl_rendor {
     public static function /* @controller */ send_page(/* ... */) {
         $func_args = func_get_args();
         $num_args = func_num_args();
-        $with_pps = parent::$use_skeleton;
+        $with_pps = parent::$skeleton !== false;
         if ($num_args === 0) {
             $target_name = self::get_target_name_from_page_name();
         } else if ($num_args === 1) {
@@ -298,7 +298,7 @@ abstract class controller extends tpl_rendor {
         }
         $target = new target($target_name);
         $html = self::render_tpl('page/' . $target->get_target_file() . '.tpl', context::get_escaped(), false);
-        if (parent::$use_skeleton && $with_pps) {
+        if (parent::$skeleton !== false && $with_pps) {
             ob_start();
             parent::echo_css_link(router::pps_url('pss.php?page=' . $target->get_target_name(), false));
             echo $html;
@@ -321,7 +321,7 @@ abstract class controller extends tpl_rendor {
         $num_args = func_num_args();
         $block_name = $func_args[0];
         $alias = [];
-        $with_pps = parent::$use_skeleton;
+        $with_pps = parent::$skeleton !== false;
         if ($num_args === 1) {
             /* do nothing */
         } else if ($num_args === 2) {
@@ -345,7 +345,7 @@ abstract class controller extends tpl_rendor {
         ob_start();
         parent::block($block_name, $alias);
         $html = ob_get_clean();
-        if (parent::$use_skeleton && $with_pps) {
+        if (parent::$skeleton !== false && $with_pps) {
             ob_start();
             parent::echo_css_link(router::pps_url('pss.php?block=' . $block_name, false));
             echo $html;
@@ -477,7 +477,7 @@ abstract class controller extends tpl_rendor {
         echo '<link rel="shortcut icon" href="' . $favicon . $version_str . '" type="image/x-icon">' . "\n";
     }
     protected static function /* @tpl */ echo_top_links() {
-        if (!parent::$use_skeleton) {
+        if (parent::$skeleton === false) {
             return;
         }
         // link 进来的 css
@@ -519,7 +519,7 @@ abstract class controller extends tpl_rendor {
         }
     }
     protected static function /* @tpl */ echo_bottom_links() {
-        if (!parent::$use_skeleton) {
+        if (parent::$skeleton === false) {
             return;
         }
         // link 进来的放在底部的 js
@@ -592,10 +592,10 @@ abstract class controller extends tpl_rendor {
             echo self::render_tpl('layout/' . $_layout_name . '.tpl', context::get_escaped(), false);
         }
         $_html = ob_get_clean();
-        if (parent::$use_skeleton) {
+        if (parent::$skeleton !== false) {
             ob_start();
             // skeleton 对应的 tpl 里会 echo $_html;
-            require swap_dir . '/server/view/skeleton.tpl';
+            require view_dir . '/skeleton/' . parent::$skeleton . '.tpl';
             self::send(ob_get_clean());
         } else {
             self::send($_html);

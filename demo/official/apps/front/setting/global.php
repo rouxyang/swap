@@ -39,7 +39,7 @@ return [
             'default_description' => 'This is official.',
             'default_author'      => 'Jingcheng Zhang',
             'default_viewport'    => '',
-            'use_skeleton'        => true,
+            'default_skeleton'    => 'main',
             'minify_pps'          => false,
             'cache_pps_in_client' => false,
             'cache_pps_in_server' => false,

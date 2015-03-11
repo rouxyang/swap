@@ -13,7 +13,7 @@ class /* @swap */ dispatcher {
     public static function dispatch_pps() {
         $uri = visitor::uri();
         $target = router::parse_pps_uri($uri);
-        if (setting::get_module('view.use_skeleton', true)) {
+        if (setting::get_module('view.default_skeleton', false) !== false) {
             if (setting::get_module('view.cache_pps_in_server', false)) {
                 $use_cache = false;
                 if (defined('swap\run_dir')) {

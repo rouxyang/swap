@@ -35,7 +35,7 @@ return [
             'default_description' => 'web 应用程序描述。',
             'default_author'      => 'web 应用程序作者',
             'default_viewport'    => '',
-            'use_skeleton'        => true,
+            'default_skeleton'    => 'main', // 'name', false
             'minify_pps'          => false,
             'cache_pps_in_client' => false,
             'cache_pps_in_server' => false,
