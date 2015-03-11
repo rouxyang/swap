@@ -69,12 +69,17 @@ return [
         ],
     ],
     'modules' => [
-        'api' => [
+        'admin' => [
             'url' => [
                 'domains' => [],
             ],
         ],
-        'admin' => [
+        'mobile' => [
+            'url' => [
+                'domains' => [],
+            ],
+        ],
+        'api' => [
             'url' => [
                 'domains' => [],
             ],
