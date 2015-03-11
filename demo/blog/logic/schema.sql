@@ -131,7 +131,7 @@ CREATE TABLE `link` (
 );
 CREATE UNIQUE INDEX `link_name` ON `link` (`name`);
 INSERT INTO `link` (`id`, `name`, `url`) VALUES (NULL, 'diogin的网站', 'http://www.diogin.com/');
-INSERT INTO `link` (`id`, `name`, `url`) VALUES (NULL, 'swap框架官方网站', 'https://bitbucket.org/diogin/swap');
+INSERT INTO `link` (`id`, `name`, `url`) VALUES (NULL, 'swap框架官方网站', 'https://github.com/diogin/swap');
 
 
 
