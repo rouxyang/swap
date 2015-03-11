@@ -1,7 +1,6 @@
 <?php
 // 全局 logic 部分配置文件
 return [
-    'demo' => 'this is a demo setting entry.',
     'rdb' => [
         'sources' => [
             'main' => [
