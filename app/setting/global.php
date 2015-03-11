@@ -25,15 +25,13 @@ return [
             'enable_rewrite' => false,
             'target_key'     => 't',
             'csrf_key'       => 's',
-            'routes' => [
-                '/about' => 'site/about',
-            ],
+            'routes'         => [],
         ],
         'view' => [
-            'default_title'       => 'web 应用程序标题',
-            'default_keywords'    => 'web, 应用, 程序, 关键字',
-            'default_description' => 'web 应用程序描述。',
-            'default_author'      => 'web 应用程序作者',
+            'default_title'       => '',
+            'default_keywords'    => '',
+            'default_description' => '',
+            'default_author'      => '',
             'default_viewport'    => '',
             'default_skeleton'    => 'main', // 'name', false
             'minify_pps'          => false,
@@ -41,9 +39,7 @@ return [
             'cache_pps_in_server' => false,
         ],
         'global_filters' => [
-            'before' => [
-                'browser_filter' => [],
-            ],
+            'before' => [],
             'after'  => [],
         ],
         'visitor' => [
@@ -58,12 +54,6 @@ return [
                     // 'session_dsn'        => 'mysql://user:pass@ip:port/db_name/table_name',
                     // 'session_dsn'        => 'pgsql://user:pass@ip:port/db_name/table_name',
                     'session_dsn'           => 'sqlite://' . swap\run_dir . '/session/session.db/user_session',
-                ],
-                'admin' => [
-                    'sid_name'              => 'admin_sid',
-                    'default_alive_seconds' => 3600,
-                    'trace_last_active'     => false,
-                    'session_dsn'           => 'sqlite://' . swap\run_dir . '/session/session.db/admin_session',
                 ],
             ],
         ],
