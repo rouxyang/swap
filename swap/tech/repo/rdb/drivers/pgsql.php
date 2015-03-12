@@ -63,10 +63,25 @@ class /* @swap */ pgsql_rdb_conn extends rdb_conn {
         return pg_escape_string($this->conn, $value);
     }
     public function begin() {
+        $result = pg_query($this->conn, 'BEGIN');
+        if ($result === false) {
+            return false;
+        }
+        return pg_result_status($result) === PGSQL_COMMAND_OK;
     }
     public function commit() {
+        $result = pg_query($this->conn, 'COMMIT');
+        if ($result === false) {
+            return false;
+        }
+        return pg_result_status($result) === PGSQL_COMMAND_OK;
     }
     public function rollback() {
+        $result = pg_query($this->conn, 'ROLLBACK');
+        if ($result === false) {
+            return false;
+        }
+        return pg_result_status($result) === PGSQL_COMMAND_OK;
     }
     public function last_error() {
         $error = pg_last_error($this->conn);
@@ -84,10 +99,37 @@ class /* @swap */ pgsql_rdb_result extends rdb_result {
         $this->result = $result;
     }
     public function fetch_record() {
+        $record = pg_fetch_assoc($this->result);
+        if ($record === false) {
+            $record = null;
+        } else {
+            $i = 0;
+            foreach ($record as $field_name => $value) {
+                $field_type = pg_field_type($this->result, $i);
+                if ($field_type === false) {
+                    continue;
+                }
+                switch ($field_type) {
+                case 'int1':
+                case 'int2':
+                case 'int4':
+                case 'int8':
+                case 'serial':
+                    $record[$field_name] = intval($value);
+                    break;
+                default:
+                    break;
+                }
+                $i++;
+            }
+        }
+        return $record;
     }
     public function num_rows() {
+        return pg_num_rows($this->result);
     }
     public function free() {
+        pg_free_result($this->result);
     }
     protected $result = null;
 }

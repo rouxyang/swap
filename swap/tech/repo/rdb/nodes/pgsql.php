@@ -8,29 +8,11 @@
 namespace swap;
 // [类型] postgresql 关系数据库节点
 abstract class pgsql_rdb_node extends rdb_node {
-    public function get($table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
-    }
-    public function get_one($table_name, array $keyvalues) {
-    }
-    public function get_where($table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
-    }
-    public function get_by_id($table_name, $id) {
-    }
-    public function get_by_ids($table_name, array $ids, array $order_limit = array([], 0, 0)) {
-    }
-    public function get_in($table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
-    }
-    public function get_all($table_name, array $order_limit = array([], 0, 0)) {
-    }
     public function get_for_fields($field_names, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
-    }
-    public function get_one_for_fields($field_names, $table_name, array $keyvalues) {
     }
     public function get_where_for_fields($field_names, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
     }
     public function get_by_id_for_fields($field_names, $table_name, $id) {
-    }
-    public function get_by_ids_for_fields($field_names, $table_name, array $ids, array $order_limit = array([], 0, 0)) {
     }
     public function get_in_for_fields($field_names, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
     }
@@ -46,29 +28,7 @@ abstract class pgsql_rdb_node extends rdb_node {
     }
     public function count_all($table_name) {
     }
-    public function pager($table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
-    }
-    public function pager_where($table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
-    }
-    public function pager_by_ids($table_name, array $ids, array $order_limit = array([], 0, 0)) {
-    }
-    public function pager_in($table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
-    }
-    public function pager_all($table_name, array $order_limit = array([], 0, 0)) {
-    }
-    public function pager_with_count($record_count, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
-    }
-    public function pager_where_with_count($record_count, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
-    }
-    public function pager_by_ids_with_count($record_count, $table_name, array $ids, array $order_limit = array([], 0, 0)) {
-    }
-    public function pager_in_with_count($record_count, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
-    }
-    public function pager_all_with_count($record_count, $table_name, array $order_limit = array([], 0, 0)) {
-    }
     public function select($sql, array $args = []) {
-    }
-    public function select_one($sql, array $args = []) {
     }
     protected function do_get($field_name_list, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
     }
@@ -81,18 +41,6 @@ abstract class pgsql_rdb_node extends rdb_node {
     protected function do_get_all($field_name_list, $table_name, array $order_limit = array([], 0, 0)) {
     }
     protected function do_count($sql) {
-    }
-    protected function do_pager($record_count, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
-    }
-    protected function do_pager_where($record_count, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
-    }
-    protected function do_pager_by_ids($record_count, $table_name, array $ids, array $order_limit = array([], 0, 0)) {
-    }
-    protected function do_pager_in($record_count, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
-    }
-    protected function do_pager_all($record_count, $table_name, array $order_limit = array([], 0, 0)) {
-    }
-    protected function get_first_record($records) {
     }
     protected function query_and_fetch_records($sql, $index_by_id) {
     }
@@ -114,12 +62,14 @@ class pgsql_master_rdb_node extends pgsql_rdb_node {
     }
     public function update($sql, array $args = []) {
     }
+    
     public function add($table_name, array $keyvalues) {
     }
     public function add_many($table_name, array $keyvalues_list) {
     }
     public function insert($sql, array $args = []) {
     }
+    
     public function del($table_name, array $keyvalues) {
     }
     public function del_where($table_name, $where, array $args = []) {
@@ -130,12 +80,14 @@ class pgsql_master_rdb_node extends pgsql_rdb_node {
     }
     public function delete($sql, array $args = []) {
     }
+    
     public function rep($table_name, array $keyvalues) {
     }
     public function rep_many($table_name, array $keyvalues_list) {
     }
     public function replace($sql, array $args = []) {
     }
+    
     public function inc($table_name, array $keyvalues, array $conditions) {
     }
     public function inc_by_id($table_name, array $keyvalues, $id) {
@@ -154,11 +106,18 @@ class pgsql_master_rdb_node extends pgsql_rdb_node {
     }
     public function dec_by_ids($table_name, array $keyvalues, array $ids) {
     }
+    
     public function begin() {
     }
     public function commit() {
     }
     public function rollback() {
+    }
+    protected function do_add_or_rep($method, $table_name, array $keyvalues) {
+        
+    }
+    protected function do_add_many_or_rep_many($method, $table_name, array $keyvalues_list) {
+        
     }
     protected function execute($sql) {
     }
@@ -168,95 +127,7 @@ class pgsql_master_rdb_node extends pgsql_rdb_node {
     }
 }
 // [类型] postgresql 关系数据库从节点
-class pgsql_slave_rdb_node extends pgsql_rdb_node {
-    public function set($table_name, array $keyvalues, array $conditions) {
-        throw new developer_error('slave is not allowed to update');
-    }
-    public function set_where($table_name, array $keyvalues, $where, array $args = []) {
-        throw new developer_error('slave is not allowed to update');
-    }
-    public function set_by_id($table_name, array $keyvalues, $id) {
-        throw new developer_error('slave is not allowed to update');
-    }
-    public function set_by_ids($table_name, array $keyvalues, array $ids) {
-        throw new developer_error('slave is not allowed to update');
-    }
-    public function set_all($table_name, array $keyvalues) {
-        throw new developer_error('slave is not allowed to update');
-    }
-    public function update($sql, array $args = []) {
-        throw new developer_error('slave is not allowed to update');
-    }
-    public function add($table_name, array $keyvalues) {
-        throw new developer_error('slave is not allowed to insert');
-    }
-    public function add_many($table_name, array $keyvalues_list) {
-        throw new developer_error('slave is not allowed to insert');
-    }
-    public function insert($sql, array $args = []) {
-        throw new developer_error('slave is not allowed to insert');
-    }
-    public function del($table_name, array $keyvalues) {
-        throw new developer_error('slave is not allowed to delete');
-    }
-    public function del_where($table_name, $where, array $args = []) {
-        throw new developer_error('slave is not allowed to delete');
-    }
-    public function del_by_id($table_name, $id) {
-        throw new developer_error('slave is not allowed to delete');
-    }
-    public function del_by_ids($table_name, array $ids) {
-        throw new developer_error('slave is not allowed to delete');
-    }
-    public function delete($sql, array $args = []) {
-        throw new developer_error('slave is not allowed to delete');
-    }
-    public function rep($table_name, array $keyvalues) {
-        throw new developer_error('slave is not allowed to replace');
-    }
-    public function rep_many($table_name, array $keyvalues_list) {
-        throw new developer_error('slave is not allowed to replace');
-    }
-    public function replace($sql, array $args = []) {
-        throw new developer_error('slave is not allowed to replace');
-    }
-    public function inc($table_name, array $keyvalues, array $conditions) {
-        throw new developer_error('slave is not allowed to inc');
-    }
-    public function inc_by_id($table_name, array $keyvalues, $id) {
-        throw new developer_error('slave is not allowed to inc');
-    }
-    public function inc_by_ids($table_name, array $keyvalues, array $ids) {
-        throw new developer_error('slave is not allowed to inc');
-    }
-    public function set_and_inc($table_name, array $sets, array $incs, array $conditions) {
-        throw new developer_error('slave is not allowed to set_and_inc');
-    }
-    public function set_and_inc_by_id($table_name, array $sets, array $incs, $id) {
-        throw new developer_error('slave is not allowed to set_and_inc');
-    }
-    public function set_and_inc_by_ids($table_name, array $sets, array $incs, array $ids) {
-        throw new developer_error('slave is not allowed to set_and_inc');
-    }
-    public function dec($table_name, array $keyvalues, array $conditions) {
-        throw new developer_error('slave is not allowed to dec');
-    }
-    public function dec_by_id($table_name, array $keyvalues, $id) {
-        throw new developer_error('slave is not allowed to dec');
-    }
-    public function dec_by_ids($table_name, array $keyvalues, array $ids) {
-        throw new developer_error('slave is not allowed to dec');
-    }
-    public function begin() {
-        throw new developer_error('slave is not allowed to perform transaction');
-    }
-    public function commit() {
-        throw new developer_error('slave is not allowed to perform transaction');
-    }
-    public function rollback() {
-        throw new developer_error('slave is not allowed to perform transaction');
-    }
-}
+class pgsql_slave_rdb_node extends pgsql_rdb_node {}
 // [实体] postgresql 关系数据库节点工具
 class pgsql_rdb_node_util extends rdb_node_util {
     public static function build_order_limit_sql(array $order_limit) {

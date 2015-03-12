@@ -37,19 +37,36 @@ interface rdb_api {
     static function count_by_ids($table_name, array $ids, $use_master = false);
     static function count_in($table_name, $field_name, array $values, $use_master = false);
     static function count_all($table_name, $use_master = false);
+    static function fetch($table_name, $sql, array $args = [], $use_master = false);
+    static function fetch_one($table_name, $sql, array $args = [], $use_master = false);
+    static function select($source_name, $sql, array $args = [], $use_master = false);
+    static function select_one($source_name, $sql, array $args = [], $use_master = false);
+    
     static function set($table_name, array $keyvalues, array $conditions);
     static function set_where($table_name, array $keyvalues, $where, array $args = []);
     static function set_by_id($table_name, array $keyvalues, $id);
     static function set_by_ids($table_name, array $keyvalues, array $ids);
     static function set_all($table_name, array $keyvalues);
+    static function modify($table_name, $sql, array $args = []);
+    static function update($source_name, $sql, array $args = []);
+    
     static function add($table_name, array $keyvalues);
     static function add_many($table_name, array $keyvalues_list);
+    static function create($table_name, $sql, array $args = []);
+    static function insert($source_name, $sql, array $args = []);
+    
     static function del($table_name, array $keyvalues);
     static function del_where($table_name, $where, array $args = []);
     static function del_by_id($table_name, $id);
     static function del_by_ids($table_name, array $ids);
+    static function remove($table_name, $sql, array $args = []);
+    static function delete($source_name, $sql, array $args = []);
+    
     static function rep($table_name, array $keyvalues);
     static function rep_many($table_name, array $keyvalues_list);
+    static function change($table_name, $sql, array $args = []);
+    static function replace($source_name, $sql, array $args = []);
+    
     static function inc($table_name, array $keyvalues, array $conditions);
     static function inc_by_id($table_name, array $keyvalues, $id);
     static function inc_by_ids($table_name, array $keyvalues, array $ids);
@@ -59,18 +76,7 @@ interface rdb_api {
     static function dec($table_name, array $keyvalues, array $conditions);
     static function dec_by_id($table_name, array $keyvalues, $id);
     static function dec_by_ids($table_name, array $keyvalues, array $ids);
-    static function fetch($table_name, $sql, array $args = [], $use_master = false);
-    static function fetch_one($table_name, $sql, array $args = [], $use_master = false);
-    static function modify($table_name, $sql, array $args = []);
-    static function create($table_name, $sql, array $args = []);
-    static function remove($table_name, $sql, array $args = []);
-    static function change($table_name, $sql, array $args = []);
-    static function select($source_name, $sql, array $args = [], $use_master = false);
-    static function select_one($source_name, $sql, array $args = [], $use_master = false);
-    static function update($source_name, $sql, array $args = []);
-    static function insert($source_name, $sql, array $args = []);
-    static function delete($source_name, $sql, array $args = []);
-    static function replace($source_name, $sql, array $args = []);
+    
     static function begin($source_name);
     static function commit($source_name);
     static function rollback($source_name);
@@ -193,6 +199,23 @@ class rdb implements rdb_api {
         $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->count_all($table_name);
     }
+    public static function fetch($table_name, $sql, array $args = [], $use_master = false) {
+        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        return $rdb_node->select($sql, $args);
+    }
+    public static function fetch_one($table_name, $sql, array $args = [], $use_master = false) {
+        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        return $rdb_node->select_one($sql, $args);
+    }
+    public static function select($source_name, $sql, array $args = [], $use_master = false) {
+        $rdb_node = $use_master ? self::get_master_rdb_node_from_source_name($source_name) : self::get_slave_rdb_node_from_source_name($source_name);
+        return $rdb_node->select($sql, $args);
+    }
+    public static function select_one($source_name, $sql, array $args = [], $use_master = false) {
+        $rdb_node = $use_master ? self::get_master_rdb_node_from_source_name($source_name) : self::get_slave_rdb_node_from_source_name($source_name);
+        return $rdb_node->select_one($sql, $args);
+    }
+    
     public static function set($table_name, array $keyvalues, array $conditions) {
         return self::get_master_rdb_node_from_table_name($table_name)->set($table_name, $keyvalues, $conditions);
     }
@@ -208,12 +231,26 @@ class rdb implements rdb_api {
     public static function set_all($table_name, array $keyvalues) {
         return self::get_master_rdb_node_from_table_name($table_name)->set_all($table_name, $keyvalues);
     }
+    public static function modify($table_name, $sql, array $args = []) {
+        return self::get_master_rdb_node_from_table_name($table_name)->update($sql, $args);
+    }
+    public static function update($source_name, $sql, array $args = []) {
+        return self::get_master_rdb_node_from_source_name($source_name)->update($sql, $args);
+    }
+    
     public static function add($table_name, array $keyvalues) {
         return self::get_master_rdb_node_from_table_name($table_name)->add($table_name, $keyvalues);
     }
     public static function add_many($table_name, array $keyvalues_list) {
         return self::get_master_rdb_node_from_table_name($table_name)->add_many($table_name, $keyvalues_list);
     }
+    public static function create($table_name, $sql, array $args = []) {
+        return self::get_master_rdb_node_from_table_name($table_name)->insert($sql, $args);
+    }
+    public static function insert($source_name, $sql, array $args = []) {
+        return self::get_master_rdb_node_from_source_name($source_name)->insert($sql, $args);
+    }
+    
     public static function del($table_name, array $keyvalues) {
         return self::get_master_rdb_node_from_table_name($table_name)->del($table_name, $keyvalues);
     }
@@ -226,12 +263,26 @@ class rdb implements rdb_api {
     public static function del_by_ids($table_name, array $ids) {
         return self::get_master_rdb_node_from_table_name($table_name)->del_by_ids($table_name, $ids);
     }
+    public static function remove($table_name, $sql, array $args = []) {
+        return self::get_master_rdb_node_from_table_name($table_name)->delete($sql, $args);
+    }
+    public static function delete($source_name, $sql, array $args = []) {
+        return self::get_master_rdb_node_from_source_name($source_name)->delete($sql, $args);
+    }
+    
     public static function rep($table_name, array $keyvalues) {
         return self::get_master_rdb_node_from_table_name($table_name)->rep($table_name, $keyvalues);
     }
     public static function rep_many($table_name, array $keyvalues_list) {
         return self::get_master_rdb_node_from_table_name($table_name)->rep_many($table_name, $keyvalues_list);
     }
+    public static function change($table_name, $sql, array $args = []) {
+        return self::get_master_rdb_node_from_table_name($table_name)->replace($sql, $args);
+    }
+    public static function replace($source_name, $sql, array $args = []) {
+        return self::get_master_rdb_node_from_source_name($source_name)->replace($sql, $args);
+    }
+    
     public static function inc($table_name, array $keyvalues, array $conditions) {
         return self::get_master_rdb_node_from_table_name($table_name)->inc($table_name, $keyvalues, $conditions);
     }
@@ -259,46 +310,7 @@ class rdb implements rdb_api {
     public static function dec_by_ids($table_name, array $keyvalues, array $ids) {
         return self::get_master_rdb_node_from_table_name($table_name)->dec_by_ids($table_name, $keyvalues, $ids);
     }
-    public static function fetch($table_name, $sql, array $args = [], $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
-        return $rdb_node->select($sql, $args);
-    }
-    public static function fetch_one($table_name, $sql, array $args = [], $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
-        return $rdb_node->select_one($sql, $args);
-    }
-    public static function modify($table_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_table_name($table_name)->update($sql, $args);
-    }
-    public static function create($table_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_table_name($table_name)->insert($sql, $args);
-    }
-    public static function remove($table_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_table_name($table_name)->delete($sql, $args);
-    }
-    public static function change($table_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_table_name($table_name)->replace($sql, $args);
-    }
-    public static function select($source_name, $sql, array $args = [], $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_source_name($source_name) : self::get_slave_rdb_node_from_source_name($source_name);
-        return $rdb_node->select($sql, $args);
-    }
-    public static function select_one($source_name, $sql, array $args = [], $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_source_name($source_name) : self::get_slave_rdb_node_from_source_name($source_name);
-        return $rdb_node->select_one($sql, $args);
-    }
-    public static function update($source_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_source_name($source_name)->update($sql, $args);
-    }
-    public static function insert($source_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_source_name($source_name)->insert($sql, $args);
-    }
-    public static function delete($source_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_source_name($source_name)->delete($sql, $args);
-    }
-    public static function replace($source_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_source_name($source_name)->replace($sql, $args);
-    }
+    
     public static function begin($source_name) {
         return self::get_master_rdb_node_from_source_name($source_name)->begin();
     }
@@ -308,6 +320,7 @@ class rdb implements rdb_api {
     public static function rollback($source_name) {
         return self::get_master_rdb_node_from_source_name($source_name)->rollback();
     }
+    
     protected static function get_master_rdb_node_from_table_name($table_name) {
         static $master_rdb_nodes_by_table_name = [];
         if (!array_key_exists($table_name, $master_rdb_nodes_by_table_name)) {
@@ -370,68 +383,198 @@ class rdb implements rdb_api {
 }
 // [类型] 关系数据库节点
 abstract class rdb_node {
-    abstract public function get($table_name, array $keyvalues, array $order_limit = array([], 0, 0));
-    abstract public function get_one($table_name, array $keyvalues);
-    abstract public function get_where($table_name, $where, array $args = [], array $order_limit = array([], 0, 0));
-    abstract public function get_by_id($table_name, $id);
-    abstract public function get_by_ids($table_name, array $ids, array $order_limit = array([], 0, 0));
-    abstract public function get_in($table_name, $field_name, array $values, array $order_limit = array([], 0, 0));
-    abstract public function get_all($table_name, array $order_limit = array([], 0, 0));
+    public function get($table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
+        return $this->do_get('*', $table_name, $keyvalues, $order_limit);
+    }
+    public function get_one($table_name, array $keyvalues) {
+        return $this->get_first_record($this->get($table_name, $keyvalues));
+    }
+    public function get_where($table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
+        return $this->do_get_where('*', $table_name, $where, $args, $order_limit);
+    }
+    public function get_by_id($table_name, $id) {
+        return $this->do_get_by_id('*', $table_name, $id);
+    }
+    public function get_by_ids($table_name, array $ids, array $order_limit = array([], 0, 0)) {
+        return $this->get_in($table_name, 'id', $ids, $order_limit);
+    }
+    public function get_in($table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
+        return $this->do_get_in('*', $table_name, $field_name, $values, $order_limit);
+    }
+    public function get_all($table_name, array $order_limit = array([], 0, 0)) {
+        return $this->do_get_all('*', $table_name, $order_limit);
+    }
     abstract public function get_for_fields($field_names, $table_name, array $keyvalues, array $order_limit = array([], 0, 0));
-    abstract public function get_one_for_fields($field_names, $table_name, array $keyvalues);
+    public function get_one_for_fields($field_names, $table_name, array $keyvalues) {
+        return $this->get_first_record($this->get_for_fields($field_names, $table_name, $keyvalues));
+    }
     abstract public function get_where_for_fields($field_names, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0));
     abstract public function get_by_id_for_fields($field_names, $table_name, $id);
-    abstract public function get_by_ids_for_fields($field_names, $table_name, array $ids, array $order_limit = array([], 0, 0));
+    public function get_by_ids_for_fields($field_names, $table_name, array $ids, array $order_limit = array([], 0, 0)) {
+        return $this->get_in_for_fields($field_names, $table_name, 'id', $ids, $order_limit);
+    }
     abstract public function get_in_for_fields($field_names, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0));
     abstract public function get_all_for_fields($field_names, $table_name, array $order_limit = array([], 0, 0));
+    public function pager($table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
+        return $this->do_pager($this->count($table_name, $keyvalues), $table_name, $keyvalues, $order_limit);
+    }
+    public function pager_where($table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
+        return $this->do_pager_where($this->count_where($table_name, $where, $args), $table_name, $where, $args, $order_limit);
+    }
+    public function pager_by_ids($table_name, array $ids, array $order_limit = array([], 0, 0)) {
+        return $this->do_pager_by_ids($this->count_by_ids($table_name, $ids), $table_name, $ids, $order_limit);
+    }
+    public function pager_in($table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
+        return $this->do_pager_in($this->count_in($table_name, $field_name, $values), $table_name, $field_name, $values, $order_limit);
+    }
+    public function pager_all($table_name, array $order_limit = array([], 0, 0)) {
+        return $this->do_pager_all($this->count_all($table_name), $table_name, $order_limit);
+    }
+    public function pager_with_count($record_count, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
+        return $this->do_pager($record_count, $table_name, $keyvalues, $order_limit);
+    }
+    public function pager_where_with_count($record_count, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
+        return $this->do_pager_where($record_count, $table_name, $where, $args, $order_limit);
+    }
+    public function pager_by_ids_with_count($record_count, $table_name, array $ids, array $order_limit = array([], 0, 0)) {
+        return $this->do_pager_by_ids($record_count, $table_name, $ids, $order_limit);
+    }
+    public function pager_in_with_count($record_count, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
+        return $this->do_pager_in($record_count, $table_name, $field_name, $values, $order_limit);
+    }
+    public function pager_all_with_count($record_count, $table_name, array $order_limit = array([], 0, 0)) {
+        return $this->do_pager_all($record_count, $table_name, $order_limit);
+    }
     abstract public function count($table_name, array $keyvalues);
     abstract public function count_where($table_name, $where, array $args = []);
     abstract public function count_by_ids($table_name, array $ids);
     abstract public function count_in($table_name, $field_name, array $values);
     abstract public function count_all($table_name);
-    abstract public function pager($table_name, array $keyvalues, array $order_limit = array([], 0, 0));
-    abstract public function pager_where($table_name, $where, array $args = [], array $order_limit = array([], 0, 0));
-    abstract public function pager_by_ids($table_name, array $ids, array $order_limit = array([], 0, 0));
-    abstract public function pager_in($table_name, $field_name, array $values, array $order_limit = array([], 0, 0));
-    abstract public function pager_all($table_name, array $order_limit = array([], 0, 0));
-    abstract public function pager_with_count($record_count, $table_name, array $keyvalues, array $order_limit = array([], 0, 0));
-    abstract public function pager_where_with_count($record_count, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0));
-    abstract public function pager_by_ids_with_count($record_count, $table_name, array $ids, array $order_limit = array([], 0, 0));
-    abstract public function pager_in_with_count($record_count, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0));
-    abstract public function pager_all_with_count($record_count, $table_name, array $order_limit = array([], 0, 0));
-    abstract public function set($table_name, array $keyvalues, array $conditions);
-    abstract public function set_where($table_name, array $keyvalues, $where, array $args = []);
-    abstract public function set_by_id($table_name, array $keyvalues, $id);
-    abstract public function set_by_ids($table_name, array $keyvalues, array $ids);
-    abstract public function set_all($table_name, array $keyvalues);
-    abstract public function add($table_name, array $keyvalues);
-    abstract public function add_many($table_name, array $keyvalues_list);
-    abstract public function del($table_name, array $keyvalues);
-    abstract public function del_where($table_name, $where, array $args = []);
-    abstract public function del_by_id($table_name, $id);
-    abstract public function del_by_ids($table_name, array $ids);
-    abstract public function rep($table_name, array $keyvalues);
-    abstract public function rep_many($table_name, array $keyvalues_list);
-    abstract public function inc($table_name, array $keyvalues, array $conditions);
-    abstract public function inc_by_id($table_name, array $keyvalues, $id);
-    abstract public function inc_by_ids($table_name, array $keyvalues, array $ids);
-    abstract public function set_and_inc($table_name, array $sets, array $incs, array $conditions);
-    abstract public function set_and_inc_by_id($table_name, array $sets, array $incs, $id);
-    abstract public function set_and_inc_by_ids($table_name, array $sets, array $incs, array $ids);
-    abstract public function dec($table_name, array $keyvalues, array $conditions);
-    abstract public function dec_by_id($table_name, array $keyvalues, $id);
-    abstract public function dec_by_ids($table_name, array $keyvalues, array $ids);
     abstract public function select($sql, array $args = []);
-    abstract public function select_one($sql, array $args = []);
-    abstract public function update($sql, array $args = []);
-    abstract public function insert($sql, array $args = []);
-    abstract public function delete($sql, array $args = []);
-    abstract public function replace($sql, array $args = []);
-    abstract public function begin();
-    abstract public function commit();
-    abstract public function rollback();
+    public function select_one($sql, array $args = []) {
+        return $this->get_first_record($this->select($sql, $args));
+    }
+    
+    public function set($table_name, array $keyvalues, array $conditions) {
+        throw new developer_error('slave is not allowed to update');
+    }
+    public function set_where($table_name, array $keyvalues, $where, array $args = []) {
+        throw new developer_error('slave is not allowed to update');
+    }
+    public function set_by_id($table_name, array $keyvalues, $id) {
+        throw new developer_error('slave is not allowed to update');
+    }
+    public function set_by_ids($table_name, array $keyvalues, array $ids) {
+        throw new developer_error('slave is not allowed to update');
+    }
+    public function set_all($table_name, array $keyvalues) {
+        throw new developer_error('slave is not allowed to update');
+    }
+    public function update($sql, array $args = []) {
+        throw new developer_error('slave is not allowed to update');
+    }
+    public function add($table_name, array $keyvalues) {
+        throw new developer_error('slave is not allowed to insert');
+    }
+    public function add_many($table_name, array $keyvalues_list) {
+        throw new developer_error('slave is not allowed to insert');
+    }
+    public function insert($sql, array $args = []) {
+        throw new developer_error('slave is not allowed to insert');
+    }
+    
+    public function del($table_name, array $keyvalues) {
+        throw new developer_error('slave is not allowed to delete');
+    }
+    public function del_where($table_name, $where, array $args = []) {
+        throw new developer_error('slave is not allowed to delete');
+    }
+    public function del_by_id($table_name, $id) {
+        throw new developer_error('slave is not allowed to delete');
+    }
+    public function del_by_ids($table_name, array $ids) {
+        throw new developer_error('slave is not allowed to delete');
+    }
+    public function delete($sql, array $args = []) {
+        throw new developer_error('slave is not allowed to delete');
+    }
+    
+    public function rep($table_name, array $keyvalues) {
+        throw new developer_error('slave is not allowed to replace');
+    }
+    public function rep_many($table_name, array $keyvalues_list) {
+        throw new developer_error('slave is not allowed to replace');
+    }
+    public function replace($sql, array $args = []) {
+        throw new developer_error('slave is not allowed to replace');
+    }
+    
+    public function inc($table_name, array $keyvalues, array $conditions) {
+        throw new developer_error('slave is not allowed to inc');
+    }
+    public function inc_by_id($table_name, array $keyvalues, $id) {
+        throw new developer_error('slave is not allowed to inc');
+    }
+    public function inc_by_ids($table_name, array $keyvalues, array $ids) {
+        throw new developer_error('slave is not allowed to inc');
+    }
+    public function set_and_inc($table_name, array $sets, array $incs, array $conditions) {
+        throw new developer_error('slave is not allowed to set_and_inc');
+    }
+    public function set_and_inc_by_id($table_name, array $sets, array $incs, $id) {
+        throw new developer_error('slave is not allowed to set_and_inc');
+    }
+    public function set_and_inc_by_ids($table_name, array $sets, array $incs, array $ids) {
+        throw new developer_error('slave is not allowed to set_and_inc');
+    }
+    public function dec($table_name, array $keyvalues, array $conditions) {
+        throw new developer_error('slave is not allowed to dec');
+    }
+    public function dec_by_id($table_name, array $keyvalues, $id) {
+        throw new developer_error('slave is not allowed to dec');
+    }
+    public function dec_by_ids($table_name, array $keyvalues, array $ids) {
+        throw new developer_error('slave is not allowed to dec');
+    }
+    
+    public function begin() {
+        throw new developer_error('slave is not allowed to perform transaction');
+    }
+    public function commit() {
+        throw new developer_error('slave is not allowed to perform transaction');
+    }
+    public function rollback() {
+        throw new developer_error('slave is not allowed to perform transaction');
+    }
+    
     public function __construct(rdb_conn $conn) {
         $this->conn = $conn;
+    }
+    protected function do_pager($record_count, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
+        rdb_node_util::check_order_limit($order_limit, $record_count);
+        return array(rdb_node_util::build_pager_data($record_count, $order_limit), $this->get($table_name, $keyvalues, $order_limit));
+    }
+    protected function do_pager_where($record_count, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
+        rdb_node_util::check_order_limit($order_limit, $record_count);
+        return array(rdb_node_util::build_pager_data($record_count, $order_limit), $this->get_where($table_name, $where, $args, $order_limit));
+    }
+    protected function do_pager_by_ids($record_count, $table_name, array $ids, array $order_limit = array([], 0, 0)) {
+        rdb_node_util::check_order_limit($order_limit, $record_count);
+        return array(rdb_node_util::build_pager_data($record_count, $order_limit), $this->get_by_ids($table_name, $ids, $order_limit));
+    }
+    protected function do_pager_in($record_count, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
+        rdb_node_util::check_order_limit($order_limit, $record_count);
+        return array(rdb_node_util::build_pager_data($record_count, $order_limit), $this->get_in($table_name, $field_name, $values, $order_limit));
+    }
+    protected function do_pager_all($record_count, $table_name, array $order_limit = array([], 0, 0)) {
+        rdb_node_util::check_order_limit($order_limit, $record_count);
+        return array(rdb_node_util::build_pager_data($record_count, $order_limit), $this->get_all($table_name, $order_limit));
+    }
+    protected function get_first_record($records) {
+        if ($records === []) {
+            return null;
+        }
+        return array_shift($records);
     }
     protected $conn = null;
 }
