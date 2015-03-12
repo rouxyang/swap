@@ -113,6 +113,7 @@ class pgsql_master_rdb_node extends pgsql_rdb_node {
     }
     public function rollback() {
     }
+    
     protected function do_add_or_rep($method, $table_name, array $keyvalues) {
         
     }
