@@ -24,7 +24,7 @@ class /* @swap */ pgsql_rdb_conn extends rdb_conn {
         if (pg_set_client_encoding($conn, 'UTF8') !== 0) {
             throw new server_except('cannot set charset to utf8');
         }
-        $this->conn = conn;
+        $this->conn = $conn;
     }
     public function select($sql) {
         $result = pg_query($this->conn, $sql);
