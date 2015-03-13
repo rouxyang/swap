@@ -799,19 +799,19 @@ abstract class rdb_node {
         return $this->query_and_fetch_records("SELECT {$field_name_list} FROM {$table_name}" . $this->build_order_limit_sql($order_limit), true);
     }
     protected function do_pager($record_count, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
-        return array(static::build_pager_data($record_count, $order_limit), $this->get($table_name, $keyvalues, $order_limit));
+        return array($this->build_pager_data($record_count, $order_limit), $this->get($table_name, $keyvalues, $order_limit));
     }
     protected function do_pager_where($record_count, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
-        return array(static::build_pager_data($record_count, $order_limit), $this->get_where($table_name, $where, $args, $order_limit));
+        return array($this->build_pager_data($record_count, $order_limit), $this->get_where($table_name, $where, $args, $order_limit));
     }
     protected function do_pager_by_ids($record_count, $table_name, array $ids, array $order_limit = array([], 0, 0)) {
-        return array(static::build_pager_data($record_count, $order_limit), $this->get_by_ids($table_name, $ids, $order_limit));
+        return array($this->build_pager_data($record_count, $order_limit), $this->get_by_ids($table_name, $ids, $order_limit));
     }
     protected function do_pager_in($record_count, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
-        return array(static::build_pager_data($record_count, $order_limit), $this->get_in($table_name, $field_name, $values, $order_limit));
+        return array($this->build_pager_data($record_count, $order_limit), $this->get_in($table_name, $field_name, $values, $order_limit));
     }
     protected function do_pager_all($record_count, $table_name, array $order_limit = array([], 0, 0)) {
-        return array(static::build_pager_data($record_count, $order_limit), $this->get_all($table_name, $order_limit));
+        return array($this->build_pager_data($record_count, $order_limit), $this->get_all($table_name, $order_limit));
     }
     protected function do_count($sql) {
         $result = $this->conn->select($sql);
@@ -1026,6 +1026,20 @@ abstract class rdb_node {
         }
         return $order_by_sql . $limit_sql;
     }
+    protected function build_pager_data($record_count, array $order_limit = array([], 0, 0)) {
+        $page_size = $order_limit[2];
+        if ($page_size === 0) {
+            throw new developer_error('page_size cannot be zero');
+        }
+        if ($record_count <= 0) {
+            $page_count = 1;
+            $current_page = 1;
+        } else {
+            $page_count = ceil($record_count / $page_size);
+            $current_page = $order_limit[1];
+        }
+        return array('record_count' => $record_count, 'page_count' => $page_count, 'current_page' => $current_page, 'page_size' => $page_size);
+    }
     protected function replace_sql_args($sql, array $args) {
         $begin_pos = 0;
         foreach ($args as $arg) {
@@ -1046,23 +1060,9 @@ abstract class rdb_node {
         }
         return $sql;
     }
+    
     protected $conn = null;
     protected $is_master = true;
-    
-    protected static function build_pager_data($record_count, array $order_limit = array([], 0, 0)) {
-        $page_size = $order_limit[2];
-        if ($page_size === 0) {
-            throw new developer_error('page_size cannot be zero');
-        }
-        if ($record_count <= 0) {
-            $page_count = 1;
-            $current_page = 1;
-        } else {
-            $page_count = ceil($record_count / $page_size);
-            $current_page = $order_limit[1];
-        }
-        return array('record_count' => $record_count, 'page_count' => $page_count, 'current_page' => $current_page, 'page_size' => $page_size);
-    }
 }
 // [实体] 关系数据库节点池
 class rdb_node_pool {
