@@ -666,7 +666,3 @@ class visitor_except extends except {
 }
 // [类型] 运行时服务器异常
 class server_except extends except {}
-// [类型] 运行时本地服务器异常
-class local_except extends server_except {}
-// [类型] 运行时远程服务器异常
-class remote_except extends server_except {}

@@ -84,256 +84,256 @@ interface rdb_api {
 // [实体] 关系数据库
 class rdb implements rdb_api {
     public static function get($table_name, array $keyvalues, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get($table_name, $keyvalues, $order_limit);
     }
     public static function get_one($table_name, array $keyvalues, $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_one($table_name, $keyvalues);
     }
     public static function get_where($table_name, $where, array $args = [], array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_where($table_name, $where, $args, $order_limit);
     }
     public static function get_by_id($table_name, $id, $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_by_id($table_name, $id);
     }
     public static function get_by_ids($table_name, array $ids, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_by_ids($table_name, $ids, $order_limit);
     }
     public static function get_in($table_name, $field_name, array $values, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_in($table_name, $field_name, $values, $order_limit);
     }
     public static function get_all($table_name, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_all($table_name, $order_limit);
     }
     public static function get_for_fields($field_names, $table_name, array $keyvalues, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_for_fields($field_names, $table_name, $keyvalues, $order_limit);
     }
     public static function get_one_for_fields($field_names, $table_name, array $keyvalues, $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_one_for_fields($field_names, $table_name, $keyvalues);
     }
     public static function get_where_for_fields($field_names, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_where_for_fields($field_names, $table_name, $where, $args, $order_limit);
     }
     public static function get_by_id_for_fields($field_names, $table_name, $id, $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_by_id_for_fields($field_names, $table_name, $id);
     }
     public static function get_by_ids_for_fields($field_names, $table_name, array $ids, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_by_ids_for_fields($field_names, $table_name, $ids, $order_limit);
     }
     public static function get_in_for_fields($field_names, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_in_for_fields($field_names, $table_name, $field_name, $values, $order_limit);
     }
     public static function get_all_for_fields($field_names, $table_name, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get_all_for_fields($field_names, $table_name, $order_limit);
     }
     public static function pager($table_name, array $keyvalues, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->pager($table_name, $keyvalues, $order_limit);
     }
     public static function pager_where($table_name, $where, array $args = [], array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->pager_where($table_name, $where, $args, $order_limit);
     }
     public static function pager_by_ids($table_name, array $ids, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->pager_by_ids($table_name, $ids, $order_limit);
     }
     public static function pager_in($table_name, $field_name, array $values, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->pager_in($table_name, $field_name, $values, $order_limit);
     }
     public static function pager_all($table_name, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->pager_all($table_name, $order_limit);
     }
     public static function pager_with_count($record_count, $table_name, array $keyvalues, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->pager_with_count($record_count, $table_name, $keyvalues, $order_limit);
     }
     public static function pager_where_with_count($record_count, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->pager_where_with_count($record_count, $table_name, $where, $args, $order_limit);
     }
     public static function pager_by_ids_with_count($record_count, $table_name, array $ids, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->pager_by_ids_with_count($record_count, $table_name, $ids, $order_limit);
     }
     public static function pager_in_with_count($record_count, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->pager_in_with_count($record_count, $table_name, $field_name, $values, $order_limit);
     }
     public static function pager_all_with_count($record_count, $table_name, array $order_limit = array([], 0, 0), $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->pager_all_with_count($record_count, $table_name, $order_limit);
     }
     public static function count($table_name, array $keyvalues, $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->count($table_name, $keyvalues);
     }
     public static function count_where($table_name, $where, array $args = [], $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->count_where($table_name, $where, $args);
     }
     public static function count_by_ids($table_name, array $ids, $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->count_by_ids($table_name, $ids);
     }
     public static function count_in($table_name, $field_name, array $values, $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->count_in($table_name, $field_name, $values);
     }
     public static function count_all($table_name, $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->count_all($table_name);
     }
     public static function fetch($table_name, $sql, array $args = [], $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->select($sql, $args);
     }
     public static function fetch_one($table_name, $sql, array $args = [], $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_table_name($table_name) : self::get_slave_rdb_node_from_table_name($table_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->select_one($sql, $args);
     }
     public static function select($source_name, $sql, array $args = [], $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_source_name($source_name) : self::get_slave_rdb_node_from_source_name($source_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_source_name($source_name) : static::get_slave_rdb_node_from_source_name($source_name);
         return $rdb_node->select($sql, $args);
     }
     public static function select_one($source_name, $sql, array $args = [], $use_master = false) {
-        $rdb_node = $use_master ? self::get_master_rdb_node_from_source_name($source_name) : self::get_slave_rdb_node_from_source_name($source_name);
+        $rdb_node = $use_master ? static::get_master_rdb_node_from_source_name($source_name) : static::get_slave_rdb_node_from_source_name($source_name);
         return $rdb_node->select_one($sql, $args);
     }
     
     public static function set($table_name, array $keyvalues, array $conditions) {
-        return self::get_master_rdb_node_from_table_name($table_name)->set($table_name, $keyvalues, $conditions);
+        return static::get_master_rdb_node_from_table_name($table_name)->set($table_name, $keyvalues, $conditions);
     }
     public static function set_where($table_name, array $keyvalues, $where, array $args = []) {
-        return self::get_master_rdb_node_from_table_name($table_name)->set_where($table_name, $keyvalues, $where, $args);
+        return static::get_master_rdb_node_from_table_name($table_name)->set_where($table_name, $keyvalues, $where, $args);
     }
     public static function set_by_id($table_name, array $keyvalues, $id) {
-        return self::get_master_rdb_node_from_table_name($table_name)->set_by_id($table_name, $keyvalues, $id);
+        return static::get_master_rdb_node_from_table_name($table_name)->set_by_id($table_name, $keyvalues, $id);
     }
     public static function set_by_ids($table_name, array $keyvalues, array $ids) {
-        return self::get_master_rdb_node_from_table_name($table_name)->set_by_ids($table_name, $keyvalues, $ids);
+        return static::get_master_rdb_node_from_table_name($table_name)->set_by_ids($table_name, $keyvalues, $ids);
     }
     public static function set_all($table_name, array $keyvalues) {
-        return self::get_master_rdb_node_from_table_name($table_name)->set_all($table_name, $keyvalues);
+        return static::get_master_rdb_node_from_table_name($table_name)->set_all($table_name, $keyvalues);
     }
     public static function modify($table_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_table_name($table_name)->update($sql, $args);
+        return static::get_master_rdb_node_from_table_name($table_name)->update($sql, $args);
     }
     public static function update($source_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_source_name($source_name)->update($sql, $args);
+        return static::get_master_rdb_node_from_source_name($source_name)->update($sql, $args);
     }
     
     public static function add($table_name, array $keyvalues) {
-        return self::get_master_rdb_node_from_table_name($table_name)->add($table_name, $keyvalues);
+        return static::get_master_rdb_node_from_table_name($table_name)->add($table_name, $keyvalues);
     }
     public static function add_many($table_name, array $keyvalues_list) {
-        return self::get_master_rdb_node_from_table_name($table_name)->add_many($table_name, $keyvalues_list);
+        return static::get_master_rdb_node_from_table_name($table_name)->add_many($table_name, $keyvalues_list);
     }
     public static function create($table_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_table_name($table_name)->insert($sql, $args);
+        return static::get_master_rdb_node_from_table_name($table_name)->insert($sql, $args);
     }
     public static function insert($source_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_source_name($source_name)->insert($sql, $args);
+        return static::get_master_rdb_node_from_source_name($source_name)->insert($sql, $args);
     }
     
     public static function del($table_name, array $keyvalues) {
-        return self::get_master_rdb_node_from_table_name($table_name)->del($table_name, $keyvalues);
+        return static::get_master_rdb_node_from_table_name($table_name)->del($table_name, $keyvalues);
     }
     public static function del_where($table_name, $where, array $args = []) {
-        return self::get_master_rdb_node_from_table_name($table_name)->del_where($table_name, $where, $args);
+        return static::get_master_rdb_node_from_table_name($table_name)->del_where($table_name, $where, $args);
     }
     public static function del_by_id($table_name, $id) {
-        return self::get_master_rdb_node_from_table_name($table_name)->del_by_id($table_name, $id);
+        return static::get_master_rdb_node_from_table_name($table_name)->del_by_id($table_name, $id);
     }
     public static function del_by_ids($table_name, array $ids) {
-        return self::get_master_rdb_node_from_table_name($table_name)->del_by_ids($table_name, $ids);
+        return static::get_master_rdb_node_from_table_name($table_name)->del_by_ids($table_name, $ids);
     }
     public static function remove($table_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_table_name($table_name)->delete($sql, $args);
+        return static::get_master_rdb_node_from_table_name($table_name)->delete($sql, $args);
     }
     public static function delete($source_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_source_name($source_name)->delete($sql, $args);
+        return static::get_master_rdb_node_from_source_name($source_name)->delete($sql, $args);
     }
     
     public static function rep($table_name, array $keyvalues) {
-        return self::get_master_rdb_node_from_table_name($table_name)->rep($table_name, $keyvalues);
+        return static::get_master_rdb_node_from_table_name($table_name)->rep($table_name, $keyvalues);
     }
     public static function rep_many($table_name, array $keyvalues_list) {
-        return self::get_master_rdb_node_from_table_name($table_name)->rep_many($table_name, $keyvalues_list);
+        return static::get_master_rdb_node_from_table_name($table_name)->rep_many($table_name, $keyvalues_list);
     }
     public static function change($table_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_table_name($table_name)->replace($sql, $args);
+        return static::get_master_rdb_node_from_table_name($table_name)->replace($sql, $args);
     }
     public static function replace($source_name, $sql, array $args = []) {
-        return self::get_master_rdb_node_from_source_name($source_name)->replace($sql, $args);
+        return static::get_master_rdb_node_from_source_name($source_name)->replace($sql, $args);
     }
     
     public static function inc($table_name, array $keyvalues, array $conditions) {
-        return self::get_master_rdb_node_from_table_name($table_name)->inc($table_name, $keyvalues, $conditions);
+        return static::get_master_rdb_node_from_table_name($table_name)->inc($table_name, $keyvalues, $conditions);
     }
     public static function inc_by_id($table_name, array $keyvalues, $id) {
-        return self::get_master_rdb_node_from_table_name($table_name)->inc_by_id($table_name, $keyvalues, $id);
+        return static::get_master_rdb_node_from_table_name($table_name)->inc_by_id($table_name, $keyvalues, $id);
     }
     public static function inc_by_ids($table_name, array $keyvalues, array $ids) {
-        return self::get_master_rdb_node_from_table_name($table_name)->inc_by_ids($table_name, $keyvalues, $ids);
+        return static::get_master_rdb_node_from_table_name($table_name)->inc_by_ids($table_name, $keyvalues, $ids);
     }
     public static function set_and_inc($table_name, array $sets, array $incs, array $conditions) {
-        return self::get_master_rdb_node_from_table_name($table_name)->set_and_inc($table_name, $sets, $incs, $conditions);
+        return static::get_master_rdb_node_from_table_name($table_name)->set_and_inc($table_name, $sets, $incs, $conditions);
     }
     public static function set_and_inc_by_id($table_name, array $sets, array $incs, $id) {
-        return self::get_master_rdb_node_from_table_name($table_name)->set_and_inc_by_id($table_name, $sets, $incs, $id);
+        return static::get_master_rdb_node_from_table_name($table_name)->set_and_inc_by_id($table_name, $sets, $incs, $id);
     }
     public static function set_and_inc_by_ids($table_name, array $sets, array $incs, array $ids) {
-        return self::get_master_rdb_node_from_table_name($table_name)->set_and_inc_by_ids($table_name, $sets, $incs, $ids);
+        return static::get_master_rdb_node_from_table_name($table_name)->set_and_inc_by_ids($table_name, $sets, $incs, $ids);
     }
     public static function dec($table_name, array $keyvalues, array $conditions) {
-        return self::get_master_rdb_node_from_table_name($table_name)->dec($table_name, $keyvalues, $conditions);
+        return static::get_master_rdb_node_from_table_name($table_name)->dec($table_name, $keyvalues, $conditions);
     }
     public static function dec_by_id($table_name, array $keyvalues, $id) {
-        return self::get_master_rdb_node_from_table_name($table_name)->dec_by_id($table_name, $keyvalues, $id);
+        return static::get_master_rdb_node_from_table_name($table_name)->dec_by_id($table_name, $keyvalues, $id);
     }
     public static function dec_by_ids($table_name, array $keyvalues, array $ids) {
-        return self::get_master_rdb_node_from_table_name($table_name)->dec_by_ids($table_name, $keyvalues, $ids);
+        return static::get_master_rdb_node_from_table_name($table_name)->dec_by_ids($table_name, $keyvalues, $ids);
     }
     
     public static function begin($source_name) {
-        return self::get_master_rdb_node_from_source_name($source_name)->begin();
+        return static::get_master_rdb_node_from_source_name($source_name)->begin();
     }
     public static function commit($source_name) {
-        return self::get_master_rdb_node_from_source_name($source_name)->commit();
+        return static::get_master_rdb_node_from_source_name($source_name)->commit();
     }
     public static function rollback($source_name) {
-        return self::get_master_rdb_node_from_source_name($source_name)->rollback();
+        return static::get_master_rdb_node_from_source_name($source_name)->rollback();
     }
     
     protected static function get_master_rdb_node_from_table_name($table_name) {
         static $master_rdb_nodes_by_table_name = [];
         if (!array_key_exists($table_name, $master_rdb_nodes_by_table_name)) {
-            $source_name = self::get_source_name_from_table_name($table_name);
-            $master_rdb_nodes_by_table_name[$table_name] = self::get_master_rdb_node_from_source_name($source_name);
+            $source_name = static::get_source_name_from_table_name($table_name);
+            $master_rdb_nodes_by_table_name[$table_name] = static::get_master_rdb_node_from_source_name($source_name);
         }
         return $master_rdb_nodes_by_table_name[$table_name];
     }
     protected static function get_slave_rdb_node_from_table_name($table_name) {
         static $slave_rdb_nodes_by_table_name = [];
         if (!array_key_exists($table_name, $slave_rdb_nodes_by_table_name)) {
-            $source_name = self::get_source_name_from_table_name($table_name);
-            $slave_rdb_nodes_by_table_name[$table_name] = self::get_slave_rdb_node_from_source_name($source_name);
+            $source_name = static::get_source_name_from_table_name($table_name);
+            $slave_rdb_nodes_by_table_name[$table_name] = static::get_slave_rdb_node_from_source_name($source_name);
         }
         return $slave_rdb_nodes_by_table_name[$table_name];
     }
@@ -404,17 +404,27 @@ abstract class rdb_node {
     public function get_all($table_name, array $order_limit = array([], 0, 0)) {
         return $this->do_get_all('*', $table_name, $order_limit);
     }
-    abstract public function get_for_fields($field_names, $table_name, array $keyvalues, array $order_limit = array([], 0, 0));
+    public function get_for_fields($field_names, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
+        return $this->do_get(static::build_field_name_list($field_names), $table_name, $keyvalues, $order_limit);
+    }
     public function get_one_for_fields($field_names, $table_name, array $keyvalues) {
         return $this->get_first_record($this->get_for_fields($field_names, $table_name, $keyvalues));
     }
-    abstract public function get_where_for_fields($field_names, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0));
-    abstract public function get_by_id_for_fields($field_names, $table_name, $id);
+    public function get_where_for_fields($field_names, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
+        return $this->do_get_where(static::build_field_name_list($field_names), $table_name, $where, $args, $order_limit);
+    }
+    public function get_by_id_for_fields($field_names, $table_name, $id) {
+        return $this->do_get_by_id(static::build_field_name_list($field_names), $table_name, $id);
+    }
     public function get_by_ids_for_fields($field_names, $table_name, array $ids, array $order_limit = array([], 0, 0)) {
         return $this->get_in_for_fields($field_names, $table_name, 'id', $ids, $order_limit);
     }
-    abstract public function get_in_for_fields($field_names, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0));
-    abstract public function get_all_for_fields($field_names, $table_name, array $order_limit = array([], 0, 0));
+    public function get_in_for_fields($field_names, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
+        return $this->do_get_in(static::build_field_name_list($field_names), $table_name, $field_name, $values, $order_limit);
+    }
+    public function get_all_for_fields($field_names, $table_name, array $order_limit = array([], 0, 0)) {
+        return $this->do_get_all(static::build_field_name_list($field_names), $table_name, $order_limit);
+    }
     public function pager($table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
         return $this->do_pager($this->count($table_name, $keyvalues), $table_name, $keyvalues, $order_limit);
     }
@@ -445,58 +455,192 @@ abstract class rdb_node {
     public function pager_all_with_count($record_count, $table_name, array $order_limit = array([], 0, 0)) {
         return $this->do_pager_all($record_count, $table_name, $order_limit);
     }
-    abstract public function count($table_name, array $keyvalues);
-    abstract public function count_where($table_name, $where, array $args = []);
-    abstract public function count_by_ids($table_name, array $ids);
-    abstract public function count_in($table_name, $field_name, array $values);
-    abstract public function count_all($table_name);
-    abstract public function select($sql, array $args = []);
+    public function count($table_name, array $keyvalues) {
+        $count_name = static::build_field_name('count');
+        $table_name = $this->get_full_table_name($table_name);
+        $conditions = $this->build_equal_list($keyvalues, ' AND ');
+        // @todo: optimize using covering index
+        return $this->do_count("SELECT COUNT(*) AS {$count_name} FROM {$table_name} WHERE {$conditions}");
+    }
+    public function count_where($table_name, $where, array $args = []) {
+        $count_name = static::build_field_name('count');
+        $table_name = $this->get_full_table_name($table_name);
+        $conditions = $this->replace_sql_args(static::localize_where($where), $args);
+        return $this->do_count("SELECT COUNT(*) AS {$count_name} FROM {$table_name} WHERE {$conditions}");
+    }
+    public function count_by_ids($table_name, array $ids) {
+        $count_name = static::build_field_name('count');
+        $table_name = $this->get_full_table_name($table_name);
+        $id_name = static::build_field_name('id');
+        $id_list = $this->build_value_list($ids);
+        // @todo: optimize using covering index
+        return $this->do_count("SELECT COUNT(*) AS {$count_name} FROM {$table_name} WHERE {$id_name} IN ({$id_list})");
+    }
+    public function count_in($table_name, $field_name, array $values) {
+        $count_name = static::build_field_name('count');
+        $table_name = $this->get_full_table_name($table_name);
+        $field_name = static::build_field_name($field_name);
+        $value_list = $this->build_value_list($values);
+        // @todo: optimize using covering index
+        return $this->do_count("SELECT COUNT(*) AS {$count_name} FROM {$table_name} WHERE {$field_name} IN ({$value_list})");
+    }
+    public function count_all($table_name) {
+        $count_name = static::build_field_name('count');
+        $table_name = $this->get_full_table_name($table_name);
+        return $this->do_count("SELECT COUNT(*) AS {$count_name} FROM {$table_name}");
+    }
+    public function select($sql, array $args = []) {
+        return $this->query_and_fetch_records($this->replace_sql_args($sql, $args), false);
+    }
     public function select_one($sql, array $args = []) {
         return $this->get_first_record($this->select($sql, $args));
     }
     
     public function set($table_name, array $keyvalues, array $conditions) {
-        throw new developer_error('slave is not allowed to update');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = $this->build_equal_list($keyvalues, ', ');
+            $conditions = $this->build_equal_list($conditions, ' AND ');
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$conditions}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to update');
+        }
     }
     public function set_where($table_name, array $keyvalues, $where, array $args = []) {
-        throw new developer_error('slave is not allowed to update');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = $this->build_equal_list($keyvalues, ', ');
+            $conditions = $this->replace_sql_args(static::localize_where($where), $args);
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$conditions}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to update');
+        }
     }
     public function set_by_id($table_name, array $keyvalues, $id) {
-        throw new developer_error('slave is not allowed to update');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $id_name = static::build_field_name('id');
+            $modifies = $this->build_equal_list($keyvalues, ', ');
+            $id = (int)$id;
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$id_name} = {$id}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to update');
+        }
     }
     public function set_by_ids($table_name, array $keyvalues, array $ids) {
-        throw new developer_error('slave is not allowed to update');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = $this->build_equal_list($keyvalues, ', ');
+            $id_name = static::build_field_name('id');
+            $id_list = $this->build_value_list($ids);
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$id_name} IN ({$id_list})";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to update');
+        }
     }
     public function set_all($table_name, array $keyvalues) {
-        throw new developer_error('slave is not allowed to update');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = $this->build_equal_list($keyvalues, ', ');
+            $sql = "UPDATE {$table_name} SET {$modifies}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to update');
+        }
     }
     public function update($sql, array $args = []) {
-        throw new developer_error('slave is not allowed to update');
+        if ($this->is_master) {
+            $this->execute($this->replace_sql_args($sql, $args));
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to update');
+        }
     }
     public function add($table_name, array $keyvalues) {
-        throw new developer_error('slave is not allowed to insert');
+        if ($this->is_master) {
+            return $this->do_add_or_rep('INSERT', $table_name, $keyvalues);
+        } else {
+            throw new developer_error('slave is not allowed to insert');
+        }
     }
     public function add_many($table_name, array $keyvalues_list) {
-        throw new developer_error('slave is not allowed to insert');
+        if ($this->is_master) {
+            return $this->do_add_many_or_rep_many('INSERT', $table_name, $keyvalues_list);
+        } else {
+            throw new developer_error('slave is not allowed to insert');
+        }
     }
     public function insert($sql, array $args = []) {
-        throw new developer_error('slave is not allowed to insert');
+        if ($this->is_master) {
+            $this->execute($this->replace_sql_args($sql, $args));
+            return $this->insert_id();
+        } else {
+            throw new developer_error('slave is not allowed to insert');
+        }
     }
     
     public function del($table_name, array $keyvalues) {
-        throw new developer_error('slave is not allowed to delete');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $conditions = $this->build_equal_list($keyvalues, ' AND ');
+            $sql = "DELETE FROM {$table_name} WHERE {$conditions}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to delete');
+        }
     }
     public function del_where($table_name, $where, array $args = []) {
-        throw new developer_error('slave is not allowed to delete');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $conditions = $this->replace_sql_args(static::localize_where($where), $args);
+            $sql = "DELETE FROM {$table_name} WHERE {$conditions}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to delete');
+        }
     }
     public function del_by_id($table_name, $id) {
-        throw new developer_error('slave is not allowed to delete');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $id_name = static::build_field_name('id');
+            $id = (int)$id;
+            $sql = "DELETE FROM {$table_name} WHERE {$id_name} = {$id}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to delete');
+        }
     }
     public function del_by_ids($table_name, array $ids) {
-        throw new developer_error('slave is not allowed to delete');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $id_name = static::build_field_name('id');
+            $id_list = $this->build_value_list($ids);
+            $sql = "DELETE FROM {$table_name} WHERE {$id_name} IN ({$id_list})";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to delete');
+        }
     }
     public function delete($sql, array $args = []) {
-        throw new developer_error('slave is not allowed to delete');
+        if ($this->is_master) {
+            $this->execute($this->replace_sql_args($sql, $args));
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to delete');
+        }
     }
     
     public function rep($table_name, array $keyvalues) {
@@ -510,65 +654,352 @@ abstract class rdb_node {
     }
     
     public function inc($table_name, array $keyvalues, array $conditions) {
-        throw new developer_error('slave is not allowed to inc');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = static::build_inc_dec_list($keyvalues, '+');
+            $conditions = $this->build_equal_list($conditions, ' AND ');
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$conditions}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to inc');
+        }
     }
     public function inc_by_id($table_name, array $keyvalues, $id) {
-        throw new developer_error('slave is not allowed to inc');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = static::build_inc_dec_list($keyvalues, '+');
+            $id_name = static::build_field_name('id');
+            $id = (int)$id;
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$id_name} = {$id}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to inc');
+        }
     }
     public function inc_by_ids($table_name, array $keyvalues, array $ids) {
-        throw new developer_error('slave is not allowed to inc');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = static::build_inc_dec_list($keyvalues, '+');
+            $id_name = static::build_field_name('id');
+            $id_list = $this->build_value_list($ids);
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$id_name} IN ({$id_list})";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to inc');
+        }
     }
     public function set_and_inc($table_name, array $sets, array $incs, array $conditions) {
-        throw new developer_error('slave is not allowed to set_and_inc');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = $this->build_equal_list($sets, ', ') . ', ' . static::build_inc_dec_list($incs, '+');
+            $conditions = $this->build_equal_list($conditions, ' AND ');
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$conditions}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to set_and_inc');
+        }
     }
     public function set_and_inc_by_id($table_name, array $sets, array $incs, $id) {
-        throw new developer_error('slave is not allowed to set_and_inc');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = $this->build_equal_list($sets, ', ') . ', ' . static::build_inc_dec_list($incs, '+');
+            $id_name = static::build_field_name('id');
+            $id = (int)$id;
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$id_name} = {$id}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to set_and_inc');
+        }
     }
     public function set_and_inc_by_ids($table_name, array $sets, array $incs, array $ids) {
-        throw new developer_error('slave is not allowed to set_and_inc');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = $this->build_equal_list($sets, ', ') . ', ' . static::build_inc_dec_list($incs, '+');
+            $id_name = static::build_field_name('id');
+            $id_list = $this->build_value_list($ids);
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$id_name} IN ({$id_list})";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to set_and_inc');
+        }
     }
     public function dec($table_name, array $keyvalues, array $conditions) {
-        throw new developer_error('slave is not allowed to dec');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = static::build_inc_dec_list($keyvalues, '-');
+            $conditions = $this->build_equal_list($conditions, ' AND ');
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$conditions}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to dec');
+        }
     }
     public function dec_by_id($table_name, array $keyvalues, $id) {
-        throw new developer_error('slave is not allowed to dec');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = static::build_inc_dec_list($keyvalues, '-');
+            $id_name = static::build_field_name('id');
+            $id = (int)$id;
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$id_name} = {$id}";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to dec');
+        }
     }
     public function dec_by_ids($table_name, array $keyvalues, array $ids) {
-        throw new developer_error('slave is not allowed to dec');
+        if ($this->is_master) {
+            $table_name = $this->get_full_table_name($table_name);
+            $modifies = static::build_inc_dec_list($keyvalues, '-');
+            $id_name = static::build_field_name('id');
+            $id_list = $this->build_value_list($ids);
+            $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$id_name} IN ({$id_list})";
+            $this->execute($sql);
+            return $this->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to dec');
+        }
     }
     
     public function begin() {
-        throw new developer_error('slave is not allowed to perform transaction');
+        if ($this->is_master) {
+            return $this->conn->begin();
+        } else {
+            throw new developer_error('slave is not allowed to perform transaction');
+        }
     }
     public function commit() {
-        throw new developer_error('slave is not allowed to perform transaction');
+        if ($this->is_master) {
+            return $this->conn->commit();
+        } else {
+            throw new developer_error('slave is not allowed to perform transaction');
+        }
     }
     public function rollback() {
-        throw new developer_error('slave is not allowed to perform transaction');
+        if ($this->is_master) {
+            return $this->conn->rollback();
+        } else {
+            throw new developer_error('slave is not allowed to perform transaction');
+        }
     }
     
-    public function __construct(rdb_conn $conn) {
+    public function __construct(rdb_conn $conn, $is_master) {
         $this->conn = $conn;
+        $this->is_master = $is_master;
+    }
+    
+    public function build_value_list(array $values) {
+        if ($values === []) {
+            throw new developer_error("values is []");
+        }
+        foreach ($values as $key => $value) {
+            if (!is_int($value)) {
+                $values[$key] = "'" . $this->escape((string)$value) . "'";
+            }
+        }
+        return implode(', ', $values);
+    }
+    public function build_equal_list(array $keyvalues, $separator) {
+        if ($keyvalues === []) {
+            throw new developer_error("keyvalues is []");
+        }
+        $equal_list = [];
+        foreach ($keyvalues as $key => $value) {
+            $equal = static::build_field_name($key) . ' = ';
+            if (is_int($value)) {
+                $equal .= $value;
+            } else {
+                $equal .= "'" . $this->escape((string)$value) . "'";
+            }
+            $equal_list[] = $equal;
+        }
+        return implode($separator, $equal_list);
+    }
+    public function replace_sql_args($sql, array $args) {
+        $begin_pos = 0;
+        foreach ($args as $arg) {
+            if (is_null($arg)) {
+                $replace_str = 'NULL';
+            } else if (is_string($arg)) {
+                $replace_str = '\'' . $this->escape($arg) . '\'';
+            } else {
+                $replace_str = $arg;
+            }
+            $pos_step = strlen($replace_str);
+            $replace_pos = strpos($sql, '?', $begin_pos);
+            if ($replace_pos === false) {
+                throw new developer_error("the number of args is not equal to the number of '?' in sql: {$sql}");
+            }
+            $sql = substr_replace($sql, $replace_str, $replace_pos, 1);
+            $begin_pos = $replace_pos + $pos_step;
+        }
+        return $sql;
+    }
+    
+    protected function do_get($field_name_list, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
+        $table_name = $this->get_full_table_name($table_name);
+        $conditions = $this->build_equal_list($keyvalues, ' AND ');
+        return $this->query_and_fetch_records("SELECT {$field_name_list} FROM {$table_name} WHERE {$conditions}" . static::build_order_limit_sql($order_limit), true);
+    }
+    protected function do_get_where($field_name_list, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
+        $table_name = $this->get_full_table_name($table_name);
+        $conditions = $this->replace_sql_args(static::localize_where($where), $args);
+        return $this->query_and_fetch_records("SELECT {$field_name_list} FROM {$table_name} WHERE {$conditions}" . static::build_order_limit_sql($order_limit), true);
+    }
+    protected function do_get_by_id($field_name_list, $table_name, $id) {
+        $table_name = $this->get_full_table_name($table_name);
+        $id_name = static::build_field_name('id');
+        return $this->select_one("SELECT {$field_name_list} FROM {$table_name} WHERE {$id_name} = ?", array((int)$id));
+    }
+    protected function do_get_in($field_name_list, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
+        $table_name = $this->get_full_table_name($table_name);
+        $field_name = static::build_field_name($field_name);
+        $value_list = $this->build_value_list($values);
+        return $this->query_and_fetch_records("SELECT {$field_name_list} FROM {$table_name} WHERE {$field_name} IN ({$value_list})" . static::build_order_limit_sql($order_limit), true);
+    }
+    protected function do_get_all($field_name_list, $table_name, array $order_limit = array([], 0, 0)) {
+        $table_name = $this->get_full_table_name($table_name);
+        return $this->query_and_fetch_records("SELECT {$field_name_list} FROM {$table_name}" . static::build_order_limit_sql($order_limit), true);
     }
     protected function do_pager($record_count, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
-        rdb_node_util::check_order_limit($order_limit, $record_count);
-        return array(rdb_node_util::build_pager_data($record_count, $order_limit), $this->get($table_name, $keyvalues, $order_limit));
+        static::check_order_limit($order_limit, $record_count);
+        return array(static::build_pager_data($record_count, $order_limit), $this->get($table_name, $keyvalues, $order_limit));
     }
     protected function do_pager_where($record_count, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
-        rdb_node_util::check_order_limit($order_limit, $record_count);
-        return array(rdb_node_util::build_pager_data($record_count, $order_limit), $this->get_where($table_name, $where, $args, $order_limit));
+        static::check_order_limit($order_limit, $record_count);
+        return array(static::build_pager_data($record_count, $order_limit), $this->get_where($table_name, $where, $args, $order_limit));
     }
     protected function do_pager_by_ids($record_count, $table_name, array $ids, array $order_limit = array([], 0, 0)) {
-        rdb_node_util::check_order_limit($order_limit, $record_count);
-        return array(rdb_node_util::build_pager_data($record_count, $order_limit), $this->get_by_ids($table_name, $ids, $order_limit));
+        static::check_order_limit($order_limit, $record_count);
+        return array(static::build_pager_data($record_count, $order_limit), $this->get_by_ids($table_name, $ids, $order_limit));
     }
     protected function do_pager_in($record_count, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
-        rdb_node_util::check_order_limit($order_limit, $record_count);
-        return array(rdb_node_util::build_pager_data($record_count, $order_limit), $this->get_in($table_name, $field_name, $values, $order_limit));
+        static::check_order_limit($order_limit, $record_count);
+        return array(static::build_pager_data($record_count, $order_limit), $this->get_in($table_name, $field_name, $values, $order_limit));
     }
     protected function do_pager_all($record_count, $table_name, array $order_limit = array([], 0, 0)) {
-        rdb_node_util::check_order_limit($order_limit, $record_count);
-        return array(rdb_node_util::build_pager_data($record_count, $order_limit), $this->get_all($table_name, $order_limit));
+        static::check_order_limit($order_limit, $record_count);
+        return array(static::build_pager_data($record_count, $order_limit), $this->get_all($table_name, $order_limit));
+    }
+    protected function do_count($sql) {
+        $result = $this->conn->select($sql);
+        if (framework::is_debug()) {
+            debug::save('rdb', $sql);
+        }
+        if ($result === false) {
+            throw new server_except("select error: " . $this->conn->last_error() . " sql: {$sql}");
+        }
+        $record = $result->fetch_record();
+        if ($record === null) {
+            throw new environment_error("select count error");
+        }
+        $result->free();
+        return (int)$record['count'];
+    }
+    protected function do_add_or_rep($method, $table_name, array $keyvalues) {
+        if ($this->is_master) {
+            if ($keyvalues === []) {
+                throw new developer_error("keyvalues is []");
+            }
+            $columns = [];
+            $values  = [];
+            foreach ($keyvalues as $key => $value) {
+                $columns[] = static::build_field_name($key);
+                $values[]  = is_int($value) ? $value : ("'" . $this->escape((string)$value) . "'");
+            }
+            $columns = '(' . implode(', ', $columns) . ')';
+            $values  = '(' . implode(', ', $values) . ')';
+            $table_name = $this->get_full_table_name($table_name);
+            $sql = $method . " INTO {$table_name} {$columns} VALUES {$values}";
+            $this->execute($sql);
+            return $this->insert_id();
+        } else {
+            throw new developer_error('slave is not allowed to insert or replace');
+        }
+    }
+    protected function do_add_many_or_rep_many($method, $table_name, array $keyvalues_list) {
+        if ($this->is_master) {
+            if ($keyvalues_list === [] || $keyvalues_list === array([])) {
+                throw new developer_error("keyvalues_list is [] or array([])");
+            }
+            $columns = [];
+            $keyvalues = $keyvalues_list[0];
+            foreach ($keyvalues as $key => $value) {
+                $columns[] = static::build_field_name($key);
+            }
+            $columns = '(' . implode(', ', $columns) . ')';
+            $values_list = [];
+            foreach ($keyvalues_list as $keyvalues) {
+                $values = [];
+                foreach ($keyvalues as $key => $value) {
+                    $values[] = is_int($value) ? $value : ("'" . $this->escape((string)$value) . "'");
+                }
+                $values_list[] = '(' . implode(', ', $values) . ')';
+            }
+            $values_string = implode(', ', $values_list);
+            $table_name = $this->get_full_table_name($table_name);
+            $sql = $method . " INTO {$table_name} {$columns} VALUES {$values_string}";
+            $this->execute($sql);
+            return $this->insert_id();
+        } else {
+            throw new developer_error('slave is not allowed to insert or replace');
+        }
+    }
+    protected function execute($sql) {
+        if ($this->is_master) {
+            $result = $this->conn->execute($sql);
+            if (framework::is_debug()) {
+                debug::save('rdb', $sql);
+            }
+            if (!$result) {
+                throw new server_except("execute error: " . $this->conn->last_error() . " sql: {$sql}");
+            }
+        } else {
+            throw new developer_error('slave is not allowed to execute');
+        }
+    }
+    protected function insert_id() {
+        if ($this->is_master) {
+            return $this->conn->insert_id();
+        } else {
+            throw new developer_error('slave is not allowed to insert');
+        }
+        return $this->conn->insert_id();
+    }
+    protected function affected_rows() {
+        if ($this->is_master) {
+            return $this->conn->affected_rows();
+        } else {
+            throw new developer_error('slave is not allowed to execute');
+        }
+    }
+    protected function query_and_fetch_records($sql, $index_by_id) {
+        $result = $this->conn->select($sql);
+        if (framework::is_debug()) {
+            debug::save('rdb', $sql);
+        }
+        if ($result === false) {
+            throw new server_except("select error: " . $this->conn->last_error() . " sql: {$sql}");
+        }
+        $records = [];
+        if ($index_by_id) {
+            while (($record = $result->fetch_record()) !== null) {
+                $records[(int)$record['id']] = $record;
+            }
+        } else {
+            while (($record = $result->fetch_record()) !== null) {
+                $records[] = $record;
+            }
+        }
+        $result->free();
+        return $records;
     }
     protected function get_first_record($records) {
         if ($records === []) {
@@ -576,26 +1007,68 @@ abstract class rdb_node {
         }
         return array_shift($records);
     }
-    protected $conn = null;
-}
-// [实体] 关系数据库节点池
-class rdb_node_pool {
-    public static function get_rdb_node($node_mode, $dsn) {
-        static $rdb_nodes = array(
-            'master' => [],
-            'slave' => [],
-        );
-        if (!isset($rdb_nodes[$node_mode][$dsn])) {
-            list($rdb_type, $rdb_conn) = rdb_conn_pool::get_rdb_type_and_conn_from_dsn($dsn);
-            $rdb_node_class = 'swap\\' . $rdb_type . '_' . $node_mode . '_rdb_node';
-            $rdb_node = new $rdb_node_class($rdb_conn);
-            $rdb_nodes[$node_mode][$dsn] = $rdb_node;
-        }
-        return $rdb_nodes[$node_mode][$dsn];
+    protected function get_full_table_name($table_name) {
+        return static::build_table_name($table_name);
     }
-}
-// [实体] 关系数据库节点工具
-abstract class /* @swap */ rdb_node_util {
+    protected function escape($value) {
+        return $this->conn->escape($value);
+    }
+    protected $conn = null;
+    protected $is_master = true;
+    
+    public static function build_field_name_list(array $field_names) {
+        if ($field_names === []) {
+            throw new developer_error("field_names is []");
+        }
+        $field_name_list = array(static::build_field_name('id'));
+        foreach ($field_names as $field_name) {
+            if (!is_string($field_name)) {
+                throw new developer_error('field names should be array of string');
+            } else {
+                $field_name = strtolower($field_name);
+                if ($field_name === 'id') {
+                    continue;
+                }
+            }
+            $field_name_list[] = static::build_field_name($field_name);
+        }
+        return implode(', ', $field_name_list);
+    }
+    public static function build_inc_dec_list(array $keyvalues, $operator) {
+        if ($keyvalues === []) {
+            throw new developer_error("keyvalues is []");
+        }
+        $list = [];
+        foreach ($keyvalues as $key => $value) {
+            $value = (int)$value;
+            $field_name = static::build_field_name($key);
+            $list[] = $field_name . ' = ' . $field_name . " {$operator} {$value}";
+        }
+        return implode(', ', $list);
+    }
+    public static function build_order_limit_sql(array $order_limit) {
+        if (count($order_limit) !== 3) {
+            throw new developer_error('$order_limit should have three values');
+        }
+        list($order_by, $page, $page_size) = $order_limit;
+        $order_by_sql = '';
+        if ($order_by !== []) {
+            $orders = [];
+            foreach ($order_by as $field_name => $order) {
+                $field_name = static::build_field_name($field_name);
+                $orders[] = "{$field_name} " . strtoupper($order);
+            }
+            $order_by_sql .= ' ORDER BY ' . implode(', ', $orders);
+        }
+        $limit_sql = '';
+        if ($page_size !== 0) {
+            if ($page < 1) {
+                $page = 1;
+            }
+            $begin_offset = ($page - 1) * $page_size;
+            $limit_sql .= ' ' . static::get_limit_sql($page_size, $begin_offset);
+        }
+    }
     public static function check_order_limit(array &$order_limit, $record_count) {
         if ($order_limit[1] < 1) {
             $order_limit[1] = 1;
@@ -617,6 +1090,23 @@ abstract class /* @swap */ rdb_node_util {
     }
     public static function localize_where($where) {
         return $where;
+    }
+
+}
+// [实体] 关系数据库节点池
+class rdb_node_pool {
+    public static function get_rdb_node($node_mode, $dsn) {
+        static $rdb_nodes = array(
+            'master' => [],
+            'slave' => [],
+        );
+        if (!isset($rdb_nodes[$node_mode][$dsn])) {
+            list($rdb_type, $rdb_conn) = rdb_conn_pool::get_rdb_type_and_conn_from_dsn($dsn);
+            $rdb_node_class = 'swap\\' . $rdb_type . '_' . $node_mode . '_rdb_node';
+            $rdb_node = new $rdb_node_class($rdb_conn, $node_mode === 'master');
+            $rdb_nodes[$node_mode][$dsn] = $rdb_node;
+        }
+        return $rdb_nodes[$node_mode][$dsn];
     }
 }
 // [类型] 关系数据库连接

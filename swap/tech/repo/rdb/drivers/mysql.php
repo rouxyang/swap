@@ -19,10 +19,10 @@ class /* @swap */ mysql_rdb_conn extends rdb_conn {
         // @todo: On failure, this call will hang.
         $conn = mysqli_connect($host, $user, $pass, $name, $port);
         if ($conn === false) {
-            throw new remote_except("cannot connect to database: {$dsn}");
+            throw new server_except("cannot connect to database: {$dsn}");
         }
         if (!mysqli_set_charset($conn, 'utf8')) {
-            throw new remote_except('cannot set charset to utf8');
+            throw new server_except('cannot set charset to utf8');
         }
         $this->conn = $conn;
     }
@@ -42,7 +42,7 @@ class /* @swap */ mysql_rdb_conn extends rdb_conn {
     public function affected_rows() {
         $affected_rows = mysqli_affected_rows($this->conn);
         if ($affected_rows === -1) {
-            throw new remote_except('last execute statement error, cannot get affected rows');
+            throw new server_except('last execute statement error, cannot get affected rows');
         }
         return $affected_rows;
     }
@@ -51,19 +51,19 @@ class /* @swap */ mysql_rdb_conn extends rdb_conn {
     }
     public function begin() {
         if (!mysqli_autocommit($this->conn, false)) {
-            throw new remote_except('cannot begin transaction');
+            throw new server_except('cannot begin transaction');
         }
     }
     public function commit() {
         if (mysqli_commit($this->conn)) {
             mysqli_autocommit($this->conn, true);
         } else {
-            throw new remote_except('cannot commit transaction');
+            throw new server_except('cannot commit transaction');
         }
     }
     public function rollback() {
         if (!mysqli_rollback($this->conn)) {
-            throw new remote_except('cannot rollback transaction');
+            throw new server_except('cannot rollback transaction');
         }
     }
     public function last_error() {

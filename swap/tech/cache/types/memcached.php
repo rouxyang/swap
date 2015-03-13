@@ -18,7 +18,7 @@ class /* @swap */ memcached_cache extends cache {
         foreach ($dsns as $dsn) {
             $url_parts = parse_url($dsn);
             if (!$memcache->addServer($url_parts['host'], $url_parts['port'])) {
-                throw new remote_except("cannot connect to dsn: '{$dsn}'");
+                throw new server_except("cannot connect to dsn: '{$dsn}'");
             }
         }
         $this->memcache = $memcache;

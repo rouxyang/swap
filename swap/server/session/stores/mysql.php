@@ -17,10 +17,10 @@ class /* @swap */ mysql_session_store extends session_store {
         list($name, $table_name) = explode('/', substr($path, 1));
         $conn = mysqli_connect($host, $user, $pass, $name, $port);
         if ($conn === false) {
-            throw new remote_except("cannot connect to dsn '{$dsn}'");
+            throw new server_except("cannot connect to dsn '{$dsn}'");
         }
         if (!mysqli_set_charset($conn, 'utf8')) {
-            throw new remote_except('cannot set charset to utf8');
+            throw new server_except('cannot set charset to utf8');
         }
         $this->conn = $conn;
         $this->table_name = $table_name;
@@ -33,7 +33,7 @@ class /* @swap */ mysql_session_store extends session_store {
             debug::save('session', $sql);
         }
         if ($result === false) {
-            throw new remote_except("except: {$sql}");
+            throw new server_except("except: {$sql}");
         }
         return mysqli_num_rows($result) !== 0;
     }
@@ -45,7 +45,7 @@ class /* @swap */ mysql_session_store extends session_store {
             debug::save('session', $sql);
         }
         if ($result === false) {
-            throw new remote_except("except: {$sql}");
+            throw new server_except("except: {$sql}");
         }
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {
@@ -70,7 +70,7 @@ class /* @swap */ mysql_session_store extends session_store {
             debug::save('session', $sql);
         }
         if ($result === false) {
-            throw new remote_except("except: {$sql}");
+            throw new server_except("except: {$sql}");
         }
         $num_rows = mysqli_num_rows($result);
         if ($num_rows === 0) {
@@ -111,7 +111,7 @@ class /* @swap */ mysql_session_store extends session_store {
             debug::save('session', $sql);
         }
         if ($result === false) {
-            throw new remote_except("except: {$sql}");
+            throw new server_except("except: {$sql}");
         }
     }
     protected $conn = null;

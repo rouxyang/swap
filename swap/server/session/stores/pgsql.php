@@ -21,10 +21,10 @@ class /* @swap */ pgsql_session_store extends session_store {
         }
         $conn = pg_connect("host={$host} port={$port} user={$user} password={$pass} dbname={$name}");
         if ($conn === false) {
-            throw new remote_except("cannot connect to dsn '{$dsn}'");
+            throw new server_except("cannot connect to dsn '{$dsn}'");
         }
         if (pg_set_client_encoding($conn, 'UTF8') === -1) {
-            throw new remote_except('cannot set charset to utf8');
+            throw new server_except('cannot set charset to utf8');
         }
         $this->conn = $conn;
         $this->table_name = $table_name;
@@ -37,7 +37,7 @@ class /* @swap */ pgsql_session_store extends session_store {
             debug::save('session', $sql);
         }
         if ($result === false) {
-            throw new remote_except("except: {$sql}");
+            throw new server_except("except: {$sql}");
         }
         $num_rows = pg_num_rows($result);
         return $num_rows !== -1 && $num_rows !== 0;
@@ -62,7 +62,7 @@ class /* @swap */ pgsql_session_store extends session_store {
             debug::save('session', $sql);
         }
         if ($result === false) {
-            throw new remote_except("except: {$sql}");
+            throw new server_except("except: {$sql}");
         }
         $num_rows = pg_num_rows($result);
         if ($num_rows === -1) {
@@ -106,7 +106,7 @@ class /* @swap */ pgsql_session_store extends session_store {
             debug::save('session', $sql);
         }
         if ($result === false) {
-            throw new remote_except("except: {$sql}");
+            throw new server_except("except: {$sql}");
         }
     }
     protected $conn = null;

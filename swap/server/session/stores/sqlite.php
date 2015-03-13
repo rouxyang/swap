@@ -23,7 +23,7 @@ class /* @swap */ sqlite_session_store extends session_store {
         try {
             $conn = new SQLite3($db_file);
         } catch (Exception $e) {
-            throw new local_except("cannot connecto to dsn '{$dsn}'");
+            throw new server_except("cannot connecto to dsn '{$dsn}'");
         }
         $this->conn = $conn;
         $this->table_name = $table_name;
@@ -36,7 +36,7 @@ class /* @swap */ sqlite_session_store extends session_store {
             debug::save('session', $sql);
         }
         if ($result === false) {
-            throw new local_except("except: {$sql}");
+            throw new server_except("except: {$sql}");
         }
         return $this->result_num_rows($result) !== 0;
     }
@@ -47,7 +47,7 @@ class /* @swap */ sqlite_session_store extends session_store {
             debug::save('session', $sql);
         }
         if ($result === false) {
-            throw new local_except("except: {$sql}");
+            throw new server_except("except: {$sql}");
         }
         if ($this->result_num_rows($result) !== 1) {
             throw new developer_error("fatal error: select count(*) error");
@@ -71,7 +71,7 @@ class /* @swap */ sqlite_session_store extends session_store {
             debug::save('session', $sql);
         }
         if ($result === false) {
-            throw new local_except("except: {$sql}");
+            throw new server_except("except: {$sql}");
         }
         $num_rows = $this->result_num_rows($result);
         if ($num_rows === 0) {
@@ -112,7 +112,7 @@ class /* @swap */ sqlite_session_store extends session_store {
             debug::save('session', $sql);
         }
         if ($result === false) {
-            throw new local_except("except: {$sql}");
+            throw new server_except("except: {$sql}");
         }
     }
     protected function result_num_rows(SQLite3Result $result) {

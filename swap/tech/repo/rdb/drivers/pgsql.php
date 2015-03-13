@@ -19,10 +19,10 @@ class /* @swap */ pgsql_rdb_conn extends rdb_conn {
         }
         $conn = pg_connect($conn_str);
         if ($conn === false) {
-            throw new remote_except("cannot connect to database: {$dsn}");
+            throw new server_except("cannot connect to database: {$dsn}");
         }
         if (pg_set_client_encoding($conn, 'UTF8') !== 0) {
-            throw new remote_except('cannot set charset to utf8');
+            throw new server_except('cannot set charset to utf8');
         }
         $this->conn = conn;
     }

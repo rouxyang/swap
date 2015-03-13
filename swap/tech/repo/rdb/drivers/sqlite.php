@@ -17,7 +17,7 @@ class /* @swap */ sqlite_rdb_conn extends rdb_conn {
             $conn = new SQLite3($db_file);
             $this->conn = $conn;
         } catch (Exception $e) {
-            throw new local_except("cannot connect to database: {$dsn}");
+            throw new server_except("cannot connect to database: {$dsn}");
         }
     }
     public function select($sql) {
