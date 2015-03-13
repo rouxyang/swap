@@ -83,6 +83,7 @@ interface rdb_api {
 }
 // [实体] 关系数据库
 class rdb implements rdb_api {
+    // 检索
     public static function get($table_name, array $keyvalues, array $order_limit = array([], 0, 0), $use_master = false) {
         $rdb_node = $use_master ? static::get_master_rdb_node_from_table_name($table_name) : static::get_slave_rdb_node_from_table_name($table_name);
         return $rdb_node->get($table_name, $keyvalues, $order_limit);
@@ -216,6 +217,7 @@ class rdb implements rdb_api {
         return $rdb_node->select_one($sql, $args);
     }
     
+    // 修改
     public static function set($table_name, array $keyvalues, array $conditions) {
         return static::get_master_rdb_node_from_table_name($table_name)->set($table_name, $keyvalues, $conditions);
     }
@@ -238,6 +240,7 @@ class rdb implements rdb_api {
         return static::get_master_rdb_node_from_source_name($source_name)->update($sql, $args);
     }
     
+    // 添加
     public static function add($table_name, array $keyvalues) {
         return static::get_master_rdb_node_from_table_name($table_name)->add($table_name, $keyvalues);
     }
@@ -251,6 +254,7 @@ class rdb implements rdb_api {
         return static::get_master_rdb_node_from_source_name($source_name)->insert($sql, $args);
     }
     
+    // 删除
     public static function del($table_name, array $keyvalues) {
         return static::get_master_rdb_node_from_table_name($table_name)->del($table_name, $keyvalues);
     }
@@ -270,6 +274,7 @@ class rdb implements rdb_api {
         return static::get_master_rdb_node_from_source_name($source_name)->delete($sql, $args);
     }
     
+    // 替换
     public static function rep($table_name, array $keyvalues) {
         return static::get_master_rdb_node_from_table_name($table_name)->rep($table_name, $keyvalues);
     }
@@ -283,6 +288,7 @@ class rdb implements rdb_api {
         return static::get_master_rdb_node_from_source_name($source_name)->replace($sql, $args);
     }
     
+    // 加减
     public static function inc($table_name, array $keyvalues, array $conditions) {
         return static::get_master_rdb_node_from_table_name($table_name)->inc($table_name, $keyvalues, $conditions);
     }
@@ -311,6 +317,7 @@ class rdb implements rdb_api {
         return static::get_master_rdb_node_from_table_name($table_name)->dec_by_ids($table_name, $keyvalues, $ids);
     }
     
+    // 事务
     public static function begin($source_name) {
         return static::get_master_rdb_node_from_source_name($source_name)->begin();
     }
@@ -457,20 +464,20 @@ abstract class rdb_node {
     }
     public function count($table_name, array $keyvalues) {
         $count_name = static::build_field_name('count');
-        $table_name = $this->get_full_table_name($table_name);
+        $table_name = static::build_table_name($table_name);
         $conditions = $this->build_equal_list($keyvalues, ' AND ');
         // @todo: optimize using covering index
         return $this->do_count("SELECT COUNT(*) AS {$count_name} FROM {$table_name} WHERE {$conditions}");
     }
     public function count_where($table_name, $where, array $args = []) {
         $count_name = static::build_field_name('count');
-        $table_name = $this->get_full_table_name($table_name);
+        $table_name = static::build_table_name($table_name);
         $conditions = $this->replace_sql_args(static::localize_where($where), $args);
         return $this->do_count("SELECT COUNT(*) AS {$count_name} FROM {$table_name} WHERE {$conditions}");
     }
     public function count_by_ids($table_name, array $ids) {
         $count_name = static::build_field_name('count');
-        $table_name = $this->get_full_table_name($table_name);
+        $table_name = static::build_table_name($table_name);
         $id_name = static::build_field_name('id');
         $id_list = $this->build_value_list($ids);
         // @todo: optimize using covering index
@@ -478,7 +485,7 @@ abstract class rdb_node {
     }
     public function count_in($table_name, $field_name, array $values) {
         $count_name = static::build_field_name('count');
-        $table_name = $this->get_full_table_name($table_name);
+        $table_name = static::build_table_name($table_name);
         $field_name = static::build_field_name($field_name);
         $value_list = $this->build_value_list($values);
         // @todo: optimize using covering index
@@ -486,7 +493,7 @@ abstract class rdb_node {
     }
     public function count_all($table_name) {
         $count_name = static::build_field_name('count');
-        $table_name = $this->get_full_table_name($table_name);
+        $table_name = static::build_table_name($table_name);
         return $this->do_count("SELECT COUNT(*) AS {$count_name} FROM {$table_name}");
     }
     public function select($sql, array $args = []) {
@@ -498,7 +505,7 @@ abstract class rdb_node {
     
     public function set($table_name, array $keyvalues, array $conditions) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = $this->build_equal_list($keyvalues, ', ');
             $conditions = $this->build_equal_list($conditions, ' AND ');
             $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$conditions}";
@@ -510,7 +517,7 @@ abstract class rdb_node {
     }
     public function set_where($table_name, array $keyvalues, $where, array $args = []) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = $this->build_equal_list($keyvalues, ', ');
             $conditions = $this->replace_sql_args(static::localize_where($where), $args);
             $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$conditions}";
@@ -522,7 +529,7 @@ abstract class rdb_node {
     }
     public function set_by_id($table_name, array $keyvalues, $id) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $id_name = static::build_field_name('id');
             $modifies = $this->build_equal_list($keyvalues, ', ');
             $id = (int)$id;
@@ -535,7 +542,7 @@ abstract class rdb_node {
     }
     public function set_by_ids($table_name, array $keyvalues, array $ids) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = $this->build_equal_list($keyvalues, ', ');
             $id_name = static::build_field_name('id');
             $id_list = $this->build_value_list($ids);
@@ -548,7 +555,7 @@ abstract class rdb_node {
     }
     public function set_all($table_name, array $keyvalues) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = $this->build_equal_list($keyvalues, ', ');
             $sql = "UPDATE {$table_name} SET {$modifies}";
             $this->execute($sql);
@@ -590,7 +597,7 @@ abstract class rdb_node {
     
     public function del($table_name, array $keyvalues) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $conditions = $this->build_equal_list($keyvalues, ' AND ');
             $sql = "DELETE FROM {$table_name} WHERE {$conditions}";
             $this->execute($sql);
@@ -601,7 +608,7 @@ abstract class rdb_node {
     }
     public function del_where($table_name, $where, array $args = []) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $conditions = $this->replace_sql_args(static::localize_where($where), $args);
             $sql = "DELETE FROM {$table_name} WHERE {$conditions}";
             $this->execute($sql);
@@ -612,7 +619,7 @@ abstract class rdb_node {
     }
     public function del_by_id($table_name, $id) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $id_name = static::build_field_name('id');
             $id = (int)$id;
             $sql = "DELETE FROM {$table_name} WHERE {$id_name} = {$id}";
@@ -624,7 +631,7 @@ abstract class rdb_node {
     }
     public function del_by_ids($table_name, array $ids) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $id_name = static::build_field_name('id');
             $id_list = $this->build_value_list($ids);
             $sql = "DELETE FROM {$table_name} WHERE {$id_name} IN ({$id_list})";
@@ -655,7 +662,7 @@ abstract class rdb_node {
     
     public function inc($table_name, array $keyvalues, array $conditions) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = static::build_inc_dec_list($keyvalues, '+');
             $conditions = $this->build_equal_list($conditions, ' AND ');
             $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$conditions}";
@@ -667,7 +674,7 @@ abstract class rdb_node {
     }
     public function inc_by_id($table_name, array $keyvalues, $id) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = static::build_inc_dec_list($keyvalues, '+');
             $id_name = static::build_field_name('id');
             $id = (int)$id;
@@ -680,7 +687,7 @@ abstract class rdb_node {
     }
     public function inc_by_ids($table_name, array $keyvalues, array $ids) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = static::build_inc_dec_list($keyvalues, '+');
             $id_name = static::build_field_name('id');
             $id_list = $this->build_value_list($ids);
@@ -693,7 +700,7 @@ abstract class rdb_node {
     }
     public function set_and_inc($table_name, array $sets, array $incs, array $conditions) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = $this->build_equal_list($sets, ', ') . ', ' . static::build_inc_dec_list($incs, '+');
             $conditions = $this->build_equal_list($conditions, ' AND ');
             $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$conditions}";
@@ -705,7 +712,7 @@ abstract class rdb_node {
     }
     public function set_and_inc_by_id($table_name, array $sets, array $incs, $id) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = $this->build_equal_list($sets, ', ') . ', ' . static::build_inc_dec_list($incs, '+');
             $id_name = static::build_field_name('id');
             $id = (int)$id;
@@ -718,7 +725,7 @@ abstract class rdb_node {
     }
     public function set_and_inc_by_ids($table_name, array $sets, array $incs, array $ids) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = $this->build_equal_list($sets, ', ') . ', ' . static::build_inc_dec_list($incs, '+');
             $id_name = static::build_field_name('id');
             $id_list = $this->build_value_list($ids);
@@ -731,7 +738,7 @@ abstract class rdb_node {
     }
     public function dec($table_name, array $keyvalues, array $conditions) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = static::build_inc_dec_list($keyvalues, '-');
             $conditions = $this->build_equal_list($conditions, ' AND ');
             $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$conditions}";
@@ -743,7 +750,7 @@ abstract class rdb_node {
     }
     public function dec_by_id($table_name, array $keyvalues, $id) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = static::build_inc_dec_list($keyvalues, '-');
             $id_name = static::build_field_name('id');
             $id = (int)$id;
@@ -756,7 +763,7 @@ abstract class rdb_node {
     }
     public function dec_by_ids($table_name, array $keyvalues, array $ids) {
         if ($this->is_master) {
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $modifies = static::build_inc_dec_list($keyvalues, '-');
             $id_name = static::build_field_name('id');
             $id_list = $this->build_value_list($ids);
@@ -795,77 +802,29 @@ abstract class rdb_node {
         $this->is_master = $is_master;
     }
     
-    public function build_value_list(array $values) {
-        if ($values === []) {
-            throw new developer_error("values is []");
-        }
-        foreach ($values as $key => $value) {
-            if (!is_int($value)) {
-                $values[$key] = "'" . $this->escape((string)$value) . "'";
-            }
-        }
-        return implode(', ', $values);
-    }
-    public function build_equal_list(array $keyvalues, $separator) {
-        if ($keyvalues === []) {
-            throw new developer_error("keyvalues is []");
-        }
-        $equal_list = [];
-        foreach ($keyvalues as $key => $value) {
-            $equal = static::build_field_name($key) . ' = ';
-            if (is_int($value)) {
-                $equal .= $value;
-            } else {
-                $equal .= "'" . $this->escape((string)$value) . "'";
-            }
-            $equal_list[] = $equal;
-        }
-        return implode($separator, $equal_list);
-    }
-    public function replace_sql_args($sql, array $args) {
-        $begin_pos = 0;
-        foreach ($args as $arg) {
-            if (is_null($arg)) {
-                $replace_str = 'NULL';
-            } else if (is_string($arg)) {
-                $replace_str = '\'' . $this->escape($arg) . '\'';
-            } else {
-                $replace_str = $arg;
-            }
-            $pos_step = strlen($replace_str);
-            $replace_pos = strpos($sql, '?', $begin_pos);
-            if ($replace_pos === false) {
-                throw new developer_error("the number of args is not equal to the number of '?' in sql: {$sql}");
-            }
-            $sql = substr_replace($sql, $replace_str, $replace_pos, 1);
-            $begin_pos = $replace_pos + $pos_step;
-        }
-        return $sql;
-    }
-    
     protected function do_get($field_name_list, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
-        $table_name = $this->get_full_table_name($table_name);
+        $table_name = static::build_table_name($table_name);
         $conditions = $this->build_equal_list($keyvalues, ' AND ');
         return $this->query_and_fetch_records("SELECT {$field_name_list} FROM {$table_name} WHERE {$conditions}" . static::build_order_limit_sql($order_limit), true);
     }
     protected function do_get_where($field_name_list, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
-        $table_name = $this->get_full_table_name($table_name);
+        $table_name = static::build_table_name($table_name);
         $conditions = $this->replace_sql_args(static::localize_where($where), $args);
         return $this->query_and_fetch_records("SELECT {$field_name_list} FROM {$table_name} WHERE {$conditions}" . static::build_order_limit_sql($order_limit), true);
     }
     protected function do_get_by_id($field_name_list, $table_name, $id) {
-        $table_name = $this->get_full_table_name($table_name);
+        $table_name = static::build_table_name($table_name);
         $id_name = static::build_field_name('id');
         return $this->select_one("SELECT {$field_name_list} FROM {$table_name} WHERE {$id_name} = ?", array((int)$id));
     }
     protected function do_get_in($field_name_list, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
-        $table_name = $this->get_full_table_name($table_name);
+        $table_name = static::build_table_name($table_name);
         $field_name = static::build_field_name($field_name);
         $value_list = $this->build_value_list($values);
         return $this->query_and_fetch_records("SELECT {$field_name_list} FROM {$table_name} WHERE {$field_name} IN ({$value_list})" . static::build_order_limit_sql($order_limit), true);
     }
     protected function do_get_all($field_name_list, $table_name, array $order_limit = array([], 0, 0)) {
-        $table_name = $this->get_full_table_name($table_name);
+        $table_name = static::build_table_name($table_name);
         return $this->query_and_fetch_records("SELECT {$field_name_list} FROM {$table_name}" . static::build_order_limit_sql($order_limit), true);
     }
     protected function do_pager($record_count, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
@@ -916,7 +875,7 @@ abstract class rdb_node {
             }
             $columns = '(' . implode(', ', $columns) . ')';
             $values  = '(' . implode(', ', $values) . ')';
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $sql = $method . " INTO {$table_name} {$columns} VALUES {$values}";
             $this->execute($sql);
             return $this->insert_id();
@@ -944,7 +903,7 @@ abstract class rdb_node {
                 $values_list[] = '(' . implode(', ', $values) . ')';
             }
             $values_string = implode(', ', $values_list);
-            $table_name = $this->get_full_table_name($table_name);
+            $table_name = static::build_table_name($table_name);
             $sql = $method . " INTO {$table_name} {$columns} VALUES {$values_string}";
             $this->execute($sql);
             return $this->insert_id();
@@ -971,7 +930,6 @@ abstract class rdb_node {
         } else {
             throw new developer_error('slave is not allowed to insert');
         }
-        return $this->conn->insert_id();
     }
     protected function affected_rows() {
         if ($this->is_master) {
@@ -1007,16 +965,60 @@ abstract class rdb_node {
         }
         return array_shift($records);
     }
-    protected function get_full_table_name($table_name) {
-        return static::build_table_name($table_name);
-    }
     protected function escape($value) {
         return $this->conn->escape($value);
+    }
+    protected function build_value_list(array $values) {
+        if ($values === []) {
+            throw new developer_error("values is []");
+        }
+        foreach ($values as $key => $value) {
+            if (!is_int($value)) {
+                $values[$key] = "'" . $this->escape((string)$value) . "'";
+            }
+        }
+        return implode(', ', $values);
+    }
+    protected function build_equal_list(array $keyvalues, $separator) {
+        if ($keyvalues === []) {
+            throw new developer_error("keyvalues is []");
+        }
+        $equal_list = [];
+        foreach ($keyvalues as $key => $value) {
+            $equal = static::build_field_name($key) . ' = ';
+            if (is_int($value)) {
+                $equal .= $value;
+            } else {
+                $equal .= "'" . $this->escape((string)$value) . "'";
+            }
+            $equal_list[] = $equal;
+        }
+        return implode($separator, $equal_list);
+    }
+    protected function replace_sql_args($sql, array $args) {
+        $begin_pos = 0;
+        foreach ($args as $arg) {
+            if (is_null($arg)) {
+                $replace_str = 'NULL';
+            } else if (is_string($arg)) {
+                $replace_str = '\'' . $this->escape($arg) . '\'';
+            } else {
+                $replace_str = $arg;
+            }
+            $pos_step = strlen($replace_str);
+            $replace_pos = strpos($sql, '?', $begin_pos);
+            if ($replace_pos === false) {
+                throw new developer_error("the number of args is not equal to the number of '?' in sql: {$sql}");
+            }
+            $sql = substr_replace($sql, $replace_str, $replace_pos, 1);
+            $begin_pos = $replace_pos + $pos_step;
+        }
+        return $sql;
     }
     protected $conn = null;
     protected $is_master = true;
     
-    public static function build_field_name_list(array $field_names) {
+    protected static function build_field_name_list(array $field_names) {
         if ($field_names === []) {
             throw new developer_error("field_names is []");
         }
@@ -1034,7 +1036,7 @@ abstract class rdb_node {
         }
         return implode(', ', $field_name_list);
     }
-    public static function build_inc_dec_list(array $keyvalues, $operator) {
+    protected static function build_inc_dec_list(array $keyvalues, $operator) {
         if ($keyvalues === []) {
             throw new developer_error("keyvalues is []");
         }
@@ -1046,7 +1048,7 @@ abstract class rdb_node {
         }
         return implode(', ', $list);
     }
-    public static function build_order_limit_sql(array $order_limit) {
+    protected static function build_order_limit_sql(array $order_limit) {
         if (count($order_limit) !== 3) {
             throw new developer_error('$order_limit should have three values');
         }
@@ -1068,13 +1070,14 @@ abstract class rdb_node {
             $begin_offset = ($page - 1) * $page_size;
             $limit_sql .= ' ' . static::get_limit_sql($page_size, $begin_offset);
         }
+        return $order_by_sql . $limit_sql;
     }
-    public static function check_order_limit(array &$order_limit, $record_count) {
+    protected static function check_order_limit(array &$order_limit, $record_count) {
         if ($order_limit[1] < 1) {
             $order_limit[1] = 1;
         }
     }
-    public static function build_pager_data($record_count, array $order_limit = array([], 0, 0)) {
+    protected static function build_pager_data($record_count, array $order_limit = array([], 0, 0)) {
         $page_size = $order_limit[2];
         if ($page_size === 0) {
             throw new developer_error('page_size cannot be zero');
@@ -1088,7 +1091,7 @@ abstract class rdb_node {
         }
         return array('record_count' => $record_count, 'page_count' => $page_count, 'current_page' => $current_page, 'page_size' => $page_size);
     }
-    public static function localize_where($where) {
+    protected static function localize_where($where) {
         return $where;
     }
 
