@@ -15,15 +15,15 @@ class /* @swap */ pgsql_session_store extends session_store {
         $url_parts = parse_url($dsn);
         extract($url_parts, EXTR_SKIP);
         list($name, $table_name) = explode('/', substr($path, 1));
-        $port = (int)$port;
-        foreach (array('host', 'user', 'pass', 'name') as $key) {
-            ${$key} = "'" . addslashes(${$key}) . "'";
+        $conn_str = "host={$host} port={$port} dbname={$name} user={$user} connect_timeout=8";
+        if (isset($pass)) {
+            $conn_str .= " password={$pass}";
         }
-        $conn = pg_connect("host={$host} port={$port} user={$user} password={$pass} dbname={$name}");
+        $conn = pg_connect($conn_str);
         if ($conn === false) {
             throw new server_except("cannot connect to dsn '{$dsn}'");
         }
-        if (pg_set_client_encoding($conn, 'UTF8') === -1) {
+        if (pg_set_client_encoding($conn, 'UTF8') !== 0) {
             throw new server_except('cannot set charset to utf8');
         }
         $this->conn = $conn;
@@ -55,7 +55,7 @@ class /* @swap */ pgsql_session_store extends session_store {
         }
     }
     public function fetch($sid) {
-        $sid = addslashes($sid);
+        $sid = pg_escape_string($this->conn, $sid);
         $sql = "SELECT * FROM \"{$this->table_name}\" WHERE \"sid\" = '{$sid}'";
         $result = pg_query($this->conn, $sql);
         if (framework::is_debug()) {
@@ -84,19 +84,19 @@ class /* @swap */ pgsql_session_store extends session_store {
         );
     }
     public function modify($sid, $expire_time, $last_active, $role_id, $role_secret, array $role_vars) {
-        $role_vars = addslashes(serialize($role_vars));
-        $sid = addslashes($sid);
+        $role_vars = pg_escape_string($this->conn, serialize($role_vars));
+        $sid = pg_escape_string($this->conn, $sid);
         $sql = "UPDATE \"{$this->table_name}\" SET \"expire_time\" = {$expire_time}, \"last_active\" = {$last_active}, \"role_id\" = {$role_id}, \"role_secret\" = '{$role_secret}', \"role_vars\" = '{$role_vars}' WHERE \"sid\" = '{$sid}'";
         $this->execute($sql);
     }
     public function create($sid, $expire_time, $last_active, $role_id, $role_secret, array $role_vars) {
-        $role_vars = addslashes(serialize($role_vars));
-        $sid = addslashes($sid);
+        $role_vars = pg_escape_string($this->conn, serialize($role_vars));
+        $sid = pg_escape_string($this->conn, $sid);
         $sql = "INSERT INTO \"{$this->table_name}\" VALUES (NULL, '{$sid}', {$expire_time}, {$last_active}, {$role_id}, '{$role_secret}', '{$role_vars}')";
         $this->execute($sql);
     }
     public function remove($sid) {
-        $sid = addslashes($sid);
+        $sid = pg_escape_string($this->conn, $sid);
         $sql = "DELETE FROM \"{$this->table_name}\" WHERE \"sid\" = '{$sid}'";
         $this->execute($sql);
     }

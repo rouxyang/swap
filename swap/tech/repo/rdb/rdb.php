@@ -472,7 +472,7 @@ abstract class rdb_node {
     public function count_where($table_name, $where, array $args = []) {
         $count_name = static::build_field_name('count');
         $table_name = static::build_table_name($table_name);
-        $conditions = $this->replace_sql_args(static::localize_where($where), $args);
+        $conditions = $this->replace_sql_args($where, $args);
         return $this->do_count("SELECT COUNT(*) AS {$count_name} FROM {$table_name} WHERE {$conditions}");
     }
     public function count_by_ids($table_name, array $ids) {
@@ -519,7 +519,7 @@ abstract class rdb_node {
         if ($this->is_master) {
             $table_name = static::build_table_name($table_name);
             $modifies = $this->build_equal_list($keyvalues, ', ');
-            $conditions = $this->replace_sql_args(static::localize_where($where), $args);
+            $conditions = $this->replace_sql_args($where, $args);
             $sql = "UPDATE {$table_name} SET {$modifies} WHERE {$conditions}";
             $this->execute($sql);
             return $this->affected_rows();
@@ -609,7 +609,7 @@ abstract class rdb_node {
     public function del_where($table_name, $where, array $args = []) {
         if ($this->is_master) {
             $table_name = static::build_table_name($table_name);
-            $conditions = $this->replace_sql_args(static::localize_where($where), $args);
+            $conditions = $this->replace_sql_args($where, $args);
             $sql = "DELETE FROM {$table_name} WHERE {$conditions}";
             $this->execute($sql);
             return $this->affected_rows();
@@ -809,7 +809,7 @@ abstract class rdb_node {
     }
     protected function do_get_where($field_name_list, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
         $table_name = static::build_table_name($table_name);
-        $conditions = $this->replace_sql_args(static::localize_where($where), $args);
+        $conditions = $this->replace_sql_args($where, $args);
         return $this->query_and_fetch_records("SELECT {$field_name_list} FROM {$table_name} WHERE {$conditions}" . static::build_order_limit_sql($order_limit), true);
     }
     protected function do_get_by_id($field_name_list, $table_name, $id) {
@@ -828,23 +828,18 @@ abstract class rdb_node {
         return $this->query_and_fetch_records("SELECT {$field_name_list} FROM {$table_name}" . static::build_order_limit_sql($order_limit), true);
     }
     protected function do_pager($record_count, $table_name, array $keyvalues, array $order_limit = array([], 0, 0)) {
-        static::check_order_limit($order_limit, $record_count);
         return array(static::build_pager_data($record_count, $order_limit), $this->get($table_name, $keyvalues, $order_limit));
     }
     protected function do_pager_where($record_count, $table_name, $where, array $args = [], array $order_limit = array([], 0, 0)) {
-        static::check_order_limit($order_limit, $record_count);
         return array(static::build_pager_data($record_count, $order_limit), $this->get_where($table_name, $where, $args, $order_limit));
     }
     protected function do_pager_by_ids($record_count, $table_name, array $ids, array $order_limit = array([], 0, 0)) {
-        static::check_order_limit($order_limit, $record_count);
         return array(static::build_pager_data($record_count, $order_limit), $this->get_by_ids($table_name, $ids, $order_limit));
     }
     protected function do_pager_in($record_count, $table_name, $field_name, array $values, array $order_limit = array([], 0, 0)) {
-        static::check_order_limit($order_limit, $record_count);
         return array(static::build_pager_data($record_count, $order_limit), $this->get_in($table_name, $field_name, $values, $order_limit));
     }
     protected function do_pager_all($record_count, $table_name, array $order_limit = array([], 0, 0)) {
-        static::check_order_limit($order_limit, $record_count);
         return array(static::build_pager_data($record_count, $order_limit), $this->get_all($table_name, $order_limit));
     }
     protected function do_count($sql) {
@@ -871,7 +866,7 @@ abstract class rdb_node {
             $values  = [];
             foreach ($keyvalues as $key => $value) {
                 $columns[] = static::build_field_name($key);
-                $values[]  = is_int($value) ? $value : ("'" . $this->escape((string)$value) . "'");
+                $values[]  = is_int($value) || is_float($value) ? $value : ("'" . $this->escape((string)$value) . "'");
             }
             $columns = '(' . implode(', ', $columns) . ')';
             $values  = '(' . implode(', ', $values) . ')';
@@ -973,7 +968,7 @@ abstract class rdb_node {
             throw new developer_error("values is []");
         }
         foreach ($values as $key => $value) {
-            if (!is_int($value)) {
+            if (!is_int($value) && !is_float($value)) {
                 $values[$key] = "'" . $this->escape((string)$value) . "'";
             }
         }
@@ -986,8 +981,10 @@ abstract class rdb_node {
         $equal_list = [];
         foreach ($keyvalues as $key => $value) {
             $equal = static::build_field_name($key) . ' = ';
-            if (is_int($value)) {
-                $equal .= $value;
+            if (is_int($value) || is_float($value)) {
+                $equal .= (string)$value;
+            } else if ($value === null) {
+                $equal .= 'NULL';
             } else {
                 $equal .= "'" . $this->escape((string)$value) . "'";
             }
@@ -1001,9 +998,9 @@ abstract class rdb_node {
             if (is_null($arg)) {
                 $replace_str = 'NULL';
             } else if (is_string($arg)) {
-                $replace_str = '\'' . $this->escape($arg) . '\'';
+                $replace_str = "'" . $this->escape($arg) . "'";
             } else {
-                $replace_str = $arg;
+                $replace_str = (string)$arg;
             }
             $pos_step = strlen($replace_str);
             $replace_pos = strpos($sql, '?', $begin_pos);
@@ -1072,11 +1069,6 @@ abstract class rdb_node {
         }
         return $order_by_sql . $limit_sql;
     }
-    protected static function check_order_limit(array &$order_limit, $record_count) {
-        if ($order_limit[1] < 1) {
-            $order_limit[1] = 1;
-        }
-    }
     protected static function build_pager_data($record_count, array $order_limit = array([], 0, 0)) {
         $page_size = $order_limit[2];
         if ($page_size === 0) {
@@ -1091,10 +1083,6 @@ abstract class rdb_node {
         }
         return array('record_count' => $record_count, 'page_count' => $page_count, 'current_page' => $current_page, 'page_size' => $page_size);
     }
-    protected static function localize_where($where) {
-        return $where;
-    }
-
 }
 // [实体] 关系数据库节点池
 class rdb_node_pool {
