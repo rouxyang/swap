@@ -7,6 +7,12 @@
  */
 namespace swap;
 if (!extension_loaded('mysqli')) throw new environment_error('cannot use mysql_rdb_conn: mysqli extension does not exist');
+// [类型] mysql 关系数据库节点
+abstract class mysql_rdb_node extends rdb_node {}
+// [类型] mysql 关系数据库主节点
+class mysql_master_rdb_node extends mysql_rdb_node {}
+// [类型] mysql 关系数据库从节点
+class mysql_slave_rdb_node extends mysql_rdb_node {}
 // [类型] mysql 关系数据库连接
 class /* @swap */ mysql_rdb_conn extends rdb_conn {
     public function __construct($dsn) {

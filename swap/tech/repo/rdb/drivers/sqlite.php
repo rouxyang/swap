@@ -9,6 +9,12 @@ namespace swap;
 use SQLite3;
 use Exception;
 if (!extension_loaded('SQLite3')) throw new environment_error('cannot use sqlite_rdb_conn: sqlite3 extension does not exist');
+// [类型] sqlite 关系数据库节点
+abstract class sqlite_rdb_node extends rdb_node {}
+// [类型] sqlite 关系数据库主节点
+class sqlite_master_rdb_node extends sqlite_rdb_node {}
+// [类型] sqlite 关系数据库从节点
+class sqlite_slave_rdb_node extends sqlite_rdb_node {}
 // [类型] sqlite 关系数据库连接
 class /* @swap */ sqlite_rdb_conn extends rdb_conn {
     public function __construct($dsn) {

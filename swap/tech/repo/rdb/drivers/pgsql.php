@@ -7,6 +7,12 @@
  */
 namespace swap;
 if (!extension_loaded('pgsql')) throw new developer_error('cannot use pgsql_rdb_conn: pgsql extension does not exist');
+// [类型] postgresql 关系数据库节点
+abstract class pgsql_rdb_node extends rdb_node {}
+// [类型] postgresql 关系数据库主节点
+class pgsql_master_rdb_node extends pgsql_rdb_node {}
+// [类型] postgresql 关系数据库从节点
+class pgsql_slave_rdb_node extends pgsql_rdb_node {}
 // [类型] postgresql 关系数据库连接
 class /* @swap */ pgsql_rdb_conn extends rdb_conn {
     public function __construct($dsn) {
