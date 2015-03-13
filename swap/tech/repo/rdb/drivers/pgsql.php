@@ -63,25 +63,13 @@ class /* @swap */ pgsql_rdb_conn extends rdb_conn {
         return pg_escape_string($this->conn, $value);
     }
     public function begin() {
-        $result = pg_query($this->conn, 'BEGIN');
-        if ($result === false) {
-            return false;
-        }
-        return pg_result_status($result) === PGSQL_COMMAND_OK;
+        return $this->run_command('BEGIN');
     }
     public function commit() {
-        $result = pg_query($this->conn, 'COMMIT');
-        if ($result === false) {
-            return false;
-        }
-        return pg_result_status($result) === PGSQL_COMMAND_OK;
+        return $this->run_command('COMMIT');
     }
     public function rollback() {
-        $result = pg_query($this->conn, 'ROLLBACK');
-        if ($result === false) {
-            return false;
-        }
-        return pg_result_status($result) === PGSQL_COMMAND_OK;
+        return $this->run_command('ROLLBACK');
     }
     public function last_error() {
         $error = pg_last_error($this->conn);
@@ -89,6 +77,13 @@ class /* @swap */ pgsql_rdb_conn extends rdb_conn {
             $error = '';
         }
         return $error;
+    }
+    protected function run_command($command) {
+        $result = pg_query($this->conn, $command);
+        if ($result === false) {
+            return false;
+        }
+        return pg_result_status($result) === PGSQL_COMMAND_OK;
     }
     protected $conn = null;
     protected $last_execute_result = null;
