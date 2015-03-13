@@ -59,9 +59,6 @@ class /* @swap */ pgsql_rdb_conn extends rdb_conn {
         }
         return pg_affected_rows($this->last_execute_result);
     }
-    public function escape($value) {
-        return pg_escape_string($this->conn, $value);
-    }
     public function begin() {
         return $this->run_command('BEGIN');
     }
@@ -77,6 +74,18 @@ class /* @swap */ pgsql_rdb_conn extends rdb_conn {
             $error = '';
         }
         return $error;
+    }
+    public function escape($value) {
+        return pg_escape_string($this->conn, $value);
+    }
+    public function get_limit_sql($page_size, $begin_offset) {
+        return "LIMIT {$page_size} OFFSET {$begin_offset}";
+    }
+    public function build_table_name($table_name) {
+        return '"' . $table_name . '"';
+    }
+    public function build_field_name($field_name) {
+        return '"' . $field_name . '"';
     }
     protected function run_command($command) {
         $result = pg_query($this->conn, $command);

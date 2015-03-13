@@ -46,9 +46,6 @@ class /* @swap */ mysql_rdb_conn extends rdb_conn {
         }
         return $affected_rows;
     }
-    public function escape($value) {
-        return mysqli_real_escape_string($this->conn, $value);
-    }
     public function begin() {
         if (!mysqli_autocommit($this->conn, false)) {
             throw new server_except('cannot begin transaction');
@@ -68,6 +65,18 @@ class /* @swap */ mysql_rdb_conn extends rdb_conn {
     }
     public function last_error() {
         return mysqli_error($this->conn);
+    }
+    public function escape($value) {
+        return mysqli_real_escape_string($this->conn, $value);
+    }
+    public function get_limit_sql($page_size, $begin_offset) {
+        return "LIMIT {$begin_offset}, {$page_size}";
+    }
+    public function build_table_name($table_name) {
+        return '`' . $table_name . '`';
+    }
+    public function build_field_name($field_name) {
+        return '`' . $field_name . '`';
     }
     protected $conn = null;
 }

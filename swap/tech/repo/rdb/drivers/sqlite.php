@@ -36,9 +36,6 @@ class /* @swap */ sqlite_rdb_conn extends rdb_conn {
     public function affected_rows() {
         return $this->conn->changes();
     }
-    public function escape($value) {
-        return SQLite3::escapeString($value);
-    }
     public function begin() {
     }
     public function commit() {
@@ -47,6 +44,18 @@ class /* @swap */ sqlite_rdb_conn extends rdb_conn {
     }
     public function last_error() {
         return $this->conn->lastErrorMsg();
+    }
+    public function escape($value) {
+        return SQLite3::escapeString($value);
+    }
+    public function get_limit_sql($page_size, $begin_offset) {
+        return "LIMIT {$page_size} OFFSET {$begin_offset}";
+    }
+    public function build_table_name($table_name) {
+        return '`' . $table_name . '`';
+    }
+    public function build_field_name($field_name) {
+        return '`' . $field_name . '`';
     }
     protected $conn = null;
 }

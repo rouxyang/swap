@@ -27,6 +27,7 @@ interface model_api {
     function set_props(array $props);
     function add_props(array $props);
     function save();
+    
     static function get(array $keyvalues, array $order_limit = array([], 0, 0));
     static function get_one(array $keyvalues);
     static function get_where($where, $args = [], array $order_limit = array([], 0, 0));
@@ -34,6 +35,9 @@ interface model_api {
     static function get_by_ids(array $ids, array $order_limit = array([], 0, 0));
     static function get_in($field_name, array $values, array $order_limit = array([], 0, 0));
     static function get_all(array $order_limit = array([], 0, 0));
+    static function fetch($sql, array $args = []);
+    static function fetch_one($sql, array $args = []);
+    
     static function pager(array $keyvalues, array $order_limit = array([], 0, 0));
     static function pager_where($where, array $args = [], array $order_limit = array([], 0, 0));
     static function pager_by_ids(array $ids, array $order_limit = array([], 0, 0));
@@ -44,24 +48,30 @@ interface model_api {
     static function pager_by_ids_with_count($count, array $ids, array $order_limit = array([], 0, 0));
     static function pager_in_with_count($count, $field_name, array $values, array $order_limit = array([], 0, 0));
     static function pager_all_with_count($count, array $order_limit = array([], 0, 0));
+    
     static function count(array $keyvalues);
     static function count_where($where, array $args = []);
     static function count_by_ids(array $ids);
     static function count_in($field_name, array $values);
     static function count_all();
+    
     static function set(array $keyvalues, array $conditions);
     static function set_where(array $keyvalues, $where, array $args = []);
     static function set_by_id(array $keyvalues, $id);
     static function set_by_ids(array $keyvalues, array $ids);
     static function set_all(array $keyvalues);
+    static function modify($sql, array $args = []);
+    
     static function add(array $keyvalues);
     static function add_many(array $keyvalues_list);
+    static function create($sql, array $args = []);
+    
     static function del(array $keyvalues);
     static function del_where($where, array $args = []);
     static function del_by_id($id);
     static function del_by_ids(array $ids);
-    static function rep(array $keyvalues);
-    static function rep_many(array $keyvalues_list);
+    static function remove($sql, array $args = []);
+    
     static function inc(array $keyvalues, array $conditions);
     static function inc_by_id(array $keyvalues, $id);
     static function inc_by_ids(array $keyvalues, array $ids);
@@ -71,12 +81,6 @@ interface model_api {
     static function dec(array $keyvalues, array $conditions);
     static function dec_by_id(array $keyvalues, $id);
     static function dec_by_ids(array $keyvalues, array $ids);
-    static function fetch($sql, array $args = []);
-    static function fetch_one($sql, array $args = []);
-    static function modify($sql, array $args = []);
-    static function create($sql, array $args = []);
-    static function remove($sql, array $args = []);
-    static function change($sql, array $args = []);
 }
 /**
  * [类型] 模型
@@ -149,6 +153,7 @@ abstract class model implements model_api, html_escapable {
             }
         }
     }
+    
     public static function get(array $keyvalues, array $order_limit = array([], 0, 0)) {
         $model_name = self::get_model_name();
         return self::create_models($model_name, rdb::get($model_name, $keyvalues, $order_limit));
@@ -177,6 +182,15 @@ abstract class model implements model_api, html_escapable {
         $model_name = self::get_model_name();
         return self::create_models($model_name, rdb::get_all($model_name, $order_limit));
     }
+    public static function fetch($sql, array $args = []) {
+        $model_name = self::get_model_name();
+        return self::create_models($model_name, rdb::fetch($model_name, $sql, $args));
+    }
+    public static function fetch_one($sql, array $args = []) {
+        $model_name = self::get_model_name();
+        return self::create_model($model_name, rdb::fetch_one($model_name, $sql, $args));
+    }
+    
     public static function pager(array $keyvalues, array $order_limit = array([], 0, 0)) {
         $model_name = self::get_model_name();
         list($pager, $records) = rdb::pager($model_name, $keyvalues, $order_limit);
@@ -227,6 +241,7 @@ abstract class model implements model_api, html_escapable {
         list($pager, $records) = rdb::pager_all_with_count($count, $model_name, $order_limit);
         return array($pager, self::create_models($model_name, $records));
     }
+    
     public static function count(array $keyvalues) {
         return rdb::count(self::get_model_name(), $keyvalues);
     }
@@ -242,6 +257,7 @@ abstract class model implements model_api, html_escapable {
     public static function count_all() {
         return rdb::count_all(self::get_model_name());
     }
+    
     public static function set(array $keyvalues, array $conditions) {
         return rdb::set(self::get_model_name(), $keyvalues, $conditions);
     }
@@ -257,12 +273,20 @@ abstract class model implements model_api, html_escapable {
     public static function set_all(array $keyvalues) {
         return rdb::set_all(self::get_model_name(), $keyvalues);
     }
+    public static function modify($sql, array $args = []) {
+        return rdb::modify(self::get_model_name(), $sql, $args);
+    }
+    
     public static function add(array $keyvalues) {
         return rdb::add(self::get_model_name(), $keyvalues);
     }
     public static function add_many(array $keyvalues_list) {
         return rdb::add_many(self::get_model_name(), $keyvalues_list);
     }
+    public static function create($sql, array $args = []) {
+        return rdb::create(self::get_model_name(), $sql, $args);
+    }
+    
     public static function del(array $keyvalues) {
         return rdb::del(self::get_model_name(), $keyvalues);
     }
@@ -275,12 +299,10 @@ abstract class model implements model_api, html_escapable {
     public static function del_by_ids(array $ids) {
         return rdb::del_by_ids(self::get_model_name(), $ids);
     }
-    public static function rep(array $keyvalues) {
-        return rdb::rep(self::get_model_name(), $keyvalues);
+    public static function remove($sql, array $args = []) {
+        return rdb::remove(self::get_model_name(), $sql, $args);
     }
-    public static function rep_many(array $keyvalues_list) {
-        return rdb::rep_many(self::get_model_name(), $keyvalues_list);
-    }
+    
     public static function inc(array $keyvalues, array $conditions) {
         return rdb::inc(self::get_model_name(), $keyvalues, $conditions);
     }
@@ -308,26 +330,7 @@ abstract class model implements model_api, html_escapable {
     public static function dec_by_ids(array $keyvalues, array $ids) {
         return rdb::dec_by_ids(self::get_model_name(), $keyvalues, $ids);
     }
-    public static function fetch($sql, array $args = []) {
-        $model_name = self::get_model_name();
-        return self::create_models($model_name, rdb::fetch($model_name, $sql, $args));
-    }
-    public static function fetch_one($sql, array $args = []) {
-        $model_name = self::get_model_name();
-        return self::create_model($model_name, rdb::fetch_one($model_name, $sql, $args));
-    }
-    public static function modify($sql, array $args = []) {
-        return rdb::modify(self::get_model_name(), $sql, $args);
-    }
-    public static function create($sql, array $args = []) {
-        return rdb::create(self::get_model_name(), $sql, $args);
-    }
-    public static function remove($sql, array $args = []) {
-        return rdb::remove(self::get_model_name(), $sql, $args);
-    }
-    public static function change($sql, array $args = []) {
-        return rdb::change(self::get_model_name(), $sql, $args);
-    }
+    
     protected static function /* @swap */ get_model_name() {
         return strip_suffix(get_called_class());
     }
@@ -357,6 +360,7 @@ abstract class model implements model_api, html_escapable {
         $model->_original_props = $model->_current_props;
         return $model;
     }
+    
     public function /* @swap */ html_escape() {
         $that = clone $this;
         $that->_current_props = html::escape($that->_current_props);
