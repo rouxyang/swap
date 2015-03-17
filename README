@@ -41,7 +41,7 @@
 
     1、确认安装了命令行下的 php，同时该 php 包含了“环境要求”部分列出的扩展；
     2、将框架包（通常是 swap-x.y.z.tar.gz 或 swap-x.y.z.zip）解压到任意目录下；
-    3、进入 app/web/（或 demo/blog/web/、demo/forum/web/ 等），运行 serve 脚本；
+    3、进入 app/web/（或 demo/blog/web/、demo/forum/web/ 等），运行 app 脚本；
     4、打开浏览器，访问 http://127.0.0.1:8080/
 
 使用框架
