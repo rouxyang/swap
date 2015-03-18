@@ -1,6 +1,6 @@
 <?php
-use swap\visitor;
-class footer_helper extends swap\helper {
+use kern\visitor;
+class footer_helper extends kern\helper {
     public static function run(array $context) {
         self::render();
     }

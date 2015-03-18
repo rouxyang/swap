@@ -1,5 +1,5 @@
 <?php
-class user_model extends swap\model {
+class user_model extends kern\model {
     const name_len = 16;
     public static function get_crypted_pass($pass, $salt) {
         return sha1($pass . $salt);

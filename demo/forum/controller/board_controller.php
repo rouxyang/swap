@@ -1,9 +1,9 @@
 <?php
-use swap\visitor;
-use swap\session_manager;
-use swap\cache_pool;
-use swap\binder;
-class board_controller extends swap\controller {
+use kern\visitor;
+use kern\session_manager;
+use kern\cache_pool;
+use kern\binder;
+class board_controller extends kern\controller {
     public static $layout = 'main';
     public static function index_action() {
         $boards = board_model::get_all();

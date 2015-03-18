@@ -1,4 +1,4 @@
 <?php
-use swap\visitor;
-class except_controller extends swap\controller {
+use kern\visitor;
+class except_controller extends kern\controller {
 }

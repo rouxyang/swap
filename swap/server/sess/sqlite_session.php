@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 use SQLite3;
 use SQLite3Result;
 use Exception;
@@ -13,7 +13,7 @@ if (!extension_loaded('SQLite3')) throw new environment_error('cannot use sqlite
 /**
  * [类型] sqlite 会话存储源
  */
-class /* @swap */ sqlite_session_store extends session_store {
+class /* @kern */ sqlite_session_store extends session_store {
     public function __construct($dsn) {
         # dsn 格式：sqlite:///path/to/session.db/user_session
         list(, $detail) = explode('://', $dsn);

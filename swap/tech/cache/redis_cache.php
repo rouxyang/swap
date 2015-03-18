@@ -1,12 +1,12 @@
 <?php
-namespace swap;
+namespace kern;
 use Redis;
 if (!extension_loaded('Redis')) throw new environment_error('cannot use redis_cache: Redis extension does not exist');
 redis_cache::__init__();
 /**
  * [类型]
  */
-class /* @swap */ redis_cache extends cache {
+class /* @kern */ redis_cache extends cache {
     public function __construct(array $dsns) {
     }
     public function get($key, $default_value = null) {

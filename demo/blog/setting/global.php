@@ -1,6 +1,6 @@
 <?php
 return [
-    'swap' => [
+    'kern' => [
         'secret_key'        => 'M01BXwRghOWp4Ksjq5GnJT8Co2kNUylDESv6QuIi',
         'log_execute_time'  => true,
         'send_x_powered_by' => true,
@@ -59,7 +59,7 @@ return [
                     'sid_name'              => 'member_sid',
                     'default_alive_seconds' => 3600,
                     'trace_last_active'     => false,
-                    'session_dsn'           => 'sqlite://' . swap\run_dir . '/session/session.db/member_session',
+                    'session_dsn'           => 'sqlite://' . kern\run_dir . '/session/session.db/member_session',
                 ],
             ],
         ],

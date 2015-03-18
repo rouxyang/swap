@@ -1,10 +1,10 @@
 <?php
-use swap\clock;
-use swap\visitor;
-use swap\binder;
-use swap\lazy_checker;
-use swap\check_failed;
-class topic_controller extends swap\controller {
+use kern\clock;
+use kern\visitor;
+use kern\binder;
+use kern\lazy_checker;
+use kern\check_failed;
+class topic_controller extends kern\controller {
     public static $layout = 'main';
     public static function show_action() {
         $topic_id = g_int('id');

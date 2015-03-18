@@ -1,13 +1,13 @@
 <?php
-define('swap\root_dir',       DIRECTORY_SEPARATOR === '\\' ? str_replace('\\', '/', __DIR__) : __DIR__);
-define('swap\swap_dir',       swap\root_dir . '/../../swap');
-define('swap\setting_dir',    swap\root_dir . '/setting');
-define('swap\controller_dir', swap\root_dir . '/controller');
-define('swap\run_dir',        swap\root_dir . '/run');
-define('swap\filter_dir',     swap\root_dir . '/filter');
-define('swap\helper_dir',     swap\root_dir . '/helper');
-define('swap\utility_dir',    swap\root_dir . '/utility');
-define('swap\third_dir',      swap\root_dir . '/third');
-define('swap\logic_dir',      swap\root_dir . '/logic');
-define('swap\view_dir',       swap\root_dir . '/view');
-define('swap\web_dir',        swap\root_dir . '/web');
+define('kern\root_dir',       DIRECTORY_SEPARATOR === '\\' ? str_replace('\\', '/', __DIR__) : __DIR__);
+define('kern\kern_dir',       kern\root_dir . '/../../kern');
+define('kern\setting_dir',    kern\root_dir . '/setting');
+define('kern\controller_dir', kern\root_dir . '/controller');
+define('kern\run_dir',        kern\root_dir . '/run');
+define('kern\filter_dir',     kern\root_dir . '/filter');
+define('kern\helper_dir',     kern\root_dir . '/helper');
+define('kern\utility_dir',    kern\root_dir . '/utility');
+define('kern\third_dir',      kern\root_dir . '/third');
+define('kern\logic_dir',      kern\root_dir . '/logic');
+define('kern\view_dir',       kern\root_dir . '/view');
+define('kern\web_dir',        kern\root_dir . '/web');

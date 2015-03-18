@@ -5,14 +5,14 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 // [实体] PSS, PJS 渲染器
 class pps_rendor extends rendor {
-    public static function /* @swap */ render_for(target $target) {
+    public static function /* @kern */ render_for(target $target) {
         visitor::set_target($target);
         return framework::is_pss_mode() ? self::render_pss_for($target) : self::render_pjs_for($target);
     }
-    protected static function /* @swap */ render_pss_for(target $target) {
+    protected static function /* @kern */ render_pss_for(target $target) {
         parent::use_viewlet('pss');
         parent::use_app_viewlet('pss');
         ob_start();
@@ -23,7 +23,7 @@ class pps_rendor extends rendor {
         }
         return $pss;
     }
-    protected static function /* @swap */ render_pjs_for(target $target) {
+    protected static function /* @kern */ render_pjs_for(target $target) {
         parent::use_viewlet('pjs');
         parent::use_app_viewlet('pjs');
         ob_start();
@@ -34,7 +34,7 @@ class pps_rendor extends rendor {
         }
         return $pjs;
     }
-    protected static function /* @swap */ do_render_in($_view_dir, $_pps_type, target $_target) {
+    protected static function /* @kern */ do_render_in($_view_dir, $_pps_type, target $_target) {
         foreach ($_target->get_param('link', []) as $_linked_name) {
             $_file = $_pps_type . '/' . $_linked_name . '.' . $_pps_type;
             $_pps_file = $_view_dir . '/' . $_file;
@@ -77,11 +77,11 @@ class pps_rendor extends rendor {
             }
         }
     }
-    protected static function /* @swap */ minify_pss($pss) {
+    protected static function /* @kern */ minify_pss($pss) {
         // @todo: cssmin
         return $pss;
     }
-    protected static function /* @swap */ minify_pjs($pjs) {
+    protected static function /* @kern */ minify_pjs($pjs) {
         // @todo: jsmin
         return $pjs;
     }

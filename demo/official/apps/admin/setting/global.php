@@ -1,6 +1,6 @@
 <?php
 return [
-    'swap' => [
+    'kern' => [
         'secret_key'        => 'DMSU5oFTedgvnN4rzjJ1XiCR7quxZLE8pl6aOK0c',
         'log_execute_time'  => true,
         'send_x_powered_by' => true,
@@ -48,13 +48,13 @@ return [
                     'sid_name'              => 'user_sid',
                     'default_alive_seconds' => 3600,
                     'trace_last_active'     => false,
-                    'session_dsn'           => 'sqlite://' . swap\run_dir . '/session/session.db/user_session',
+                    'session_dsn'           => 'sqlite://' . kern\run_dir . '/session/session.db/user_session',
                 ],
                 'admin' => [
                     'sid_name'              => 'admin_sid',
                     'default_alive_seconds' => 600,
                     'trace_last_active'     => false,
-                    'session_dsn'           => 'sqlite://' . swap\run_dir . '/session/session.db/admin_session',
+                    'session_dsn'           => 'sqlite://' . kern\run_dir . '/session/session.db/admin_session',
                 ],
             ],
         ],

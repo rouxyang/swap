@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 // [实体] 模板渲染器
 abstract class tpl_rendor extends rendor {
-    public static function /* @swap */ reset() {
+    public static function /* @kern */ reset() {
         parent::use_viewlet('tpl');
         parent::use_app_viewlet('tpl');
         self::$target = visitor::get_target();
@@ -114,16 +114,16 @@ abstract class tpl_rendor extends rendor {
             echo '<input type="hidden" name="' . $csrf_key . '" value="' . $role_secret . '">';
         }
     }
-    protected static function /* @swap */ echo_css_link($href) {
+    protected static function /* @kern */ echo_css_link($href) {
         echo '<link rel="stylesheet" href="' . $href . '" type="text/css">' . "\n";
     }
-    protected static function /* @swap */ echo_js_link($src) {
+    protected static function /* @kern */ echo_js_link($src) {
         echo '<script type="text/javascript" src="' . $src . '"></script>' . "\n";
     }
-    protected static function /* @swap */ change_target_to(target $target) {
+    protected static function /* @kern */ change_target_to(target $target) {
         self::$target = $target;
     }
-    protected static function /* @swap */ render_tpl($_tpl_file, array $_args = [], $_escape_args = true) {
+    protected static function /* @kern */ render_tpl($_tpl_file, array $_args = [], $_escape_args = true) {
         if ($_escape_args) {
             $_args = html::escape($_args);
         }
@@ -154,7 +154,7 @@ abstract class tpl_rendor extends rendor {
 }
 // [实体] 控制器
 abstract class controller extends tpl_rendor {
-    public static function /* @swap */ reset() {
+    public static function /* @kern */ reset() {
         parent::reset();
         self::$title = setting::get_module('view.default_title', '');
         self::$keywords = setting::get_module('view.default_keywords', '');
@@ -552,7 +552,7 @@ abstract class controller extends tpl_rendor {
             parent::echo_js_link(router::pps_url('pjs.php?' . implode(';', $pjses), false));
         }
     }
-    protected static function /* @swap */ get_target_name_from_page_name($page_name = null) {
+    protected static function /* @kern */ get_target_name_from_page_name($page_name = null) {
         if ($page_name === null || $page_name === '') {
             $target_name = parent::$target->get_target_name();
         } else if (in_string('-', $page_name)) {
@@ -571,7 +571,7 @@ abstract class controller extends tpl_rendor {
         }
         return $target_name;
     }
-    protected static function /* @swap */ show_with_layout($_layout_name) {
+    protected static function /* @kern */ show_with_layout($_layout_name) {
         if ($_layout_name === null) {
             $_controller = get_called_class();
             if (property_exists($_controller, 'layout')) {
@@ -628,13 +628,13 @@ abstract class helper extends tpl_rendor {
         }
         echo self::render_tpl('block/' . self::$block_name . '.tpl', $args, false);
     }
-    public static function /* @swap */ set_block_name($block_name) {
+    public static function /* @kern */ set_block_name($block_name) {
         self::$block_name = $block_name;
     }
-    public static function /* @swap */ set_alias($alias) {
+    public static function /* @kern */ set_alias($alias) {
         self::$alias = $alias;
     }
-    public static function /* @swap */ reset() {
+    public static function /* @kern */ reset() {
         self::$vars = [];
     }
     // 可 reset 的属性
@@ -684,14 +684,14 @@ abstract class after_filter {
 // [实体] 自动加载拦截过滤器
 class autoload_filter extends before_filter {
     public static function run(array $files) {
-        // 例如：[swap\utility_dir . '/utility_one.php', swap\utility_dir . '/utility_two.php']
+        // 例如：[kern\utility_dir . '/utility_one.php', kern\utility_dir . '/utility_two.php']
         foreach ($files as $file) {
             loader::load_file($file);
         }
     }
 }
 // [实体] 变量上下文容器
-class /* @swap */ context {
+class /* @kern */ context {
     public static function set($key, $value) {
         self::$primary[$key] = $value;
         self::$escaped[$key] = html::escape($value);
@@ -713,9 +713,9 @@ class /* @swap */ context {
     protected static $escaped = []; # html 转义过的值
 }
 // [类型] action 返回标志
-class /* @swap */ action_return extends \Exception {}
+class /* @kern */ action_return extends \Exception {}
 // [类型] action 转移标志
-class /* @swap */ action_forward extends \Exception {
+class /* @kern */ action_forward extends \Exception {
     public function set_target(target $target) {
         $this->target = $target;
     }

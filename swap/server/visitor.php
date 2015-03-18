@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 visitor::__init__();
 // [实体] 来访者
 class visitor {
@@ -338,7 +338,7 @@ class visitor {
             self::$session_records[$role_name] = ['sid' => $role_sid, 'session' => $session];
         }
     }
-    public static function /* @swap */ __init__() {
+    public static function /* @kern */ __init__() {
         self::init_prefix();
         self::init_uri();
         self::$request['gets'] = $_GET;
@@ -348,12 +348,12 @@ class visitor {
             self::init_files();
         }
     }
-    public static function /* @swap */ set_target(target $target) {
+    public static function /* @kern */ set_target(target $target) {
         self::$settings = setting::get_module('visitor', ['cookie_domain' => '', 'roles' => []]);
         self::$request['gets'] = array_merge(self::$request['gets'], $target->get_params());
         self::$request['target'] = $target;
     }
-    public static function /* @swap */ forward_cookies() {
+    public static function /* @kern */ forward_cookies() {
         if (self::$response['cookies'] !== []) {
             foreach (self::$response['cookies'] as $response_cookie) {
                 $cookie_name = $response_cookie['name'];
@@ -366,10 +366,10 @@ class visitor {
             }
         }
     }
-    public static function /* @swap */ get_response() {
+    public static function /* @kern */ get_response() {
         return self::$response;
     }
-    public static function /* @swap */ restore_roles() {
+    public static function /* @kern */ restore_roles() {
         $role_settings = self::$settings['roles'];
         $is_guest = true;
         foreach ($role_settings as $role_name => $role_setting) {
@@ -387,7 +387,7 @@ class visitor {
         }
         self::$is_guest = $is_guest;
     }
-    public static function /* @swap */ persist_roles() {
+    public static function /* @kern */ persist_roles() {
         foreach (self::$session_records as $session_record) {
             if ($session_record['session'] instanceof session) {
                 $session_record['session']->persist();

@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 if (!extension_loaded('pgsql')) throw new developer_error('cannot use pgsql_rdb_conn: pgsql extension does not exist');
 // [类型] postgresql 关系数据库节点
 abstract class pgsql_rdb_node extends rdb_node {}
@@ -14,7 +14,7 @@ class pgsql_master_rdb_node extends pgsql_rdb_node {}
 // [类型] postgresql 关系数据库从节点
 class pgsql_slave_rdb_node extends pgsql_rdb_node {}
 // [类型] postgresql 关系数据库连接
-class /* @swap */ pgsql_rdb_conn extends rdb_conn {
+class /* @kern */ pgsql_rdb_conn extends rdb_conn {
     public function __construct($dsn) {
         $url_parts = parse_url($dsn);
         extract($url_parts, EXTR_SKIP);
@@ -104,7 +104,7 @@ class /* @swap */ pgsql_rdb_conn extends rdb_conn {
     protected $last_execute_result = null;
 }
 // [类型] postgresql 关系数据库结果集
-class /* @swap */ pgsql_rdb_result extends rdb_result {
+class /* @kern */ pgsql_rdb_result extends rdb_result {
     public function __construct($result) {
         $this->result = $result;
     }

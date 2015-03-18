@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 session_manager::__init__();
 /**
  * [类型] 会话
@@ -48,7 +48,7 @@ class session {
     public function get_role_secret() {
         return $this->role_secret;
     }
-    public function /* @swap */ __construct($role_name, session_store $session_store, $sid, $expire_time, $last_active, $role_id, $role_secret, array $role_vars) {
+    public function /* @kern */ __construct($role_name, session_store $session_store, $sid, $expire_time, $last_active, $role_id, $role_secret, array $role_vars) {
         $this->role_name = $role_name;
         $this->session_store = $session_store;
         $this->sid = $sid;
@@ -58,7 +58,7 @@ class session {
         $this->role_secret = $role_secret;
         $this->role_vars = $role_vars;
     }
-    public function /* @swap */ needs_update($true_or_false = null) {
+    public function /* @kern */ needs_update($true_or_false = null) {
         if ($true_or_false === null) {
             return $this->needs_update;
         } else if (!is_bool($true_or_false)) {
@@ -67,7 +67,7 @@ class session {
             $this->needs_update = $true_or_false;
         }
     }
-    public function /* @swap */ persist() {
+    public function /* @kern */ persist() {
         if ($this->needs_update) {
             $current_time = clock::get_stamp();
             $expire_time = $this->expire_time + ($current_time - $this->last_active);
@@ -90,7 +90,7 @@ class session {
 /**
  * [类型] 会话存储源
  */
-abstract class /* @swap */ session_store {
+abstract class /* @kern */ session_store {
     abstract public function __construct($dsn);
     abstract public function is_role_id_online($role_id);
     abstract public function online_count();
@@ -103,7 +103,7 @@ abstract class /* @swap */ session_store {
 /**
  * [实体] 会话存储源池
  */
-class /* @swap */ session_store_pool {
+class /* @kern */ session_store_pool {
     public static function get_session_store($dsn) {
         static $session_stores = [];
         $dsn_is_array = is_array($dsn);
@@ -133,7 +133,7 @@ class session_manager {
     public static function clean($role_name) {
         return self::get_session_store($role_name)->clean();
     }
-    public static function /* @swap */ create_session($role_name, $role_id, $sid, $login_seconds, array $role_vars) {
+    public static function /* @kern */ create_session($role_name, $role_id, $sid, $login_seconds, array $role_vars) {
         $current_time = clock::get_stamp();
         $last_active = $expire_time = $current_time;
         $login_seconds = (int)$login_seconds;
@@ -144,7 +144,7 @@ class session_manager {
         $session_store->create($sid, $expire_time, $last_active, $role_id, $role_secret, $role_vars);
         return new session($role_name, $session_store, $sid, $expire_time, $last_active, $role_id, $role_secret, $role_vars);
     }
-    public static function /* @swap */ fetch_session($role_name, $sid) {
+    public static function /* @kern */ fetch_session($role_name, $sid) {
         $session_store = self::get_session_store($role_name);
         $record = $session_store->fetch($sid);
         if ($record === null) {
@@ -157,14 +157,14 @@ class session_manager {
             return $session;
         }
     }
-    public static function /* @swap */ remove_session($role_name, $sid) {
+    public static function /* @kern */ remove_session($role_name, $sid) {
         self::get_session_store($role_name)->remove($sid);
     }
-    public static function /* @swap */ __init__() {
+    public static function /* @kern */ __init__() {
         self::$role_settings = setting::get_module('visitor.roles', []);
     }
     protected static function new_role_secret() {
-        return sha1(setting::get_swap('secret_key', '') . random_sha1());
+        return sha1(setting::get_kern('secret_key', '') . random_sha1());
     }
     protected static function get_session_store($role_name) {
         return session_store_pool::get_session_store(self::$role_settings[$role_name]['session_dsn']);

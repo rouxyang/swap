@@ -11,10 +11,10 @@
 目录结构
 ========
 
-    app/        - 基于 Swap 框架核心（即 swap/ 目录）的 Web 应用
-    demo/       - 基于 Swap 框架核心（即 swap/ 目录）的 Web 应用样例
+    app/        - 基于 Swap 框架核心（即 kern/ 目录）的 Web 应用
+    demo/       - 基于 Swap 框架核心（即 kern/ 目录）的 Web 应用样例
     doc/        - 框架的各类文档
-    swap/       - Swap 框架核心
+    kern/       - Swap 框架核心
     AUTHOR      - 框架的开发人员
     LICENSE     - 框架的授权协议
     README      - 本说明文件

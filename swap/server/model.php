@@ -5,9 +5,9 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 // 去除最后一个分隔符及其后面的字符串后缀
-function /* @swap */ strip_suffix($str, $separator = '_') {
+function /* @kern */ strip_suffix($str, $separator = '_') {
     $last_pos = strrpos($str, $separator);
     if ($last_pos !== false) {
         $str = substr($str, 0, $last_pos);
@@ -331,16 +331,16 @@ abstract class model implements model_api, html_escapable {
         return rdb::dec_by_ids(self::get_model_name(), $keyvalues, $ids);
     }
     
-    protected static function /* @swap */ get_model_name() {
+    protected static function /* @kern */ get_model_name() {
         return strip_suffix(get_called_class());
     }
-    protected static function /* @swap */ create_model($model_name, $record) {
+    protected static function /* @kern */ create_model($model_name, $record) {
         if ($record === null) {
             return null;
         }
         return self::do_create_model($model_name, $record);
     }
-    protected static function /* @swap */ create_models($model_name, array $records) {
+    protected static function /* @kern */ create_models($model_name, array $records) {
         if ($records === []) {
             return [];
         }
@@ -350,7 +350,7 @@ abstract class model implements model_api, html_escapable {
         }
         return $models;
     }
-    protected static function /* @swap */ do_create_model($model_name, array $record) {
+    protected static function /* @kern */ do_create_model($model_name, array $record) {
         $class_name = $model_name . '_model';
         $model = new $class_name(false);
         $model->_model_name = $model_name;
@@ -361,12 +361,12 @@ abstract class model implements model_api, html_escapable {
         return $model;
     }
     
-    public function /* @swap */ html_escape() {
+    public function /* @kern */ html_escape() {
         $that = clone $this;
         $that->_current_props = html::escape($that->_current_props);
         return $that;
     }
-    public function /* @swap */ html_unescape() {
+    public function /* @kern */ html_unescape() {
         $that = clone $this;
         $that->_current_props = html::unescape($that->_current_props);
         return $that;

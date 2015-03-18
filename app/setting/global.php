@@ -1,7 +1,7 @@
 <?php
 // 全局默认配置文件
 return [
-    'swap' => [
+    'kern' => [
         'secret_key'        => 'please change me!',
         'log_execute_time'  => true,
         'send_x_powered_by' => true,
@@ -53,7 +53,7 @@ return [
                     // 'session_dsn'        => ['memcached://ip1:port1', 'memcached://ip2:port2'],
                     // 'session_dsn'        => 'mysql://user:pass@ip:port/db_name/table_name',
                     // 'session_dsn'        => 'pgsql://user:pass@ip:port/db_name/table_name',
-                    'session_dsn'           => 'sqlite://' . swap\run_dir . '/session/session.db/user_session',
+                    'session_dsn'           => 'sqlite://' . kern\run_dir . '/session/session.db/user_session',
                 ],
             ],
         ],

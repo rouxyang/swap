@@ -1,5 +1,5 @@
 <?php
-class link_model extends swap\model {
+class link_model extends kern\model {
     const name_len = 16;
     const url_len  = 255;
     public static function prop_rules($for_operation, $extra_data) {

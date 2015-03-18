@@ -1,5 +1,5 @@
 <?php
-class setting_model extends swap\model {
+class setting_model extends kern\model {
     const value_len = 65535;
     const id_blog_name        = 1;
     const id_blog_description = 2;

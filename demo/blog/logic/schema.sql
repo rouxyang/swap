@@ -13,7 +13,7 @@ INSERT INTO `setting` (`id`, `value`) VALUES (7, '这是“关于”页面');
 INSERT INTO `setting` (`id`, `value`) VALUES (8, 'Copyright (c) 2009-2015 Jingcheng Zhang. All rights reserved.');
 INSERT INTO `setting` (`id`, `value`) VALUES (9, '六加三等于几？填阿拉伯数字');
 INSERT INTO `setting` (`id`, `value`) VALUES (10, '9');
-INSERT INTO `setting` (`id`, `value`) VALUES (11, 'swap, blog');
+INSERT INTO `setting` (`id`, `value`) VALUES (11, 'kern, blog');
 
 
 
@@ -52,7 +52,7 @@ CREATE TABLE `category` (
   `post_count` INTEGER NOT NULL DEFAULT 0
 );
 INSERT INTO `category` (`id`, `name`, `post_count`) VALUES (NULL, '默认分类', 0);
-INSERT INTO `category` (`id`, `name`, `post_count`) VALUES (NULL, 'swap框架', 0);
+INSERT INTO `category` (`id`, `name`, `post_count`) VALUES (NULL, 'kern框架', 0);
 UPDATE `setting` SET `value` = `value` + 2 WHERE `id` = 4;
 
 
@@ -131,7 +131,7 @@ CREATE TABLE `link` (
 );
 CREATE UNIQUE INDEX `link_name` ON `link` (`name`);
 INSERT INTO `link` (`id`, `name`, `url`) VALUES (NULL, 'diogin的网站', 'http://www.diogin.com/');
-INSERT INTO `link` (`id`, `name`, `url`) VALUES (NULL, 'swap框架官方网站', 'https://github.com/diogin/swap');
+INSERT INTO `link` (`id`, `name`, `url`) VALUES (NULL, 'kern框架官方网站', 'https://github.com/diogin/kern');
 
 
 

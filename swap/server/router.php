@@ -5,25 +5,25 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 router::__init__();
 // [实体] URL 解析器和构建器
 class router {
-    const /* @swap */ default_version_key = 'v';
-    const /* @swap */ default_version = 0;
-    const /* @swap */ default_target_key = 't';
-    const /* @swap */ default_csrf_key = 's';
-    const /* @swap */ default_controller_name = 'site';
-    const /* @swap */ default_action_name = 'index';
-    const /* @swap */ lazy_unit_pattern = '([^/]*?)';
-    const /* @swap */ greedy_unit_pattern = '([^/]*)';
-    public static function /* @swap */ __init__() {
+    const /* @kern */ default_version_key = 'v';
+    const /* @kern */ default_version = 0;
+    const /* @kern */ default_target_key = 't';
+    const /* @kern */ default_csrf_key = 's';
+    const /* @kern */ default_controller_name = 'site';
+    const /* @kern */ default_action_name = 'index';
+    const /* @kern */ lazy_unit_pattern = '([^/]*?)';
+    const /* @kern */ greedy_unit_pattern = '([^/]*)';
+    public static function /* @kern */ __init__() {
         // @todo: lazy initialization?
         self::$prefix = visitor::get_prefix();
-        self::$static_domain = setting::get_swap('static_domain', '');
-        self::$upload_domain = setting::get_swap('upload_domain', '');
-        self::$version_key = setting::get_swap('version_key', self::default_version_key);
-        self::$version = setting::get_swap('version', self::default_version);
+        self::$static_domain = setting::get_kern('static_domain', '');
+        self::$upload_domain = setting::get_kern('upload_domain', '');
+        self::$version_key = setting::get_kern('version_key', self::default_version_key);
+        self::$version = setting::get_kern('version', self::default_version);
         self::$base_is_https = setting::get_base('url.is_https', false);
         self::$base_domains = setting::get_base('url.domains', []);
         foreach (self::$base_domains as $domain) {
@@ -51,7 +51,7 @@ class router {
         }
         setting::set_module_name(null);
     }
-    public static function /* @swap */ parse_php_uri($uri, $host) {
+    public static function /* @kern */ parse_php_uri($uri, $host) {
         $at_module_name = isset(self::$domain_modules[$host]) ? self::$domain_modules[$host] : '';
         if ($at_module_name === '') {
             $enable_rewrite = self::$base_enable_rewrite;
@@ -175,7 +175,7 @@ class router {
         }
         return new target([$target_name, $target_params]);
     }
-    public static function /* @swap */ parse_pps_uri($uri) {
+    public static function /* @kern */ parse_pps_uri($uri) {
         setting::set_module_name('');
         $target_name = '';
         $mark_pos = strpos($uri, '?');
@@ -400,7 +400,7 @@ class router {
         }
         return self::build_php_url($target, $echo, $for_html, $as_absolute);
     }
-    public static function /* @swap */ web_url($path) {
+    public static function /* @kern */ web_url($path) {
         $web_url = self::$prefix;
         if ($path !== '' && $path !== '/') {
             $web_url .= '/' . ltrim($path, '/');
@@ -413,7 +413,7 @@ class router {
         }
         return $web_url;
     }
-    public static function /* @swap */ static_url($static_file, $for_html = null, $echo = true) {
+    public static function /* @kern */ static_url($static_file, $for_html = null, $echo = true) {
         if (self::$static_domain === '') {
             $static_url = self::web_url('/static'); # 包含 prefix
         } else {
@@ -432,7 +432,7 @@ class router {
             return $static_url;
         }
     }
-    public static function /* @swap */ upload_url($upload_file, $echo = true) {
+    public static function /* @kern */ upload_url($upload_file, $echo = true) {
         if (self::$upload_domain === '') {
             $upload_url = self::web_url('/upload'); # 包含 prefix
         } else {
@@ -447,7 +447,7 @@ class router {
             return $upload_url;
         }
     }
-    public static function /* @swap */ pps_url($pps_uri, $echo) {
+    public static function /* @kern */ pps_url($pps_uri, $echo) {
         if (self::$static_domain === '') {
             $pps_url = self::web_url('/'); # 包含 prefix
         } else {

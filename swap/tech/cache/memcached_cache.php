@@ -5,14 +5,14 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 use Memcache;
 if (!extension_loaded('Memcache')) throw new environment_error('cannot use memcached_cache: Memcache extension does not exist');
 memcached_cache::__init__();
 /**
  * [类型]
  */
-class /* @swap */ memcached_cache extends cache {
+class /* @kern */ memcached_cache extends cache {
     public function __construct(array $dsns) {
         $memcache = new Memcache();
         foreach ($dsns as $dsn) {

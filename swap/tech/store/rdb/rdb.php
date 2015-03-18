@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 // [实体] 关系数据库 API
 interface rdb_api {
     static function get($table_name, array $keyvalues, array $order_limit = array([], 0, 0), $use_master = false);
@@ -1073,7 +1073,7 @@ class rdb_node_pool {
         );
         if (!isset($rdb_nodes[$node_mode][$dsn])) {
             list($rdb_type, $rdb_conn) = rdb_conn_pool::get_rdb_type_and_conn_from_dsn($dsn);
-            $rdb_node_class = 'swap\\' . $rdb_type . '_' . $node_mode . '_rdb_node';
+            $rdb_node_class = 'kern\\' . $rdb_type . '_' . $node_mode . '_rdb_node';
             $rdb_node = new $rdb_node_class($rdb_conn, $node_mode === 'master');
             $rdb_nodes[$node_mode][$dsn] = $rdb_node;
         }
@@ -1108,7 +1108,7 @@ class rdb_conn_pool {
         static $rdb_conns = [];
         if (!isset($rdb_conns[$dsn])) {
             list($rdb_type, ) = explode('://', $dsn, 2);
-            $rdb_conn_class = 'swap\\' . $rdb_type . '_rdb_conn';
+            $rdb_conn_class = 'kern\\' . $rdb_type . '_rdb_conn';
             $rdb_conn = new $rdb_conn_class($dsn);
             $rdb_conns[$dsn] = array($rdb_type, $rdb_conn);
         }

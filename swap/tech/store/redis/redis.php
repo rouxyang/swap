@@ -1,5 +1,5 @@
 <?php
-namespace swap;
+namespace kern;
 if (!extension_loaded('Redis')) throw new environment_error('cannot use redis: Redis extension does not exist');
 class redis_master_node extends \Redis {
 }

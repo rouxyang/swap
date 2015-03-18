@@ -5,12 +5,12 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 if (!extension_loaded('mysqli')) throw new environment_error('cannot use mysql_session_store: mysqli extension does not exist');
 /**
  * [类型] mysql 会话存储源
  */
-class /* @swap */ mysql_session_store extends session_store {
+class /* @kern */ mysql_session_store extends session_store {
     public function __construct($dsn) {
         $url_parts = parse_url($dsn);
         extract($url_parts, EXTR_SKIP);

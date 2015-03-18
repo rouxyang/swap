@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 use SQLite3;
 use Exception;
 if (!extension_loaded('SQLite3')) throw new environment_error('cannot use sqlite_rdb_conn: sqlite3 extension does not exist');
@@ -16,7 +16,7 @@ class sqlite_master_rdb_node extends sqlite_rdb_node {}
 // [类型] sqlite 关系数据库从节点
 class sqlite_slave_rdb_node extends sqlite_rdb_node {}
 // [类型] sqlite 关系数据库连接
-class /* @swap */ sqlite_rdb_conn extends rdb_conn {
+class /* @kern */ sqlite_rdb_conn extends rdb_conn {
     public function __construct($dsn) {
         try {
             list(, $db_file) = explode('://', $dsn, 2);
@@ -66,7 +66,7 @@ class /* @swap */ sqlite_rdb_conn extends rdb_conn {
     protected $conn = null;
 }
 // [类型] sqlite 关系数据库结果集
-class /* @swap */ sqlite_rdb_result extends rdb_result {
+class /* @kern */ sqlite_rdb_result extends rdb_result {
     public function __construct($result) {
         $this->result = $result;
     }

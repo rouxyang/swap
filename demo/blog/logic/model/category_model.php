@@ -1,5 +1,5 @@
 <?php
-class category_model extends swap\model {
+class category_model extends kern\model {
     const name_len = 64;
     const default_id = 1;
     public static function prop_rules($for_operation, $extra_data) {

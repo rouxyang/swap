@@ -1,5 +1,5 @@
 <?php
-class post_model extends swap\model {
+class post_model extends kern\model {
     const title_len = 64;
     const content_len = 65535;
     public static function prop_rules($for_operation, $extra_data) {

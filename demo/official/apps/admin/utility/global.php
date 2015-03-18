@@ -1,10 +1,10 @@
 <?php
 // 本文件由框架自动加载，可以在 Web 应用的所有地方使用
-use swap\visitor;
-use swap\router;
-use swap\target;
-use swap\html;
-use swap\clock;
+use kern\visitor;
+use kern\router;
+use kern\target;
+use kern\html;
+use kern\clock;
 function puts($str) {
     visitor::add_content($str);
 }
@@ -78,19 +78,19 @@ function r($value) {
     return html::unescape($value);
 }
 function str_bytes($str) {
-    return swap\str_bytes($str);
+    return kern\str_bytes($str);
 }
 function str_chars($str, $encoding = 'UTF-8') {
-    return swap\str_chars($str, $encoding);
+    return kern\str_chars($str, $encoding);
 }
 function str_units($str, $encoding = 'UTF-8') {
-    return swap\str_units($str, $encoding);
+    return kern\str_units($str, $encoding);
 }
 function str_sub($str, $begin, $length, $encoding = 'UTF-8') {
-    return swap\str_sub($str, $begin, $length, $encoding);
+    return kern\str_sub($str, $begin, $length, $encoding);
 }
 function random_sha1() {
-    return swap\random_sha1();
+    return kern\random_sha1();
 }
 function random_md5() {
     return md5(random_sha1());

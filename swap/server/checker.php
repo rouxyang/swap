@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 // [类型] 数据校验器抽象
 abstract class checker {
     const model_rules_getter = 'prop_rules';
@@ -152,7 +152,7 @@ abstract class checker {
     protected function check_value_type($prop_name, $prop_value, $rule_value) {
         list($type_value, $reason) = $rule_value;
         $type_name = is_array($type_value) ? $type_value[0] : $type_value;
-        $value_type = 'swap\\' . $type_name . '_value';
+        $value_type = 'kern\\' . $type_name . '_value';
         $check_function = 'is_valid_' . $type_name;
         $type_num = count($type_value);
         switch ($type_num) {

@@ -1,6 +1,6 @@
 <?php
-use swap\visitor;
-class except_controller extends swap\controller {
+use kern\visitor;
+class except_controller extends kern\controller {
     public static function access_denied_action($e) {
         self::show_page('', false);
     }

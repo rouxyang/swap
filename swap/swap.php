@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 // 框架版本
 const version = 'current';
 // [实体] 框架门面
@@ -21,23 +21,23 @@ class framework {
         }
     }
     protected static function init_web_environment() {
-        self::init_swap_environment();
+        self::init_kern_environment();
         ob_start(); # 确保不会在无意中 echo 出内容
         ob_implicit_flush(false); # 不许隐式输出内容
     }
-    protected static function init_swap_environment() {
+    protected static function init_kern_environment() {
         clock::stop();
         setting::load();
-        self::$log_execute_time = setting::get_swap('log_execute_time', true);
+        self::$log_execute_time = setting::get_kern('log_execute_time', true);
         if (self::$log_execute_time) {
             self::$begin_microtime = clock::get_micro_stamp();
         }
-        clock::set_timezone(setting::get_swap('time_zone', 'Asia/Shanghai'));
-        i18n::set_locale(setting::get_swap('locale', 'en_us'));
-        self::$is_debug = setting::get_swap('is_debug', false);
-        ini_set('display_errors', setting::get_swap('display_errors', self::$is_debug));
+        clock::set_timezone(setting::get_kern('time_zone', 'Asia/Shanghai'));
+        i18n::set_locale(setting::get_kern('locale', 'en_us'));
+        self::$is_debug = setting::get_kern('is_debug', false);
+        ini_set('display_errors', setting::get_kern('display_errors', self::$is_debug));
         set_exception_handler([__CLASS__, 'exception_handler']);
-        $error_reporting = setting::get_swap('error_reporting', self::$is_debug ? E_ALL | E_STRICT : E_ALL & ~E_NOTICE);
+        $error_reporting = setting::get_kern('error_reporting', self::$is_debug ? E_ALL | E_STRICT : E_ALL & ~E_NOTICE);
         set_error_handler([__CLASS__, 'error_handler'], $error_reporting);
         logger::init();
         loader::init();
@@ -61,7 +61,7 @@ class framework {
     }
     protected static function send_response($is_pps_mode, $content_type, $content, $gzippable = true) {
         header('Content-Type: ' . $content_type);
-        if (setting::get_swap('send_x_powered_by', true)) {
+        if (setting::get_kern('send_x_powered_by', true)) {
             header('X-Powered-By: swap-' . version);
         }
         if ($is_pps_mode) {
@@ -92,9 +92,9 @@ class framework {
         } else {
             ob_end_clean(); # 丢弃开发者无意间 echo 出的内容
             header('Content-Type: text/html; charset=utf-8');
-            $_tpl_file = swap_dir . '/server/view/except/' . $e->getCode() . '.tpl';
+            $_tpl_file = kern_dir . '/server/view/except/' . $e->getCode() . '.tpl';
             if (!is_readable($_tpl_file)) {
-                $_tpl_file = swap_dir . '/server/view/except/500.tpl';
+                $_tpl_file = kern_dir . '/server/view/except/500.tpl';
             }
             require $_tpl_file;
         }
@@ -121,44 +121,44 @@ class framework {
     }
     public static function /* @cli */ init_cli_environment() {
         self::$serve_mode = self::cli_mode;
-        self::init_swap_environment();
+        self::init_kern_environment();
     }
     public static function is_debug() {
         return self::$is_debug;
     }
-    const /* @swap */ php_mode = 'php';
-    const /* @swap */ pss_mode = 'pss';
-    const /* @swap */ pjs_mode = 'pjs';
-    const /* @swap */ cli_mode = 'cli';
-    public static function /* @swap */ is_php_mode() {
+    const /* @kern */ php_mode = 'php';
+    const /* @kern */ pss_mode = 'pss';
+    const /* @kern */ pjs_mode = 'pjs';
+    const /* @kern */ cli_mode = 'cli';
+    public static function /* @kern */ is_php_mode() {
         return self::$serve_mode === self::php_mode;
     }
-    public static function /* @swap */ is_pss_mode() {
+    public static function /* @kern */ is_pss_mode() {
         return self::$serve_mode === self::pss_mode;
     }
-    public static function /* @swap */ is_pjs_mode() {
+    public static function /* @kern */ is_pjs_mode() {
         return self::$serve_mode === self::pjs_mode;
     }
-    public static function /* @swap */ is_pps_mode() {
+    public static function /* @kern */ is_pps_mode() {
         return self::$serve_mode === self::pss_mode || self::$serve_mode === self::pjs_mode;
     }
-    public static function /* @swap */ is_cli_mode() {
+    public static function /* @kern */ is_cli_mode() {
         return self::$serve_mode === self::cli_mode;
     }
-    public static function /* @swap */ get_serve_mode() {
+    public static function /* @kern */ get_serve_mode() {
         return self::$serve_mode;
     }
-    public static function /* @swap */ error_handler($error_level, $error_msg, $error_file, $error_line, array $error_context) {
+    public static function /* @kern */ error_handler($error_level, $error_msg, $error_file, $error_line, array $error_context) {
         if (error_reporting() !== 0) {
             $error = new developer_error($error_msg, 500, $error_level, $error_file, $error_line);
             $error->set_context($error_context);
             throw $error;
         }
     }
-    public static function /* @swap */ exception_handler(\Exception $e) {
-        if (setting::get_swap('log_errors', true)) {
+    public static function /* @kern */ exception_handler(\Exception $e) {
+        if (setting::get_kern('log_errors', true)) {
             $msg = $e->getMessage() . ' in file: ' . $e->getFile() . ' in line: ' . $e->getLine();
-            if (setting::get_swap('log_with_trace', true)) {
+            if (setting::get_kern('log_with_trace', true)) {
                 $msg .= ' with trace: ' . var_export($e->getTrace(), true);
             }
             logger::log_error($msg);
@@ -196,15 +196,15 @@ class clock {
     public static function get_micro_stamp() {
         return self::$micro_stamp;
     }
-    public static function /* @swap */ stop() {
+    public static function /* @kern */ stop() {
         self::$micro_stamp = microtime(true);
     }
     protected static $micro_stamp = 0.000;
 }
 // [实体] 配置参数维护器
 class setting {
-    public static function get_swap($key, $default_value = null) {
-        return self::get('swap.' . $key, $default_value);
+    public static function get_kern($key, $default_value = null) {
+        return self::get('kern.' . $key, $default_value);
     }
     public static function get_base($key, $default_value = null) {
         return self::get('base.' . $key, $default_value);
@@ -214,7 +214,7 @@ class setting {
     }
     public static function get_module($key, $default_value = null) {
         if (self::$module_name === null) {
-            throw new developer_error("you cannot use swap\setting::get_module() when module_name is not set");
+            throw new developer_error("you cannot use kern\setting::get_module() when module_name is not set");
         }
         if (isset(self::$settings['modules'][self::$module_name])) {
             $value = self::get('modules.' . self::$module_name . '.' . $key, null);
@@ -227,8 +227,8 @@ class setting {
     public static function get_third($key, $default_value = null) {
         return self::get('third.' . $key, $default_value);
     }
-    public static function set_swap($key, $value) {
-        self::set('swap.' . $key, $value);
+    public static function set_kern($key, $value) {
+        self::set('kern.' . $key, $value);
     }
     public static function set_logic($key, $value) {
         self::set('logic.' . $key, $value);
@@ -238,34 +238,34 @@ class setting {
     }
     public static function set_module($key, $value) {
         if (self::$module_name === null) {
-            throw new developer_error("you cannot use swap\setting::set_module() when module_name is not set");
+            throw new developer_error("you cannot use kern\setting::set_module() when module_name is not set");
         }
         self::set('modules.' . self::$module_name . '.' . $key, $value);
     }
     public static function set_third($key, $value) {
         self::set('third.' . $key, $value);
     }
-    public static function /* @swap */ load() {
-        if (defined('swap\setting_dir')) {
+    public static function /* @kern */ load() {
+        if (defined('kern\setting_dir')) {
             self::$settings = self::load_in_dir(setting_dir);
             if (array_key_exists('modules', self::$settings)) {
                 self::$module_names = array_keys(self::$settings['modules']);
             }
         }
-        if (defined('swap\third_dir')) {
+        if (defined('kern\third_dir')) {
             self::$settings['third'] = self::load_in_dir(third_dir . '/setting');
         }
-        if (defined('swap\logic_dir')) {
+        if (defined('kern\logic_dir')) {
             self::$settings['logic'] = self::load_in_dir(logic_dir . '/setting');
         }
     }
-    public static function /* @swap */ set_module_name($module_name) {
+    public static function /* @kern */ set_module_name($module_name) {
         self::$module_name = $module_name;
     }
-    public static function /* @swap */ get_module_name() {
+    public static function /* @kern */ get_module_name() {
         return self::$module_name;
     }
-    public static function /* @swap */ get_module_names() {
+    public static function /* @kern */ get_module_names() {
         return self::$module_names;
     }
     protected static function get($key, $default_value = null) {
@@ -332,16 +332,16 @@ class loader {
     public static function load_file($_file) {
         require_once $_file;
     }
-    public static function /* @swap */ init() {
-        $include_pathes = implode(PATH_SEPARATOR, setting::get_swap('include_pathes', []));
+    public static function /* @kern */ init() {
+        $include_pathes = implode(PATH_SEPARATOR, setting::get_kern('include_pathes', []));
         if ($include_pathes !== '') {
             set_include_path(get_include_path() . PATH_SEPARATOR . $include_pathes);
         }
-        spl_autoload_register(['swap\loader', 'load_class']);
+        spl_autoload_register(['kern\loader', 'load_class']);
     }
-    public static function /* @swap */ load_class($class_name) {
-        if (strpos($class_name, 'swap\\') === 0) {
-            self::load_file(swap_dir . '/' . self::$swap_entities[$class_name]);
+    public static function /* @kern */ load_class($class_name) {
+        if (strpos($class_name, 'kern\\') === 0) {
+            self::load_file(kern_dir . '/' . self::$kern_entities[$class_name]);
         } else if (($last_pos = strrpos($class_name, '\\')) > 0) {
             // PSR-0
             $class_name = ltrim($class_name, '\\');
@@ -361,84 +361,84 @@ class loader {
             }
         }
     }
-    protected static $swap_entities = [
-        'swap\checker'                 => 'server/checker.php',
-        'swap\check_failed'            => 'server/checker.php',
-        'swap\lazy_checker'            => 'server/checker.php',
-        'swap\greedy_checker'          => 'server/checker.php',
-        'swap\instant_checker'         => 'server/checker.php',
-        'swap\session'                 => 'server/sess/session.php',
-        'swap\session_manager'         => 'server/sess/session.php',
-        'swap\session_store'           => 'server/sess/session.php',
-        'swap\session_store_pool'      => 'server/sess/session.php',
-        'swap\memcached_session_store' => 'server/sess/memcached_session.php',
-        'swap\redis_session_store'     => 'server/sess/redis_session.php',
-        'swap\mysql_session_store'     => 'server/sess/mysql_session.php',
-        'swap\pgsql_session_store'     => 'server/sess/pgsql_session.php',
-        'swap\sqlite_session_store'    => 'server/sess/sqlite_session.php',
-        'swap\pps_rendor'              => 'server/pps.php',
-        'swap\tpl_rendor'              => 'server/php.php',
-        'swap\controller'              => 'server/php.php',
-        'swap\helper'                  => 'server/php.php',
-        'swap\context'                 => 'server/php.php',
-        'swap\before_filter'           => 'server/php.php',
-        'swap\after_filter'            => 'server/php.php',
-        'swap\autoload_filter'         => 'server/php.php',
-        'swap\action_return'           => 'server/php.php',
-        'swap\action_forward'          => 'server/php.php',
-        'swap\dispatch_return'         => 'server/rendor.php',
-        'swap\dispatcher'              => 'server/rendor.php',
-        'swap\rendor'                  => 'server/rendor.php',
-        'swap\router'                  => 'server/router.php',
-        'swap\target'                  => 'server/router.php',
-        'swap\visitor'                 => 'server/visitor.php',
-        'swap\binder'                  => 'server/model.php',
-        'swap\model_api'               => 'server/model.php',
-        'swap\model'                   => 'server/model.php',
-        'swap\cache'                   => 'tech/cache/cache.php',
-        'swap\cache_pool'              => 'tech/cache/cache.php',
-        'swap\filesys_cache'           => 'tech/cache/filesys_cache.php',
-        'swap\memcached_cache'         => 'tech/cache/memcached_cache.php',
-        'swap\redis_cache'             => 'tech/cache/redis_cache.php',
-        'swap\rdb'                     => 'tech/store/rdb/rdb.php',
-        'swap\rdb_node'                => 'tech/store/rdb/rdb.php',
-        'swap\rdb_node_pool'           => 'tech/store/rdb/rdb.php',
-        'swap\rdb_conn'                => 'tech/store/rdb/rdb.php',
-        'swap\rdb_result'              => 'tech/store/rdb/rdb.php',
-        'swap\rdb_conn_pool'           => 'tech/store/rdb/rdb.php',
-        'swap\mysql_rdb_node'          => 'tech/store/rdb/mysql_rdb.php',
-        'swap\mysql_master_rdb_node'   => 'tech/store/rdb/mysql_rdb.php',
-        'swap\mysql_slave_rdb_node'    => 'tech/store/rdb/mysql_rdb.php',
-        'swap\mysql_rdb_conn'          => 'tech/store/rdb/mysql_rdb.php',
-        'swap\mysql_rdb_result'        => 'tech/store/rdb/mysql_rdb.php',
-        'swap\pgsql_rdb_node'          => 'tech/store/rdb/pgsql_rdb.php',
-        'swap\pgsql_master_rdb_node'   => 'tech/store/rdb/pgsql_rdb.php',
-        'swap\pgsql_slave_rdb_node'    => 'tech/store/rdb/pgsql_rdb.php',
-        'swap\pgsql_rdb_conn'          => 'tech/store/rdb/pgsql_rdb.php',
-        'swap\pgsql_rdb_result'        => 'tech/store/rdb/pgsql_rdb.php',
-        'swap\sqlite_rdb_node'         => 'tech/store/rdb/sqlite_rdb.php',
-        'swap\sqlite_master_rdb_node'  => 'tech/store/rdb/sqlite_rdb.php',
-        'swap\sqlite_slave_rdb_node'   => 'tech/store/rdb/sqlite_rdb.php',
-        'swap\sqlite_rdb_conn'         => 'tech/store/rdb/sqlite_rdb.php',
-        'swap\sqlite_rdb_result'       => 'tech/store/rdb/sqlite_rdb.php',
-        'swap\redis_pool'              => 'tech/store/redis/redis.php',
-        'swap\redis_master_node'       => 'tech/store/redis/redis.php',
-        'swap\redis_slave_node'        => 'tech/store/redis/redis.php',
-        'swap\mover'                   => 'tech/mover/mover.php',
-        'swap\mover_pool'              => 'tech/mover/mover.php',
-        'swap\filesys_mover'           => 'tech/mover/filesys_mover.php',
-        'swap\ftp_mover'               => 'tech/mover/ftp_mover.php',
-        'swap\http_mover'              => 'tech/mover/http_mover.php',
-        'swap\value'                   => 'toolkit/value.php',
-        'swap\email_value'             => 'toolkit/value.php',
-        'swap\url_value'               => 'toolkit/value.php',
-        'swap\ip_value'                => 'toolkit/value.php',
-        'swap\dsn_value'               => 'toolkit/value.php',
-        'swap\time_value'              => 'toolkit/value.php',
-        'swap\mobile_value'            => 'toolkit/value.php',
-        'swap\crypt'                   => 'toolkit/crypt.php',
-        'swap\html'                    => 'toolkit/html.php',
-        'swap\html_escapable'          => 'toolkit/html.php',
+    protected static $kern_entities = [
+        'kern\checker'                 => 'server/checker.php',
+        'kern\check_failed'            => 'server/checker.php',
+        'kern\lazy_checker'            => 'server/checker.php',
+        'kern\greedy_checker'          => 'server/checker.php',
+        'kern\instant_checker'         => 'server/checker.php',
+        'kern\session'                 => 'server/sess/session.php',
+        'kern\session_manager'         => 'server/sess/session.php',
+        'kern\session_store'           => 'server/sess/session.php',
+        'kern\session_store_pool'      => 'server/sess/session.php',
+        'kern\memcached_session_store' => 'server/sess/memcached_session.php',
+        'kern\redis_session_store'     => 'server/sess/redis_session.php',
+        'kern\mysql_session_store'     => 'server/sess/mysql_session.php',
+        'kern\pgsql_session_store'     => 'server/sess/pgsql_session.php',
+        'kern\sqlite_session_store'    => 'server/sess/sqlite_session.php',
+        'kern\pps_rendor'              => 'server/pps.php',
+        'kern\tpl_rendor'              => 'server/php.php',
+        'kern\controller'              => 'server/php.php',
+        'kern\helper'                  => 'server/php.php',
+        'kern\context'                 => 'server/php.php',
+        'kern\before_filter'           => 'server/php.php',
+        'kern\after_filter'            => 'server/php.php',
+        'kern\autoload_filter'         => 'server/php.php',
+        'kern\action_return'           => 'server/php.php',
+        'kern\action_forward'          => 'server/php.php',
+        'kern\dispatch_return'         => 'server/rendor.php',
+        'kern\dispatcher'              => 'server/rendor.php',
+        'kern\rendor'                  => 'server/rendor.php',
+        'kern\router'                  => 'server/router.php',
+        'kern\target'                  => 'server/router.php',
+        'kern\visitor'                 => 'server/visitor.php',
+        'kern\binder'                  => 'server/model.php',
+        'kern\model_api'               => 'server/model.php',
+        'kern\model'                   => 'server/model.php',
+        'kern\cache'                   => 'tech/cache/cache.php',
+        'kern\cache_pool'              => 'tech/cache/cache.php',
+        'kern\filesys_cache'           => 'tech/cache/filesys_cache.php',
+        'kern\memcached_cache'         => 'tech/cache/memcached_cache.php',
+        'kern\redis_cache'             => 'tech/cache/redis_cache.php',
+        'kern\rdb'                     => 'tech/store/rdb/rdb.php',
+        'kern\rdb_node'                => 'tech/store/rdb/rdb.php',
+        'kern\rdb_node_pool'           => 'tech/store/rdb/rdb.php',
+        'kern\rdb_conn'                => 'tech/store/rdb/rdb.php',
+        'kern\rdb_result'              => 'tech/store/rdb/rdb.php',
+        'kern\rdb_conn_pool'           => 'tech/store/rdb/rdb.php',
+        'kern\mysql_rdb_node'          => 'tech/store/rdb/mysql_rdb.php',
+        'kern\mysql_master_rdb_node'   => 'tech/store/rdb/mysql_rdb.php',
+        'kern\mysql_slave_rdb_node'    => 'tech/store/rdb/mysql_rdb.php',
+        'kern\mysql_rdb_conn'          => 'tech/store/rdb/mysql_rdb.php',
+        'kern\mysql_rdb_result'        => 'tech/store/rdb/mysql_rdb.php',
+        'kern\pgsql_rdb_node'          => 'tech/store/rdb/pgsql_rdb.php',
+        'kern\pgsql_master_rdb_node'   => 'tech/store/rdb/pgsql_rdb.php',
+        'kern\pgsql_slave_rdb_node'    => 'tech/store/rdb/pgsql_rdb.php',
+        'kern\pgsql_rdb_conn'          => 'tech/store/rdb/pgsql_rdb.php',
+        'kern\pgsql_rdb_result'        => 'tech/store/rdb/pgsql_rdb.php',
+        'kern\sqlite_rdb_node'         => 'tech/store/rdb/sqlite_rdb.php',
+        'kern\sqlite_master_rdb_node'  => 'tech/store/rdb/sqlite_rdb.php',
+        'kern\sqlite_slave_rdb_node'   => 'tech/store/rdb/sqlite_rdb.php',
+        'kern\sqlite_rdb_conn'         => 'tech/store/rdb/sqlite_rdb.php',
+        'kern\sqlite_rdb_result'       => 'tech/store/rdb/sqlite_rdb.php',
+        'kern\redis_pool'              => 'tech/store/redis/redis.php',
+        'kern\redis_master_node'       => 'tech/store/redis/redis.php',
+        'kern\redis_slave_node'        => 'tech/store/redis/redis.php',
+        'kern\mover'                   => 'tech/mover/mover.php',
+        'kern\mover_pool'              => 'tech/mover/mover.php',
+        'kern\filesys_mover'           => 'tech/mover/filesys_mover.php',
+        'kern\ftp_mover'               => 'tech/mover/ftp_mover.php',
+        'kern\http_mover'              => 'tech/mover/http_mover.php',
+        'kern\value'                   => 'toolkit/value.php',
+        'kern\email_value'             => 'toolkit/value.php',
+        'kern\url_value'               => 'toolkit/value.php',
+        'kern\ip_value'                => 'toolkit/value.php',
+        'kern\dsn_value'               => 'toolkit/value.php',
+        'kern\time_value'              => 'toolkit/value.php',
+        'kern\mobile_value'            => 'toolkit/value.php',
+        'kern\crypt'                   => 'toolkit/crypt.php',
+        'kern\html'                    => 'toolkit/html.php',
+        'kern\html_escapable'          => 'toolkit/html.php',
     ];
 }
 // [实体] 日志记录器
@@ -447,17 +447,17 @@ class logger {
     const warning = 'WARNING';
     const error = 'ERROR';
     public static function log_error($msg) {
-        if (defined('swap\run_dir')) {
+        if (defined('kern\run_dir')) {
             @file_put_contents(self::get_log_file_for('error'), '[' . clock::get_datetime() . '] ' . $msg . "\n", FILE_APPEND);
         }
     }
     public static function log($filename, $msg, $level = self::notice) {
-        if (defined('swap\run_dir')) {
+        if (defined('kern\run_dir')) {
             @file_put_contents(self::get_log_file_for($filename), '[' . clock::get_datetime() . '][' . $level . '] ' . $msg . "\n", FILE_APPEND);
         }
     }
-    public static function /* @swap */ init() {
-        self::$rotate_method = setting::get_swap('log_rotate_method', '');
+    public static function /* @kern */ init() {
+        self::$rotate_method = setting::get_kern('log_rotate_method', '');
     }
     protected static function get_log_file_for($filename) {
         if (self::$rotate_method === 'day') {
@@ -483,7 +483,7 @@ class i18n {
         }
     }
     protected static function load() {
-        if (defined('swap\run_dir')) {
+        if (defined('kern\run_dir')) {
             $_i18n_file = run_dir . '/i18n/' . self::$locale . '.php';
             if (is_readable($_i18n_file)) {
                 $_texts = require $_i18n_file;
@@ -499,7 +499,7 @@ class i18n {
 // [实体] 调试器
 class debug {
     public static function dump(/* ... */) {
-        if (defined('swap\run_dir')) {
+        if (defined('kern\run_dir')) {
             ob_start();
             call_user_func_array('var_dump', func_get_args());
             $text = ob_get_clean();
@@ -509,7 +509,7 @@ class debug {
     }
     public static function save($filename, $text) {
         static $uri = '';
-        if (!defined('swap\run_dir')) {
+        if (!defined('kern\run_dir')) {
             return;
         }
         if ($uri === '' && !framework::is_cli_mode()) {
@@ -518,7 +518,7 @@ class debug {
         $file = run_dir . '/debug/' . $filename . '.log';
         @file_put_contents($file, '[' . clock::get_datetime() . '][' . $uri . '] - ' . $text . "\n", FILE_APPEND);
     }
-    public static function /* @swap */ save_required_files() {
+    public static function /* @kern */ save_required_files() {
         $text = var_export(get_included_files(), true);
         if (DIRECTORY_SEPARATOR === '\\') {
             $text = str_replace('\\\\', '/', $text);
@@ -563,7 +563,7 @@ function is_identifier_path($str, $slash_count = -1) {
 function random_sha1() {
     static $secret_key = null;
     if ($secret_key === null) {
-        $secret_key = setting::get_swap('secret_key', '');
+        $secret_key = setting::get_kern('secret_key', '');
     }
     $random_str = '';
     foreach (['REMOTE_ADDR', 'REMOTE_PORT', 'HTTP_USER_AGENT'] as $key) {

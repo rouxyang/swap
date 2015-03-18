@@ -1,8 +1,8 @@
 <?php
-use swap\visitor;
-use swap\lazy_checker;
-use swap\check_failed;
-class link_controller extends swap\controller {
+use kern\visitor;
+use kern\lazy_checker;
+use kern\check_failed;
+class link_controller extends kern\controller {
     public static $layout = 'two';
     public static function index_action() {
         // 呈现

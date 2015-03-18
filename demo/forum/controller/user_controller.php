@@ -1,9 +1,9 @@
 <?php
-use swap\clock;
-use swap\visitor;
-use swap\lazy_checker;
-use swap\check_failed;
-class user_controller extends swap\controller {
+use kern\clock;
+use kern\visitor;
+use kern\lazy_checker;
+use kern\check_failed;
+class user_controller extends kern\controller {
     public static $layout = 'main';
     public static function show_action() {
         self::show_page();

@@ -1,6 +1,6 @@
 <?php
-use swap\visitor;
-class browser_filter extends swap\before_filter {
+use kern\visitor;
+class browser_filter extends kern\before_filter {
     public static function run(array $denied_browsers) {
         foreach ($denied_browsers as $browser) {
             $checker = 'is_' . $browser;

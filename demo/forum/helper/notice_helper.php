@@ -1,6 +1,6 @@
 <?php
-use swap\visitor;
-class notice_helper extends swap\helper {
+use kern\visitor;
+class notice_helper extends kern\helper {
     public static function run(array $context) {
         self::render();
     }

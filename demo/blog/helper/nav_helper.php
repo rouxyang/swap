@@ -1,7 +1,7 @@
 <?php
-use swap\visitor;
-use swap\binder;
-class nav_helper extends swap\helper {
+use kern\visitor;
+use kern\binder;
+class nav_helper extends kern\helper {
     public static function run(array $context) {
         self::set('categories', category_model::get_all());
         self::set('tags', tag_model::get_all(array(array('refer_count' => 'DESC'), 1, 10)));

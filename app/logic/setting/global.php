@@ -6,10 +6,10 @@ return [
             'main' => [
                 // 'master' => 'mysql://user:pass@ip:port/db_name',
                 // 'master' => 'pgsql://user:pass@ip:port/db_name',
-                'master' => 'sqlite://' . swap\run_dir . '/repo/rdb.db',
+                'master' => 'sqlite://' . kern\run_dir . '/repo/rdb.db',
                 'slaves' => [
-                    'sqlite://' . swap\run_dir . '/repo/rdb.db',
-                    'sqlite://' . swap\run_dir . '/repo/rdb.db',
+                    'sqlite://' . kern\run_dir . '/repo/rdb.db',
+                    'sqlite://' . kern\run_dir . '/repo/rdb.db',
                 ],
             ],
         ],
@@ -44,6 +44,6 @@ return [
         ],
     ],
     'mover' => [
-        'demo' => 'filesys://' . swap\web_dir . '/upload/demo',
+        'demo' => 'filesys://' . kern\web_dir . '/upload/demo',
     ],
 ];

@@ -1,2 +1,2 @@
 <?php
-class_alias('swap\visitor', 'visitor');
+class_alias('kern\visitor', 'visitor');

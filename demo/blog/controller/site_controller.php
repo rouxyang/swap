@@ -1,8 +1,8 @@
 <?php
-use swap\visitor;
-use swap\lazy_checker;
-use swap\check_failed;
-class site_controller extends swap\controller {
+use kern\visitor;
+use kern\lazy_checker;
+use kern\check_failed;
+class site_controller extends kern\controller {
     public static function index_action() {
         self::forward_to('post/index');
     }

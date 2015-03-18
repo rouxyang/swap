@@ -8,10 +8,10 @@
 </head>
 <body>
 <?php
-if (swap\framework::is_debug()) {
-    if ($e instanceof swap\error) {
+if (kern\framework::is_debug()) {
+    if ($e instanceof kern\error) {
         echo '<h1>Internal Server Error: Hard Error</h1><hr>';
-    } else if ($e instanceof swap\except) {
+    } else if ($e instanceof kern\except) {
         echo '<h1>Internal Server Error: Soft Except</h1><hr>';
     } else {
         echo '<h1>Internal Server Error: Unknown Exception</h1><hr>';

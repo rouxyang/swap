@@ -5,14 +5,14 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 use Redis;
 if (!extension_loaded('Redis')) throw new environment_error('cannot use redis_store: Redis extension does not exist');
 redis_session_store::__init__();
 /**
  * [类型] redis 会话存储源
  */
-class /* @swap */ redis_session_store extends session_store {
+class /* @kern */ redis_session_store extends session_store {
     public function __construct($dsn) {
     }
     public function is_role_id_online($role_id) {

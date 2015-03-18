@@ -5,19 +5,19 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 // [类型] 分派返回标志
-class /* @swap */ dispatch_return extends \Exception {}
+class /* @kern */ dispatch_return extends \Exception {}
 // [实体] 分派器
-class /* @swap */ dispatcher {
+class /* @kern */ dispatcher {
     public static function dispatch_pps() {
         $uri = visitor::uri();
         $target = router::parse_pps_uri($uri);
         if (setting::get_module('view.default_skeleton', false) !== false) {
             if (setting::get_module('view.cache_pps_in_server', false)) {
                 $use_cache = false;
-                if (defined('swap\run_dir')) {
-                    $version_key = setting::get_swap('version_key', router::default_version_key);
+                if (defined('kern\run_dir')) {
+                    $version_key = setting::get_kern('version_key', router::default_version_key);
                     $cache_dir = run_dir . '/cache/' . $serve_mode . '/' . $target->get_param($version_key, '0');
                     $cache_file = $cache_dir . '/' . sha1($uri) . '.cache';
                     if (is_readable($cache_file)) {
@@ -42,7 +42,7 @@ class /* @swap */ dispatcher {
         visitor::set_content($content);
     }
     public static function dispatch_php() {
-        if (defined('swap\utility_dir')) {
+        if (defined('kern\utility_dir')) {
             $global_file = utility_dir . '/global.php';
             if (is_readable($global_file)) {
                 loader::load_file($global_file);
@@ -175,12 +175,12 @@ class /* @swap */ dispatcher {
     }
     protected static function run_filter($filter_type, $filter, $filter_arg) {
         if (!class_exists($filter, true)) {
-            $filter = 'swap\\' . $filter;
+            $filter = 'kern\\' . $filter;
             if (!class_exists($filter, true)) {
                 throw new developer_error("cannot find filter: {$filter}");
             }
         }
-        if (!is_subclass_of($filter, 'swap\\' . $filter_type . '_filter')) {
+        if (!is_subclass_of($filter, 'kern\\' . $filter_type . '_filter')) {
             throw new developer_error("filter: {$filter} is not a " . $filter_type . ' filter');
         }
         $filter::run($filter_arg);
@@ -219,18 +219,18 @@ abstract class rendor {
     protected static function /* @view */ pjs_url($pjs_name, $echo = true) {
         return router::pps_url('pjs.php?link=' . $pjs_name, $echo);
     }
-    protected static function /* @swap */ use_viewlet($viewlet_name) {
-        loader::load_file(swap_dir . '/server/view/viewlet/' . $viewlet_name . '.php');
+    protected static function /* @kern */ use_viewlet($viewlet_name) {
+        loader::load_file(kern_dir . '/server/view/viewlet/' . $viewlet_name . '.php');
     }
-    protected static function /* @swap */ use_app_viewlet($viewlet_name) {
-        if (defined('swap\view_dir')) {
+    protected static function /* @kern */ use_app_viewlet($viewlet_name) {
+        if (defined('kern\view_dir')) {
             $viewlet_file = view_dir . '/viewlet/' . $viewlet_name . '.php';
             if (is_readable($viewlet_file)) {
                 loader::load_file($viewlet_file);
             }
         }
     }
-    protected static function /* @swap */ regularize($target, $for_html) {
+    protected static function /* @kern */ regularize($target, $for_html) {
         if ($for_html === null) { # 如果是 null，则根据当前运行模式自动判断
             $for_html = !framework::is_pps_mode();
         }

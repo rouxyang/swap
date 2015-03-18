@@ -5,13 +5,13 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 use Exception;
 filesys_cache::__init__();
 /**
  * [类型]
  */
-class /* @swap */ filesys_cache extends cache {
+class /* @kern */ filesys_cache extends cache {
     const max_expire = 2147483647;
     public function __construct(array $dsns) {
         list(, $this->cache_dir) = explode('://', current($dsns), 2);
@@ -91,7 +91,7 @@ class /* @swap */ filesys_cache extends cache {
     }
     protected $cache_dir = '';
     public static function __init__() {
-        self::$secret_key = setting::get_swap('secret_key', '');
+        self::$secret_key = setting::get_kern('secret_key', '');
     }
     protected static $secret_key = '';
 }

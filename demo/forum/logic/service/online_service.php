@@ -1,6 +1,6 @@
 <?php
-use swap\session_manager;
-use swap\cache_pool;
+use kern\session_manager;
+use kern\cache_pool;
 class online_service {
     public static function get_online_count() {
         $misc_cache = cache_pool::get_cache('misc');

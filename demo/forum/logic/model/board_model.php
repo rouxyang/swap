@@ -1,4 +1,4 @@
 <?php
-class board_model extends swap\model {
+class board_model extends kern\model {
     const name_len = 32;
 }

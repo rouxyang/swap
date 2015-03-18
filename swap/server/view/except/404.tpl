@@ -8,7 +8,7 @@
 </head>
 <body>
 <?php
-if (swap\framework::is_debug()) {
+if (kern\framework::is_debug()) {
     echo '<h1>Visitor error: Not Found</h1><hr>';
     echo '<pre>';
     var_dump($e);

@@ -9,10 +9,10 @@
  *  page_size    - 每页记录数
  */
 extract($pager);
-$target = new swap\target(r($target));
+$target = new kern\target(r($target));
 $page_url = function ($page) use ($target) {
     $target->set_param('page', $page);
-    swap\router::build_php_url($target, true, true);
+    kern\router::build_php_url($target, true, true);
 };
 $current_page = (int)$current_page;
 ?>

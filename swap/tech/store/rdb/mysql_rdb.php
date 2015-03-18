@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
-namespace swap;
+namespace kern;
 if (!extension_loaded('mysqli')) throw new environment_error('cannot use mysql_rdb_conn: mysqli extension does not exist');
 // [类型] mysql 关系数据库节点
 abstract class mysql_rdb_node extends rdb_node {}
@@ -14,7 +14,7 @@ class mysql_master_rdb_node extends mysql_rdb_node {}
 // [类型] mysql 关系数据库从节点
 class mysql_slave_rdb_node extends mysql_rdb_node {}
 // [类型] mysql 关系数据库连接
-class /* @swap */ mysql_rdb_conn extends rdb_conn {
+class /* @kern */ mysql_rdb_conn extends rdb_conn {
     public function __construct($dsn) {
         $url_parts = parse_url($dsn);
         extract($url_parts, EXTR_SKIP);
@@ -87,7 +87,7 @@ class /* @swap */ mysql_rdb_conn extends rdb_conn {
     protected $conn = null;
 }
 // [类型] mysql 关系数据库结果集
-class /* @swap */ mysql_rdb_result extends rdb_result {
+class /* @kern */ mysql_rdb_result extends rdb_result {
     public function __construct($result) {
         $this->result = $result;
     }
