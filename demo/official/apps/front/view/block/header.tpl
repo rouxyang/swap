@@ -8,8 +8,8 @@
         <li><a href="<?php static::php_url('site/doc') ?>">文档</a></li>
         <li><a href="<?php static::php_url('site/support') ?>">支持</a></li>
         <li><a href="<?php static::php_url('site/license') ?>">协议</a></li>
-        <li><a href="http://code.google.com/p/kern/">开发</a></li>
-        <li><a href="http://blog.kernframework.org/">博客</a></li>
-        <li><a href="http://forum.kernframework.org/">论坛</a></li>
+        <li><a href="http://code.google.com/p/swap/">开发</a></li>
+        <li><a href="http://blog.swapframework.org/">博客</a></li>
+        <li><a href="http://forum.swapframework.org/">论坛</a></li>
     </ul>
 </div></div>
