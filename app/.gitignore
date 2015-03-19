@@ -1,0 +1,4 @@
+*.log
+local.php
+*.cache
+.DS_Store
