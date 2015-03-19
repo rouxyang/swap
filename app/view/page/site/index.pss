@@ -1,0 +1,8 @@
+h1{
+    width:800px;
+    margin:40px auto;
+    border:1px solid #f0f0f0;
+    padding:10px;
+    text-align:center;
+    background:#f9f9f9;
+}

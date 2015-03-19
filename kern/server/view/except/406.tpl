@@ -1,9 +1,8 @@
 <?php header('HTTP/1.1 406 Not Acceptable'); ?>
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
 <title>406 Not Acceptable</title>
 </head>
 <body>
