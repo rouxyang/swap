@@ -14,7 +14,7 @@ class framework {
         self::$serve_mode = self::php_mode;
         try {
             self::init_web_environment();
-            dispatcher::dispatch_php();
+            php_dispatcher::dispatch();
             self::send_php_response();
         } catch (visitor_except $e) {
             self::show_exception($e);
@@ -109,7 +109,7 @@ class framework {
         self::$serve_mode = $serve_mode;
         try {
             self::init_web_environment();
-            dispatcher::dispatch_pps();
+            pps_dispatcher::dispatch();
             self::send_pps_response();
         } catch (visitor_except $e) {}
     }
@@ -378,8 +378,9 @@ class loader {
         'kern\mysql_session_store'     => 'server/sess/mysql_session.php',
         'kern\pgsql_session_store'     => 'server/sess/pgsql_session.php',
         'kern\sqlite_session_store'    => 'server/sess/sqlite_session.php',
+        'kern\pps_dispatcher'          => 'server/dispatcher.php',
+        'kern\php_dispatcher'          => 'server/dispatcher.php',
         'kern\dispatch_return'         => 'server/dispatcher.php',
-        'kern\dispatcher'              => 'server/dispatcher.php',
         'kern\pps_rendor'              => 'server/pps.php',
         'kern\tpl_rendor'              => 'server/php.php',
         'kern\controller'              => 'server/php.php',

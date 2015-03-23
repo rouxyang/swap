@@ -6,11 +6,9 @@
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace kern;
-// [类型] 分派返回标志
-class /* @kern */ dispatch_return extends \Exception {}
-// [实体] 分派器
-class /* @kern */ dispatcher {
-    public static function dispatch_pps() {
+// [实体] PPS 模式分派器
+class /* @kern */ pps_dispatcher {
+    public static function dispatch() {
         $uri = visitor::uri();
         $target = router::parse_pps_uri($uri);
         if (setting::get_module('view.default_skeleton', false) !== false) {
@@ -41,7 +39,10 @@ class /* @kern */ dispatcher {
         }
         visitor::set_content($content);
     }
-    public static function dispatch_php() {
+}
+// [实体] PHP 模式分派器
+class /* @kern */ php_dispatcher {
+    public static function dispatch() {
         if (defined('kern\utility_dir')) {
             $global_file = utility_dir . '/global.php';
             if (is_readable($global_file)) {
@@ -194,3 +195,5 @@ class /* @kern */ dispatcher {
     ];
     protected static $global_filters = null;
 }
+// [类型] 分派返回标志
+class /* @kern */ dispatch_return extends \Exception {}
