@@ -362,6 +362,8 @@ class loader {
         }
     }
     protected static $kern_entities = [
+        'kern\auto_controller'         => 'pack/auto.php',
+        'kern\admin_controller'        => 'pack/admin.php',
         'kern\checker'                 => 'server/checker.php',
         'kern\check_failed'            => 'server/checker.php',
         'kern\lazy_checker'            => 'server/checker.php',
@@ -376,6 +378,8 @@ class loader {
         'kern\mysql_session_store'     => 'server/sess/mysql_session.php',
         'kern\pgsql_session_store'     => 'server/sess/pgsql_session.php',
         'kern\sqlite_session_store'    => 'server/sess/sqlite_session.php',
+        'kern\dispatch_return'         => 'server/dispatcher.php',
+        'kern\dispatcher'              => 'server/dispatcher.php',
         'kern\pps_rendor'              => 'server/pps.php',
         'kern\tpl_rendor'              => 'server/php.php',
         'kern\controller'              => 'server/php.php',
@@ -386,8 +390,6 @@ class loader {
         'kern\autoload_filter'         => 'server/php.php',
         'kern\action_return'           => 'server/php.php',
         'kern\action_forward'          => 'server/php.php',
-        'kern\dispatch_return'         => 'server/rendor.php',
-        'kern\dispatcher'              => 'server/rendor.php',
         'kern\rendor'                  => 'server/rendor.php',
         'kern\router'                  => 'server/router.php',
         'kern\target'                  => 'server/router.php',
