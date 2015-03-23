@@ -92,9 +92,9 @@ class framework {
         } else {
             ob_end_clean(); # 丢弃开发者无意间 echo 出的内容
             header('Content-Type: text/html; charset=utf-8');
-            $_tpl_file = kern_dir . '/server/view/except/' . $e->getCode() . '.tpl';
+            $_tpl_file = kern_dir . '/server/view/' . $e->getCode() . '.tpl';
             if (!is_readable($_tpl_file)) {
-                $_tpl_file = kern_dir . '/server/view/except/500.tpl';
+                $_tpl_file = kern_dir . '/server/view/500.tpl';
             }
             require $_tpl_file;
         }
