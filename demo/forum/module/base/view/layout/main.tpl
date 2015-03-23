@@ -1,11 +1,11 @@
 <body>
 
-    <?php static::block('admin/header'); ?>
+    <?php static::block('header'); ?>
 
     <div id="layout_page">
         <?php static::content(); ?>
     </div>
 
-    <?php static::block('admin/footer'); ?>
+    <?php static::block('footer'); ?>
 
 </body>
