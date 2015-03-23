@@ -362,8 +362,6 @@ class loader {
         }
     }
     protected static $kern_entities = [
-        'kern\auto_controller'         => 'pack/auto.php',
-        'kern\admin_controller'        => 'pack/admin.php',
         'kern\checker'                 => 'server/logic/checker.php',
         'kern\check_failed'            => 'server/logic/checker.php',
         'kern\lazy_checker'            => 'server/logic/checker.php',
