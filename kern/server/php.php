@@ -6,6 +6,164 @@
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace kern;
+// [实体] PHP 模式分派器
+class /* @kern */ php_dispatcher {
+    public static function dispatch() {
+        self::load_global_file();
+        $target = router::parse_php_uri(visitor::uri(), visitor::host());
+        $forward_times = 0;
+        while (true) {
+            if ($forward_times >= 8) {
+                throw new developer_error('too many forwards');
+            }
+            self::$global_filters = setting::get_module('global_filters', null);
+            try {
+                self::dispatch_target($target);
+                break;
+            } catch (action_forward $forward) {
+                $target = $forward->get_target();
+                setting::set_module_name($target->get_module_name());
+                visitor::forward_cookies();
+                $forward_times++;
+                continue;
+            } catch (dispatch_return $return) {
+                return;
+            }
+        }
+    }
+    protected static function load_global_file() {
+        if (defined('kern\utility_dir')) {
+            $global_file = utility_dir . '/global.php';
+            if (is_readable($global_file)) {
+                loader::load_file($global_file);
+            }
+        }
+    }
+    protected static function dispatch_target(target $target) {
+        try {
+            visitor::set_target($target);
+            visitor::restore_roles();
+            list($controller_name, $action_name) = $target->get_target_pair();
+            $controller = $controller_name . '_controller';
+            $controller_file = controller_dir . '/';
+            if ($target->has_module()) {
+                $controller_file .= $target->get_module_name() . '/';
+            }
+            $controller_file .= $controller . '.php';
+            if (!is_readable($controller_file)) {
+                throw new visitor_except('controller "' . $controller_name . '" does not exist', 404);
+            }
+            loader::load_file($controller_file);
+            $action = $action_name . '_action';
+            if (!is_callable([$controller, $action], false)) {
+                throw new visitor_except('action "' . $action_name . '" does not exist', 404);
+            }
+            self::run_action($controller_name, $controller, $action, null, true);
+        } catch (\Exception $e) {
+            self::dispatch_except($e);
+        }
+    }
+    protected static function dispatch_except(\Exception $e) {
+        if ($e instanceof except || $e instanceof error) {
+            $except_code = $e->getCode();
+            if (!($e instanceof visitor_except)) {
+                $except_code = 500;
+            }
+            if (isset(self::$except_handlers[$except_code])) {
+                $controller_name = 'except';
+                $controller = $controller_name . '_controller';
+                $controller_file = controller_dir . '/' . $controller_name . '_controller.php';
+                if (is_readable($controller_file)) {
+                    loader::load_file($controller_file);
+                    $action_name = self::$except_handlers[$except_code];
+                    $action = $action_name . '_action';
+                    if (is_callable([$controller, $action], false)) {
+                        visitor::set_target(new target($controller_name . '/' . $action_name));
+                        self::run_action($controller_name, $controller, $action, $e, false);
+                        return;
+                    }
+                }
+            }
+        }
+        throw $e;
+    }
+    protected static function run_action($controller_name, $controller, $action, $action_arg, $run_filters) {
+        controller::reset();
+        if ($run_filters) {
+            $have_global_filters = self::$global_filters !== null;
+            if ($have_global_filters) {
+                self::run_global_filters('before');
+            }
+            self::run_controller_filters('before', $controller_name, $action);
+        }
+        try {
+            if (is_callable([$controller, 'before_run'], false)) {
+                $controller::before_run();
+            }
+            $controller::$action($action_arg);
+            if (is_callable([$controller, 'after_run'], false)) {
+                $controller::after_run();
+            }
+        } catch (action_return $return) {}
+        if ($run_filters) {
+            self::run_controller_filters('after', $controller_name, $action);
+            if ($have_global_filters) {
+                self::run_global_filters('after');
+            }
+        }
+    }
+    protected static function run_global_filters($filter_type) {
+        if (isset(self::$global_filters[$filter_type]) && is_array(self::$global_filters[$filter_type])) {
+            foreach (self::$global_filters[$filter_type] as $filter => $filter_arg) {
+                self::run_filter($filter_type, $filter, $filter_arg);
+            }
+        }
+    }
+    protected static function run_controller_filters($filter_type, $controller_name, $action) {
+        $args_getter = $filter_type . '_filters';
+        $controller = $controller_name . '_controller';
+        if (!is_callable([$controller, $args_getter])) {
+            return;
+        }
+        $filter_args = $controller::$args_getter();
+        if (!is_array($filter_args)) {
+            return;
+        }
+        foreach ($filter_args as $filter => $action_to_arg) {
+            if (!is_array($action_to_arg)) {
+                throw new developer_error('filter arg should be an assoc array with action as key, setting as value');
+            }
+            if (isset($action_to_arg[$action])) {
+                $filter_arg = $action_to_arg[$action];
+            } else if (isset($action_to_arg['*'])) {
+                $filter_arg = $action_to_arg['*'];
+            } else {
+                continue;
+            }
+            self::run_filter($filter_type, $filter, $filter_arg);
+        }
+    }
+    protected static function run_filter($filter_type, $filter, $filter_arg) {
+        if (!class_exists($filter, true)) {
+            $filter = 'kern\\' . $filter;
+            if (!class_exists($filter, true)) {
+                throw new developer_error("cannot find filter: {$filter}");
+            }
+        }
+        if (!is_subclass_of($filter, 'kern\\' . $filter_type . '_filter')) {
+            throw new developer_error("filter: {$filter} is not a " . $filter_type . ' filter');
+        }
+        $filter::run($filter_arg);
+    }
+    protected static $except_handlers = [
+        403 => 'access_denied',
+        404 => 'target_missing',
+        405 => 'method_denied',
+        406 => 'browser_denied',
+        500 => 'server_except',
+    ];
+    protected static $global_filters = null;
+}
 // [实体] 模板渲染器
 abstract class tpl_rendor extends rendor {
     public static function /* @kern */ reset() {
@@ -711,6 +869,8 @@ class /* @kern */ context {
     protected static $primary = []; # 原始值
     protected static $escaped = []; # html 转义过的值
 }
+// [类型] 分派返回标志
+class /* @kern */ dispatch_return extends \Exception {}
 // [类型] action 返回标志
 class /* @kern */ action_return extends \Exception {}
 // [类型] action 转移标志

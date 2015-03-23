@@ -1,11 +1,45 @@
 <?php
 /**
- * 收集和渲染动态的 pss 和 pjs 文件
+ * PPS 模式
  *
  * @copyright Copyright (c) 2009-2015 Jingcheng Zhang <diogin@gmail.com>. All rights reserved.
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace kern;
+// [实体] PPS 模式分派器
+class /* @kern */ pps_dispatcher {
+    public static function dispatch() {
+        $uri = visitor::uri();
+        $target = router::parse_pps_uri($uri);
+        if (setting::get_module('view.default_skeleton', false) !== false) {
+            if (setting::get_module('view.cache_pps_in_server', false)) {
+                $use_cache = false;
+                if (defined('kern\run_dir')) {
+                    $version_key = setting::get_kern('version_key', router::default_version_key);
+                    $cache_dir = run_dir . '/cache/' . $serve_mode . '/' . $target->get_param($version_key, '0');
+                    $cache_file = $cache_dir . '/' . sha1($uri) . '.cache';
+                    if (is_readable($cache_file)) {
+                        $use_cache = true;
+                    }
+                }
+                if ($use_cache) {
+                    $content = file_get_contents($cache_file);
+                } else {
+                    $content = pps_rendor::render_for($target);
+                    if (!is_dir($cache_dir)) {
+                        @mkdir($cache_dir, 0777, true);
+                    }
+                    @file_put_contents($cache_file, $content);
+                }
+            } else {
+                $content = pps_rendor::render_for($target);
+            }
+        } else {
+            $content = '';
+        }
+        visitor::set_content($content);
+    }
+}
 // [实体] PSS, PJS 渲染器
 class pps_rendor extends rendor {
     public static function /* @kern */ render_for(target $target) {
