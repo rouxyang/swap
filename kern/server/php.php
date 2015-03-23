@@ -10,7 +10,6 @@ namespace kern;
 abstract class tpl_rendor extends rendor {
     public static function /* @kern */ reset() {
         parent::use_viewlet('tpl');
-        parent::use_app_viewlet('tpl');
         self::$target = visitor::get_target();
         self::$skeleton = setting::get_module('view.default_skeleton', false);
         self::$linked_styles = [];

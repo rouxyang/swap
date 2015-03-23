@@ -32,9 +32,6 @@ abstract class rendor {
         return router::pps_url('pjs.php?link=' . $pjs_name, $echo);
     }
     protected static function /* @kern */ use_viewlet($viewlet_name) {
-        loader::load_file(kern_dir . '/server/view/viewlet/' . $viewlet_name . '.php');
-    }
-    protected static function /* @kern */ use_app_viewlet($viewlet_name) {
         if (defined('kern\view_dir')) {
             $viewlet_file = view_dir . '/viewlet/' . $viewlet_name . '.php';
             if (is_readable($viewlet_file)) {

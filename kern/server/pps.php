@@ -14,7 +14,6 @@ class pps_rendor extends rendor {
     }
     protected static function /* @kern */ render_pss_for(target $target) {
         parent::use_viewlet('pss');
-        parent::use_app_viewlet('pss');
         ob_start();
         self::do_render_in(view_dir, 'pss', $target);
         $pss = ob_get_clean();
@@ -25,7 +24,6 @@ class pps_rendor extends rendor {
     }
     protected static function /* @kern */ render_pjs_for(target $target) {
         parent::use_viewlet('pjs');
-        parent::use_app_viewlet('pjs');
         ob_start();
         self::do_render_in(view_dir, 'pjs', $target);
         $pjs = ob_get_clean();
