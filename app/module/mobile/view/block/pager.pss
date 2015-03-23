@@ -1,0 +1,23 @@
+.block_pager {
+    width: 300px;
+    height: 20px;
+    padding: 5px;
+    background: #89c;
+}
+.block_pager ul {
+    width: auto;
+    height: 20px;
+    background: #c98;
+}
+.block_pager li {
+    width: auto;
+    height: 20px;
+    padding: 0 5px;
+    background: #9c8;
+    text-align: center;
+    margin-left: 5px;
+    float: left;
+}
+.block_pager li a.current {
+    background: #98c;
+}
