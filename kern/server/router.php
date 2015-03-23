@@ -496,9 +496,8 @@ class router {
     protected static $module_flipped_routes = [];
     protected static $domain_modules = [];
 }
+// [类型] 目标
 /**
- * [类型] 目标
- *
  * target_token 有两种格式，一种字符串，一种数组。
  * 两种又区分带参数与不带参数。
  *

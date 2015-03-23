@@ -10,9 +10,7 @@ use SQLite3;
 use SQLite3Result;
 use Exception;
 if (!extension_loaded('SQLite3')) throw new environment_error('cannot use sqlite_session_store: sqlite3 extension does not exist');
-/**
- * [类型] sqlite 会话存储源
- */
+// [类型] sqlite 会话存储源
 class /* @kern */ sqlite_session_store extends session_store {
     public function __construct($dsn) {
         # dsn 格式：sqlite:///path/to/session.db/user_session

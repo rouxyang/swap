@@ -6,9 +6,7 @@
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace kern;
-/**
- * HTTP 方式的文件移动器
- */
+// [类型] HTTP 方式的文件移动器
 class http_mover extends mover {
     public function __construct($dsn) {
     }

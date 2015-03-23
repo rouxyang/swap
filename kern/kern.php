@@ -473,31 +473,6 @@ class logger {
     }
     protected static $rotate_method = '';
 }
-// [实体] 国际化信息获取器
-class i18n {
-    public static function get($key, $default_value = '') {
-        return array_key_exists($key, self::$texts) ? self::$texts[$key] : $default_value;
-    }
-    public static function set_locale($locale) {
-        if ($locale !== self::$locale) {
-            self::$locale = $locale;
-            self::load();
-        }
-    }
-    protected static function load() {
-        if (defined('kern\run_dir')) {
-            $_i18n_file = run_dir . '/i18n/' . self::$locale . '.php';
-            if (is_readable($_i18n_file)) {
-                $_texts = require $_i18n_file;
-                if (is_array($_texts)) {
-                    self::$texts = $_texts;
-                }
-            }
-        }
-    }
-    protected static $locale = '';
-    protected static $texts = [];
-}
 // [实体] 调试器
 class debug {
     public static function dump(/* ... */) {
@@ -528,18 +503,30 @@ class debug {
         self::save('require_' . framework::get_serve_mode(), $text);
     }
 }
-// [实体] 运行时变量寄存器
-class registry {
-    public static function store($key, $value) {
-        self::$data[$key] = $value;
+// [实体] 国际化信息获取器
+class i18n {
+    public static function get($key, $default_value = '') {
+        return array_key_exists($key, self::$texts) ? self::$texts[$key] : $default_value;
     }
-    public static function fetch($key, $default_value = null) {
-        return self::has($key) ? self::$data[$key] : $default_value;
+    public static function set_locale($locale) {
+        if ($locale !== self::$locale) {
+            self::$locale = $locale;
+            self::load();
+        }
     }
-    public static function has($key) {
-        return array_key_exists($key, self::$data);
+    protected static function load() {
+        if (defined('kern\run_dir')) {
+            $_i18n_file = run_dir . '/i18n/' . self::$locale . '.php';
+            if (is_readable($_i18n_file)) {
+                $_texts = require $_i18n_file;
+                if (is_array($_texts)) {
+                    self::$texts = $_texts;
+                }
+            }
+        }
     }
-    protected static $data = array();
+    protected static $locale = '';
+    protected static $texts = [];
 }
 // 检查字符串是否为符合框架要求的标志符
 function is_identifier($str) {

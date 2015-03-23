@@ -7,9 +7,7 @@
  */
 namespace kern;
 if (!extension_loaded('mysqli')) throw new environment_error('cannot use mysql_session_store: mysqli extension does not exist');
-/**
- * [类型] mysql 会话存储源
- */
+// [类型] mysql 会话存储源
 class /* @kern */ mysql_session_store extends session_store {
     public function __construct($dsn) {
         $url_parts = parse_url($dsn);

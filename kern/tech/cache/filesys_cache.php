@@ -8,9 +8,7 @@
 namespace kern;
 use Exception;
 filesys_cache::__init__();
-/**
- * [类型]
- */
+// [类型]
 class /* @kern */ filesys_cache extends cache {
     const max_expire = 2147483647;
     public function __construct(array $dsns) {

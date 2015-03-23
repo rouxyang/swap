@@ -7,9 +7,7 @@
  */
 namespace kern;
 if (!extension_loaded('pgsql')) throw new environment_error('cannot use pgsql_session_store: pgsql extension does not exist');
-/**
- * [类型] postgresql 会话存储源
- */
+// [类型] postgresql 会话存储源
 class /* @kern */ pgsql_session_store extends session_store {
     public function __construct($dsn) {
         $url_parts = parse_url($dsn);

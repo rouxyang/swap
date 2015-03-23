@@ -6,9 +6,7 @@
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace kern;
-/**
- * [类型] upload 移动器
- */
+// [类型] upload 移动器
 abstract class mover {
     abstract public function move_file($src_file_path, $dst_file_path);
     abstract public function copy_file($src_file_path, $dst_file_path);
@@ -31,9 +29,7 @@ abstract class mover {
         $mover->delete_file($dst_file_path);
     }
 }
-/**
- * [实体] 移动器池
- */
+// [实体] 移动器池
 class mover_pool {
     public static function get_mover($target_name) {
         static $movers = [];

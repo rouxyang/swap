@@ -7,9 +7,7 @@
  */
 namespace kern;
 session_manager::__init__();
-/**
- * [类型] 会话
- */
+// [类型] 会话
 class session {
     public function has($key) {
         return array_key_exists($key, $this->role_vars);

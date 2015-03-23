@@ -6,9 +6,7 @@
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace kern;
-/**
- * [类型] 本地文件方式的文件移动器
- */
+// [类型] 本地文件方式的文件移动器
 class filesys_mover extends mover {
     public function __construct($dsn) {
         list(, $this->target_dir) = explode('://', $dsn, 2);

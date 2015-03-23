@@ -3,9 +3,7 @@ namespace kern;
 use Redis;
 if (!extension_loaded('Redis')) throw new environment_error('cannot use redis_cache: Redis extension does not exist');
 redis_cache::__init__();
-/**
- * [类型]
- */
+// [类型]
 class /* @kern */ redis_cache extends cache {
     public function __construct(array $dsns) {
     }

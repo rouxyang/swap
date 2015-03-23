@@ -1,10 +1,11 @@
 <?php
 namespace kern;
 if (!extension_loaded('Redis')) throw new environment_error('cannot use redis: Redis extension does not exist');
-class redis_master_node extends \Redis {
-}
-class redis_slave_node extends \Redis {
-}
+// [类型]
+class redis_master_node extends \Redis {}
+// [类型]
+class redis_slave_node extends \Redis {}
+// [实体]
 class redis_pool {
     public static function get_master_redis($source_name) {
         if (!isset(self::$redis_nodes['master'][$source_name])) {

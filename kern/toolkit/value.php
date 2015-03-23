@@ -21,9 +21,7 @@ abstract class value {
     }
     protected $value = null;
 }
-/**
- * [类型] URL 值
- */
+// [类型] URL 值
 class url_value extends value {
     public function is_valid() {
         return self::is_valid_url($this->value);
@@ -32,9 +30,7 @@ class url_value extends value {
         return false;
     }
 }
-/**
- * [类型] 时间值
- */
+// [类型] 时间值
 class time_value extends value {
     public function is_valid() {
         return self::is_valid_time($this->value);
@@ -43,9 +39,7 @@ class time_value extends value {
         return false;
     }
 }
-/**
- * [类型] 手机号值
- */
+// [类型] 手机号值
 class mobile_value extends value {
     public function is_valid() {
         return self::is_valid_mobile($this->value);
@@ -54,9 +48,7 @@ class mobile_value extends value {
         return preg_match('/^1[\d]{10}$/', $mobile);
     }
 }
-/**
- * [类型] IP 地址值
- */
+// [类型] IP 地址值
 class ip_value extends value {
     public function is_valid() {
         return self::is_valid_ip($this->value);
@@ -69,9 +61,7 @@ class ip_value extends value {
         return long2ip($long) === $ip;
     }
 }
-/**
- * [类型] 数据源值
- */
+// [类型] 数据源值
 class dsn_value extends value {
     const separator = '://';
     public function is_valid() {
@@ -95,9 +85,7 @@ class dsn_value extends value {
     protected $scheme = '';
     protected $detail = '';
 }
-/**
- * [类型] 邮箱地址值
- */
+// [类型] 邮箱地址值
 class email_value extends value {
     public function is_valid() {
         return self::is_valid_email($this->value);

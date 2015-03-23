@@ -9,9 +9,7 @@ namespace kern;
 use Memcache;
 if (!extension_loaded('Memcache')) throw new environment_error('cannot use memcached_store: Memcache extension does not exist');
 memcached_session_store::__init__();
-/**
- * [类型] memcached 会话存储源
- */
+// [类型] memcached 会话存储源
 class /* @kern */ memcached_session_store extends session_store {
     public function __construct($dsn) {
         $memcache = new Memcache();

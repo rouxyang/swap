@@ -9,9 +9,7 @@ namespace kern;
 use Memcache;
 if (!extension_loaded('Memcache')) throw new environment_error('cannot use memcached_cache: Memcache extension does not exist');
 memcached_cache::__init__();
-/**
- * [类型]
- */
+// [类型]
 class /* @kern */ memcached_cache extends cache {
     public function __construct(array $dsns) {
         $memcache = new Memcache();

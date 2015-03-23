@@ -6,9 +6,7 @@
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace kern;
-/**
- * [类型] FTP 方式的文件移动器
- */
+// [类型] FTP 方式的文件移动器
 class ftp_mover extends mover {
     public function __construct($dsn) {
     }

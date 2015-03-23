@@ -14,9 +14,7 @@ function /* @kern */ strip_suffix($str, $separator = '_') {
     }
     return $str;
 }
-/**
- * [类型] 模型接口
- */
+// [类型] 模型接口
 interface model_api {
     function __construct($is_new = true);
     function __get($key);
@@ -82,9 +80,7 @@ interface model_api {
     static function dec_by_id(array $keyvalues, $id);
     static function dec_by_ids(array $keyvalues, array $ids);
 }
-/**
- * [类型] 模型
- */
+// [类型] 模型
 abstract class model implements model_api, html_escapable {
     public function __construct($is_new = true) {
         if (!is_bool($is_new)) {
@@ -376,9 +372,7 @@ abstract class model implements model_api, html_escapable {
     protected $_current_props = [];
     protected $_original_props = [];
 }
-/**
- * [实体] 关联关系绑定器
- */
+// [实体] 关联关系绑定器
 class binder {
     public static function bind($model_arg, $assoc_type_name, $assoc_model_name /*, ... */) {
         if ($model_arg === null || $model_arg === []) {

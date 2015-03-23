@@ -6,9 +6,7 @@
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace kern;
-/**
- * [类型] 缓存源
- */
+// [类型] 缓存源
 abstract class cache {
     const forever = 0;
     abstract public function __construct(array $dsns);
@@ -21,9 +19,7 @@ abstract class cache {
     abstract public function del_many(array $keys);
     abstract public function clear();
 }
-/**
- * [实体] 缓存池
- */
+// [实体] 缓存池
 class cache_pool {
     public static function get_cache($cache_name) {
         static $caches = [];

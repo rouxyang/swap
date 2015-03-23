@@ -6,9 +6,7 @@
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace kern;
-/**
- * [实体] 对称加密解密器
- */
+// [实体] 对称加密解密器
 class crypt {
     public static function encrypt($data, $key) {
         return self::rc4($data, $key);

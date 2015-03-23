@@ -9,9 +9,7 @@ namespace kern;
 use Redis;
 if (!extension_loaded('Redis')) throw new environment_error('cannot use redis_store: Redis extension does not exist');
 redis_session_store::__init__();
-/**
- * [类型] redis 会话存储源
- */
+// [类型] redis 会话存储源
 class /* @kern */ redis_session_store extends session_store {
     public function __construct($dsn) {
     }

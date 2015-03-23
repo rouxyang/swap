@@ -6,16 +6,12 @@
  * @license   See "LICENSE" file bundled with this distribution.
  */
 namespace kern;
-/**
- * [类型] 可进行 HTML 转义的
- */
+// [类型] 可进行 HTML 转义的
 interface html_escapable {
     function html_escape();
     function html_unescape();
 }
-/**
- * [实体] HTML
- */
+// [实体] HTML
 class html {
     public static function escape($value) {
         if (is_array($value)) {
