@@ -11,11 +11,11 @@ class /* @kern */ pps_dispatcher {
     public static function dispatch() {
         $uri = visitor::uri();
         $target = router::parse_pps_uri($uri);
-        if (setting::get_module('view.default_skeleton', false) !== false) {
-            if (setting::get_module('view.cache_pps_in_server', false)) {
+        if (config::get_module('view.default_skeleton', false) !== false) {
+            if (config::get_module('view.cache_pps_in_server', false)) {
                 $use_cache = false;
                 if (defined('kern\run_dir')) {
-                    $version_key = setting::get_kern('version_key', router::default_version_key);
+                    $version_key = config::get_kern('version_key', router::default_version_key);
                     $cache_dir = run_dir . '/cache/' . $serve_mode . '/' . $target->get_param($version_key, '0');
                     $cache_file = $cache_dir . '/' . sha1($uri) . '.cache';
                     if (is_readable($cache_file)) {
@@ -51,7 +51,7 @@ class pps_rendor extends rendor {
         ob_start();
         self::do_render_in(view_dir, 'pss', $target);
         $pss = ob_get_clean();
-        if (setting::get_module('view.minify_pps', false)) {
+        if (config::get_module('view.minify_pps', false)) {
             $pss = self::minify_pss($pss);
         }
         return $pss;
@@ -61,7 +61,7 @@ class pps_rendor extends rendor {
         ob_start();
         self::do_render_in(view_dir, 'pjs', $target);
         $pjs = ob_get_clean();
-        if (setting::get_module('view.minify_pps', false)) {
+        if (config::get_module('view.minify_pps', false)) {
             $pjs = self::minify_pjs($pjs);
         }
         return $pjs;

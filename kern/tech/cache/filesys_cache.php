@@ -89,7 +89,7 @@ class /* @kern */ filesys_cache extends cache {
     }
     protected $cache_dir = '';
     public static function __init__() {
-        self::$secret_key = setting::get_kern('secret_key', '');
+        self::$secret_key = config::get_kern('secret_key', '');
     }
     protected static $secret_key = '';
 }

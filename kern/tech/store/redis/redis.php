@@ -9,7 +9,7 @@ class redis_slave_node extends \Redis {}
 class redis_pool {
     public static function get_master_redis($source_name) {
         if (!isset(self::$redis_nodes['master'][$source_name])) {
-            $dsn = setting::get_logic('redis.' . $source_name . '.master');
+            $dsn = config::get_logic('redis.' . $source_name . '.master');
             $url_parts = parse_url($dsn);
             extract($url_parts, EXTR_SKIP);
             $redis_node = new redis_master_node();
@@ -22,9 +22,9 @@ class redis_pool {
     }
     public static function get_slave_redis($source_name) {
         if (!isset(self::$redis_nodes['slave'][$source_name])) {
-            $dsns = setting::get_logic('redis.' . $source_name . '.slaves', []);
+            $dsns = config::get_logic('redis.' . $source_name . '.slaves', []);
             if ($dsns === []) {
-                $dsns = array(setting::get_logic('redis.' . $source_name . '.master'));
+                $dsns = array(config::get_logic('redis.' . $source_name . '.master'));
             }
             $all_attempts_failed = true;
             foreach ($dsns as $dsn) {

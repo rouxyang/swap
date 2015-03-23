@@ -16,13 +16,13 @@ class /* @kern */ php_dispatcher {
             if ($forward_times >= 8) {
                 throw new developer_error('too many forwards');
             }
-            self::$global_filters = setting::get_module('global_filters', null);
+            self::$global_filters = config::get_module('global_filters', null);
             try {
                 self::dispatch_target($target);
                 break;
             } catch (action_forward $forward) {
                 $target = $forward->get_target();
-                setting::set_module_name($target->get_module_name());
+                config::set_module_name($target->get_module_name());
                 visitor::forward_cookies();
                 $forward_times++;
                 continue;
@@ -131,7 +131,7 @@ class /* @kern */ php_dispatcher {
         }
         foreach ($filter_args as $filter => $action_to_arg) {
             if (!is_array($action_to_arg)) {
-                throw new developer_error('filter arg should be an assoc array with action as key, setting as value');
+                throw new developer_error('filter arg should be an assoc array with action as key, config as value');
             }
             if (isset($action_to_arg[$action])) {
                 $filter_arg = $action_to_arg[$action];
@@ -169,7 +169,7 @@ abstract class tpl_rendor extends rendor {
     public static function /* @kern */ reset() {
         parent::use_viewlet('tpl');
         self::$target = visitor::get_target();
-        self::$skeleton = setting::get_module('view.default_skeleton', false);
+        self::$skeleton = config::get_module('view.default_skeleton', false);
         self::$linked_styles = [];
         self::$linked_scripts = ['top' => [], 'bottom' => []];
         self::$linked_psses = [];
@@ -256,7 +256,7 @@ abstract class tpl_rendor extends rendor {
     protected static function /* @tpl */ csrf_arg($csrf_role, $echo = true) {
         $csrf_arg = '';
         if (visitor::has_role($csrf_role)) {
-            $csrf_arg = setting::get_module('url.csrf_key', router::default_csrf_key) . '=' . visitor::get_role_secret($csrf_role);
+            $csrf_arg = config::get_module('url.csrf_key', router::default_csrf_key) . '=' . visitor::get_role_secret($csrf_role);
         }
         if ($echo) {
             echo $csrf_arg;
@@ -266,7 +266,7 @@ abstract class tpl_rendor extends rendor {
     }
     protected static function /* @tpl */ csrf_field($csrf_role) {
         if (visitor::has_role($csrf_role)) {
-            $csrf_key = setting::get_module('url.csrf_key', router::default_csrf_key);
+            $csrf_key = config::get_module('url.csrf_key', router::default_csrf_key);
             $role_secret = visitor::get_role_secret($csrf_role);
             echo '<input type="hidden" name="' . $csrf_key . '" value="' . $role_secret . '">';
         }
@@ -313,11 +313,11 @@ abstract class tpl_rendor extends rendor {
 abstract class controller extends tpl_rendor {
     public static function /* @kern */ reset() {
         parent::reset();
-        self::$title = setting::get_module('view.default_title', '');
-        self::$keywords = setting::get_module('view.default_keywords', '');
-        self::$description = setting::get_module('view.default_description', '');
-        self::$author = setting::get_module('view.default_author', '');
-        self::$viewport = setting::get_module('view.default_viewport', '');
+        self::$title = config::get_module('view.default_title', '');
+        self::$keywords = config::get_module('view.default_keywords', '');
+        self::$description = config::get_module('view.default_description', '');
+        self::$author = config::get_module('view.default_author', '');
+        self::$viewport = config::get_module('view.default_viewport', '');
         self::$metas = [];
         self::$target_block = [];
     }
@@ -348,7 +348,7 @@ abstract class controller extends tpl_rendor {
     }
     public static function /* @controller */ csrf($csrf_role) {
         if (visitor::has_role($csrf_role)) {
-            $csrf_key = setting::get_module('url.csrf_key', router::default_csrf_key);
+            $csrf_key = config::get_module('url.csrf_key', router::default_csrf_key);
             $role_secret = null;
             if (visitor::p_has($csrf_key)) {
                 $role_secret = visitor::p_str($csrf_key);

@@ -246,7 +246,7 @@ class visitor {
         }
         $path = self::$request['prefix'] . $path;
         if ($domain === '') {
-            $domain = setting::get_module('visitor.cookie_domain', '');
+            $domain = config::get_module('visitor.cookie_domain', '');
         }
         $cookie = [
             'name' => $name,
@@ -278,8 +278,8 @@ class visitor {
         $role_sid = session_manager::new_sid();
         $login_seconds = (int)$login_seconds;
         $session = session_manager::create_session($role_name, $role_id, $role_sid, $login_seconds, $role_vars);
-        $role_setting = self::$settings['roles'][$role_name];
-        $role_sid_name = $role_setting['sid_name'];
+        $role_config = self::$configs['roles'][$role_name];
+        $role_sid_name = $role_config['sid_name'];
         self::set_cookie($role_sid_name, $role_sid, $login_seconds, '/', '', false, true);
         self::$session_records[$role_name]['sid'] = $role_sid;
         self::$session_records[$role_name]['session'] = $session;
@@ -290,8 +290,8 @@ class visitor {
         }
         $role_sid = self::$session_records[$role_name]['sid'];
         session_manager::remove_session($role_name, $role_sid);
-        $role_setting = self::$settings['roles'][$role_name];
-        $role_sid_name = $role_setting['sid_name'];
+        $role_config = self::$configs['roles'][$role_name];
+        $role_sid_name = $role_config['sid_name'];
         self::del_cookie($role_sid_name, '/', '', false, true);
         self::$session_records[$role_name]['sid'] = null;
         self::$session_records[$role_name]['session'] = null;
@@ -349,7 +349,7 @@ class visitor {
         }
     }
     public static function /* @kern */ set_target(target $target) {
-        self::$settings = setting::get_module('visitor', ['cookie_domain' => '', 'roles' => []]);
+        self::$configs = config::get_module('visitor', ['cookie_domain' => '', 'roles' => []]);
         self::$request['gets'] = array_merge(self::$request['gets'], $target->get_params());
         self::$request['target'] = $target;
     }
@@ -370,10 +370,10 @@ class visitor {
         return self::$response;
     }
     public static function /* @kern */ restore_roles() {
-        $role_settings = self::$settings['roles'];
+        $role_configs = self::$configs['roles'];
         $is_guest = true;
-        foreach ($role_settings as $role_name => $role_setting) {
-            $role_sid = self::c_str($role_setting['sid_name'], '');
+        foreach ($role_configs as $role_name => $role_config) {
+            $role_sid = self::c_str($role_config['sid_name'], '');
             if ($role_sid === '') {
                 $session_record = ['sid' => null, 'session' => null];
             } else {
@@ -492,5 +492,5 @@ class visitor {
     ];
     protected static $session_records = [];
     protected static $is_guest = true;
-    protected static $settings = [];
+    protected static $configs = [];
 }

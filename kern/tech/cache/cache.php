@@ -24,7 +24,7 @@ class cache_pool {
     public static function get_cache($cache_name) {
         static $caches = [];
         if (!array_key_exists($cache_name, $caches)) {
-            $dsns = setting::get_logic('cache.' . $cache_name);
+            $dsns = config::get_logic('cache.' . $cache_name);
             list($cache_type, ) = explode('://', current($dsns), 2);
             $cache_class = __NAMESPACE__ . '\\' . $cache_type . '_cache';
             $cache = new $cache_class($dsns);

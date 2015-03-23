@@ -16,7 +16,7 @@
                     </ul>
                 </div>
                 <div class="content">
-                    <h5>发表时间：<?php echo date('Y-m-d H:i:s', $reply->pub_time); ?> <?php echo kern\setting::get_kern('time_zone'); ?></h5>
+                    <h5>发表时间：<?php echo date('Y-m-d H:i:s', $reply->pub_time); ?> <?php echo kern\config::get_kern('time_zone'); ?></h5>
                     <div><?php show_text($reply->content); ?></div>
                 </div>
                 <div class="clearfix"></div>

@@ -1,7 +1,7 @@
 <?php
 define('kern\root_dir',       DIRECTORY_SEPARATOR === '\\' ? str_replace('\\', '/', __DIR__) : __DIR__);
 define('kern\kern_dir',       kern\root_dir . '/../../../../kern');
-define('kern\setting_dir',    kern\root_dir . '/setting');
+define('kern\config_dir',     kern\root_dir . '/config');
 define('kern\controller_dir', kern\root_dir . '/controller');
 define('kern\run_dir',        kern\root_dir . '/run');
 define('kern\filter_dir',     kern\root_dir . '/filter');

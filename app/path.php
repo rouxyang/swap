@@ -7,7 +7,7 @@ define('kern\root_dir',       DIRECTORY_SEPARATOR === '\\' ? str_replace('\\', '
 # 框架核心目录
 define('kern\kern_dir',       kern\root_dir . '/../kern');
 # 配置文件
-define('kern\setting_dir',    kern\root_dir . '/setting');
+define('kern\config_dir',     kern\root_dir . '/config');
 # 控制器
 define('kern\controller_dir', kern\root_dir . '/controller');
 # 相关数据
