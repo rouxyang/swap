@@ -43,12 +43,7 @@ class /* @kern */ pps_dispatcher {
 // [实体] PHP 模式分派器
 class /* @kern */ php_dispatcher {
     public static function dispatch() {
-        if (defined('kern\utility_dir')) {
-            $global_file = utility_dir . '/global.php';
-            if (is_readable($global_file)) {
-                loader::load_file($global_file);
-            }
-        }
+        self::load_global_file();
         $target = router::parse_php_uri(visitor::uri(), visitor::host());
         $forward_times = 0;
         while (true) {
@@ -57,7 +52,7 @@ class /* @kern */ php_dispatcher {
             }
             self::$global_filters = setting::get_module('global_filters', null);
             try {
-                self::dispatch_to($target);
+                self::dispatch_target($target);
                 break;
             } catch (action_forward $forward) {
                 $target = $forward->get_target();
@@ -70,7 +65,15 @@ class /* @kern */ php_dispatcher {
             }
         }
     }
-    protected static function dispatch_to(target $target) {
+    protected static function load_global_file() {
+        if (defined('kern\utility_dir')) {
+            $global_file = utility_dir . '/global.php';
+            if (is_readable($global_file)) {
+                loader::load_file($global_file);
+            }
+        }
+    }
+    protected static function dispatch_target(target $target) {
         try {
             visitor::set_target($target);
             visitor::restore_roles();

@@ -676,18 +676,18 @@ abstract class before_filter {
         throw new dispatch_return();
     }
 }
-// [实体] 后置拦截过滤器
-abstract class after_filter {
-    // abstract public static function run($args);
-}
-// [实体] 自动加载拦截过滤器
-class autoload_filter extends before_filter {
+// [实体] 预先加载拦截过滤器
+class preload_filter extends before_filter {
     public static function run(array $files) {
         // 例如：[kern\utility_dir . '/utility_one.php', kern\utility_dir . '/utility_two.php']
         foreach ($files as $file) {
             loader::load_file($file);
         }
     }
+}
+// [实体] 后置拦截过滤器
+abstract class after_filter {
+    // abstract public static function run($args);
 }
 // [实体] 变量上下文容器
 class /* @kern */ context {

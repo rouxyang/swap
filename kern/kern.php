@@ -388,7 +388,7 @@ class loader {
         'kern\context'                 => 'server/php.php',
         'kern\before_filter'           => 'server/php.php',
         'kern\after_filter'            => 'server/php.php',
-        'kern\autoload_filter'         => 'server/php.php',
+        'kern\preload_filter'          => 'server/php.php',
         'kern\action_return'           => 'server/php.php',
         'kern\action_forward'          => 'server/php.php',
         'kern\rendor'                  => 'server/rendor.php',
