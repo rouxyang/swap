@@ -17,7 +17,7 @@ class /* @kern */ filesys_cache extends cache {
     public function get($key, $default_value = null) {
         $cache_file = $this->get_cache_file_from_key($key);
         $data = @file_get_contents($cache_file);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('cache', 'filesys get: file -> ' . $cache_file . ', data -> ' . var_export($data, true));
         }
         if ($data === false) {
@@ -46,7 +46,7 @@ class /* @kern */ filesys_cache extends cache {
             }
         }
         $data = $this->build_data($value, $expire);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('cache', 'filesys set: file -> ' . $cache_file . ', data -> ' . var_export($data, true));
         }
         return @file_put_contents($cache_file, $data, LOCK_EX) !== false;
@@ -55,14 +55,14 @@ class /* @kern */ filesys_cache extends cache {
     }
     public function has($key) {
         $cache_file = $this->get_cache_file_from_key($key);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('cache', 'filesys has: file -> ' . $cache_file);
         }
         return file_exists($cache_file);
     }
     public function del($key) {
         $cache_file = $this->get_cache_file_from_key($key);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('cache', 'filesys del: file -> ' . $cache_file);
         }
         return @unlink($cache_file);

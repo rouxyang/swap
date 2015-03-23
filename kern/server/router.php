@@ -464,7 +464,7 @@ class router {
     }
     protected static function get_and_char($for_html) {
         if ($for_html === null) {
-            return framework::is_pps_mode() ? '&' : '&amp;';
+            return kernel::is_pps_mode() ? '&' : '&amp;';
         } else {
             return $for_html ? '&amp;' : '&';
         }

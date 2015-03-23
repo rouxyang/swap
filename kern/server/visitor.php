@@ -342,7 +342,7 @@ class visitor {
         self::init_prefix();
         self::init_uri();
         self::$request['gets'] = $_GET;
-        if (framework::is_php_mode()) {
+        if (kernel::is_php_mode()) {
             self::$request['posts'] = $_POST;
             self::$request['cookies'] = $_COOKIE;
             self::init_files();

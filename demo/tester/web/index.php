@@ -6,4 +6,4 @@ if (is_readable($close_file)) {
     exit();
 }
 require_once kern\kern_dir . '/kern.php';
-kern\framework::serve_php_request();
+kern\kernel::serve_php_request();

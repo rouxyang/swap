@@ -9,7 +9,7 @@ namespace kern;
 // 框架版本
 const version = 'current';
 // [实体] 框架门面
-class framework {
+class kernel {
     public static function /* @index.php */ serve_php_request() {
         self::$serve_mode = self::php_mode;
         try {
@@ -490,7 +490,7 @@ class debug {
         if (!defined('kern\run_dir')) {
             return;
         }
-        if ($uri === '' && !framework::is_cli_mode()) {
+        if ($uri === '' && !kernel::is_cli_mode()) {
             $uri = visitor::uri();
         }
         $file = run_dir . '/debug/' . $filename . '.log';
@@ -501,7 +501,7 @@ class debug {
         if (DIRECTORY_SEPARATOR === '\\') {
             $text = str_replace('\\\\', '/', $text);
         }
-        self::save('require_' . framework::get_serve_mode(), $text);
+        self::save('require_' . kernel::get_serve_mode(), $text);
     }
 }
 // [实体] 国际化信息获取器

@@ -7,7 +7,7 @@
 </head>
 <body>
 <?php
-if (kern\framework::is_debug()) {
+if (kern\kernel::is_debug()) {
     if ($e instanceof kern\error) {
         echo '<h1>Internal Server Error: Hard Error</h1><hr>';
     } else if ($e instanceof kern\except) {

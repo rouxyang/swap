@@ -24,7 +24,7 @@ class /* @kern */ memcached_session_store extends session_store {
     }
     public function is_role_id_online($role_id) {
         $value = $this->memcache->get($role_id, 0);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', 'memcache get: key -> ' . $role_id . ', value -> ' . var_export($value, true));
         }
         return $value !== false;
@@ -37,7 +37,7 @@ class /* @kern */ memcached_session_store extends session_store {
     }
     public function fetch($sid) {
         $record = $this->memcache->get($sid);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', 'memcache get: key -> ' . $sid . ', value -> ' . var_export($record, true));
         }
         if ($record === false) {
@@ -70,7 +70,7 @@ class /* @kern */ memcached_session_store extends session_store {
         $this->memcache->set($sid, $record, 0, $seconds);
         $this->memcache->add($role_id, 0, 0, $seconds);
         $this->memcache->increment($role_id, 1);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', 'memcache set: key -> ' . $sid . ', value -> ' . var_export($record, true));
             debug::save('session', 'memcache add: key -> ' . $role_id . ', value -> 0');
             debug::save('session', 'memcache increment: key -> ' . $role_id . ', value -> 1');
@@ -78,7 +78,7 @@ class /* @kern */ memcached_session_store extends session_store {
     }
     public function remove($sid) {
         $record = $this->memcache->get($sid);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', 'memcache get: key -> ' . $sid . ', value -> ' . var_export($record, true));
         }
         if ($record === false) {
@@ -91,7 +91,7 @@ class /* @kern */ memcached_session_store extends session_store {
         if ($needs_delete) {
             $this->memcache->delete($role_id);
         }
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', 'memcache del: key -> ' . $sid);
             debug::save('session', 'memcache decrement: key -> ' . $role_id);
             if ($needs_delete) {

@@ -41,7 +41,7 @@ abstract class rendor {
     }
     protected static function /* @kern */ regularize($target, $for_html) {
         if ($for_html === null) { # 如果是 null，则根据当前运行模式自动判断
-            $for_html = !framework::is_pps_mode();
+            $for_html = !kernel::is_pps_mode();
         }
         if ($for_html) {
             if ($target instanceof target) {

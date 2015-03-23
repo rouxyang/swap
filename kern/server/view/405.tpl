@@ -7,7 +7,7 @@
 </head>
 <body>
 <?php
-if (kern\framework::is_debug()) {
+if (kern\kernel::is_debug()) {
     echo '<h1>Visitor error: Method Not Allowed</h1><hr>';
     echo '<pre>';
     var_dump($e);

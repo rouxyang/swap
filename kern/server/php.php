@@ -249,7 +249,7 @@ abstract class tpl_rendor extends rendor {
     }
     protected static function /* @tpl */ csrf_url($csrf_role, $target, $for_html = null, $echo = true) {
         if ($for_html === null) {
-            $for_html = !framework::is_pps_mode();
+            $for_html = !kernel::is_pps_mode();
         }
         return router::build_csrf_url($csrf_role, $target, $echo, $for_html);
     }

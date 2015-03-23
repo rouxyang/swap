@@ -5,4 +5,4 @@ if (is_readable(kern\root_dir . '/close.php')) {
     exit('');
 }
 require_once kern\kern_dir . '/kern.php';
-kern\framework::serve_pss_request();
+kern\kernel::serve_pss_request();

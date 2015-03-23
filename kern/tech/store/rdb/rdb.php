@@ -815,7 +815,7 @@ abstract class rdb_node {
     }
     protected function do_count($sql) {
         $result = $this->conn->select($sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('rdb', $sql);
         }
         if ($result === false) {
@@ -880,7 +880,7 @@ abstract class rdb_node {
     protected function execute($sql) {
         if ($this->is_master) {
             $result = $this->conn->execute($sql);
-            if (framework::is_debug()) {
+            if (kernel::is_debug()) {
                 debug::save('rdb', $sql);
             }
             if (!$result) {
@@ -906,7 +906,7 @@ abstract class rdb_node {
     }
     protected function query_and_fetch_records($sql, $index_by_id) {
         $result = $this->conn->select($sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('rdb', $sql);
         }
         if ($result === false) {

@@ -44,7 +44,7 @@ class /* @kern */ pps_dispatcher {
 class pps_rendor extends rendor {
     public static function /* @kern */ render_for(target $target) {
         visitor::set_target($target);
-        return framework::is_pss_mode() ? self::render_pss_for($target) : self::render_pjs_for($target);
+        return kernel::is_pss_mode() ? self::render_pss_for($target) : self::render_pjs_for($target);
     }
     protected static function /* @kern */ render_pss_for(target $target) {
         parent::use_viewlet('pss');
@@ -71,7 +71,7 @@ class pps_rendor extends rendor {
             $_file = $_pps_type . '/' . $_linked_name . '.' . $_pps_type;
             $_pps_file = $_view_dir . '/' . $_file;
             if (is_readable($_pps_file)) {
-                if (framework::is_debug()) {
+                if (kernel::is_debug()) {
                     echo "\n/******** {$_file} ********/\n\n";
                 }
                 require $_pps_file;
@@ -82,7 +82,7 @@ class pps_rendor extends rendor {
             $_file = 'layout/' . $_layout_name . '.' . $_pps_type;
             $_pps_file = $_view_dir . '/' . $_file;
             if (is_readable($_pps_file)) {
-                if (framework::is_debug()) {
+                if (kernel::is_debug()) {
                     echo "\n/******** {$_file} ********/\n\n";
                 }
                 require $_pps_file;
@@ -92,7 +92,7 @@ class pps_rendor extends rendor {
             $_file = 'block/' . $_block_name . '.' . $_pps_type;
             $_pps_file = $_view_dir . '/' . $_file;
             if (is_readable($_pps_file)) {
-                if (framework::is_debug()) {
+                if (kernel::is_debug()) {
                     echo "\n/******** {$_file} ********/\n\n";
                 }
                 require $_pps_file;
@@ -102,7 +102,7 @@ class pps_rendor extends rendor {
             $_file = 'page/' . $_target->get_target_file('.' . $_pps_type);
             $_pps_file = $_view_dir . '/' . $_file;
             if (is_readable($_pps_file)) {
-                if (framework::is_debug()) {
+                if (kernel::is_debug()) {
                     echo "\n/******** {$_file} ********/\n\n";
                 }
                 require $_pps_file;

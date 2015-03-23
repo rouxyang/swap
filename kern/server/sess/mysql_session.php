@@ -27,7 +27,7 @@ class /* @kern */ mysql_session_store extends session_store {
         $role_id = (int)$role_id;
         $sql = "SELECT `id` FROM `{$this->table_name}` WHERE `role_id` = " . $role_id;
         $result = mysqli_query($this->conn, $sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', $sql);
         }
         if ($result === false) {
@@ -39,7 +39,7 @@ class /* @kern */ mysql_session_store extends session_store {
         // 存储引擎是 InnoDB 的话，SELECT COUNT(*) FROM `table_name` 巨慢，只能用以下语句替代，代价是不准确
         $sql = "SHOW TABLE STATUS LIKE '{$this->table_name}'";
         $result = mysqli_query($this->conn, $sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', $sql);
         }
         if ($result === false) {
@@ -56,7 +56,7 @@ class /* @kern */ mysql_session_store extends session_store {
         $current_time = clock::get_stamp();
         $sql = "DELETE FROM `{$this->table_name}` WHERE `expire_time` <= " . $current_time;
         mysqli_query($this->conn, $sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', $sql);
         }
     }
@@ -64,7 +64,7 @@ class /* @kern */ mysql_session_store extends session_store {
         $sid = mysqli_real_escape_string($this->conn, $sid);
         $sql = "SELECT * FROM `{$this->table_name}` WHERE `sid` = '{$sid}'";
         $result = mysqli_query($this->conn, $sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', $sql);
         }
         if ($result === false) {
@@ -105,7 +105,7 @@ class /* @kern */ mysql_session_store extends session_store {
     }
     protected function execute($sql) {
         $result = mysqli_query($this->conn, $sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', $sql);
         }
         if ($result === false) {

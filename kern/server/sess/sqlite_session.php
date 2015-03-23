@@ -30,7 +30,7 @@ class /* @kern */ sqlite_session_store extends session_store {
         $role_id = (int)$role_id;
         $sql = "SELECT `id` FROM `{$this->table_name}` WHERE `role_id` = " . $role_id;
         $result = $this->conn->query($sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', $sql);
         }
         if ($result === false) {
@@ -41,7 +41,7 @@ class /* @kern */ sqlite_session_store extends session_store {
     public function online_count() {
         $sql = "SELECT COUNT(*) AS `count` FROM `{$this->table_name}`";
         $result = $this->conn->query($sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', $sql);
         }
         if ($result === false) {
@@ -57,7 +57,7 @@ class /* @kern */ sqlite_session_store extends session_store {
         $current_time = clock::get_stamp();
         $sql = "DELETE FROM `{$this->table_name}` WHERE `expire_time` <= " . $current_time;
         $this->conn->query($sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', $sql);
         }
     }
@@ -65,7 +65,7 @@ class /* @kern */ sqlite_session_store extends session_store {
         $sid = $this->conn->escapeString($sid);
         $sql = "SELECT * FROM `{$this->table_name}` WHERE `sid` = '{$sid}'";
         $result = $this->conn->query($sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', $sql);
         }
         if ($result === false) {
@@ -106,7 +106,7 @@ class /* @kern */ sqlite_session_store extends session_store {
     }
     protected function execute($sql) {
         $result = $this->conn->query($sql);
-        if (framework::is_debug()) {
+        if (kernel::is_debug()) {
             debug::save('session', $sql);
         }
         if ($result === false) {
