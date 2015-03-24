@@ -3,7 +3,7 @@ define('kern\root_dir',       DIRECTORY_SEPARATOR === '\\' ? str_replace('\\', '
 define('kern\kern_dir',       kern\root_dir . '/../../kern');
 define('kern\config_dir',     kern\root_dir . '/config');
 define('kern\controller_dir', kern\root_dir . '/controller');
-define('kern\run_dir',        kern\root_dir . '/run');
+define('kern\data_dir',       kern\root_dir . '/data');
 define('kern\filter_dir',     kern\root_dir . '/filter');
 define('kern\helper_dir',     kern\root_dir . '/helper');
 define('kern\utility_dir',    kern\root_dir . '/utility');

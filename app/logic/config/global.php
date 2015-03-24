@@ -6,10 +6,10 @@ return [
             'main' => [
                 // 'master' => 'mysql://user:pass@ip:port/db_name',
                 // 'master' => 'pgsql://user:pass@ip:port/db_name',
-                'master' => 'sqlite://' . kern\run_dir . '/repo/rdb.db',
+                'master' => 'sqlite://' . kern\data_dir . '/repo/rdb.db',
                 'slaves' => [
-                    'sqlite://' . kern\run_dir . '/repo/rdb.db',
-                    'sqlite://' . kern\run_dir . '/repo/rdb.db',
+                    'sqlite://' . kern\data_dir . '/repo/rdb.db',
+                    'sqlite://' . kern\data_dir . '/repo/rdb.db',
                 ],
             ],
         ],

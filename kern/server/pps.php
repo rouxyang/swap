@@ -14,9 +14,9 @@ class /* @kern */ pps_dispatcher {
         if (config::get_module('view.default_skeleton', false) !== false) {
             if (config::get_module('view.cache_pps_in_server', false)) {
                 $use_cache = false;
-                if (defined('kern\run_dir')) {
+                if (defined('kern\data_dir')) {
                     $version_key = config::get_kern('version_key', router::default_version_key);
-                    $cache_dir = run_dir . '/cache/' . $serve_mode . '/' . $target->get_param($version_key, '0');
+                    $cache_dir = data_dir . '/cache/' . $serve_mode . '/' . $target->get_param($version_key, '0');
                     $cache_file = $cache_dir . '/' . sha1($uri) . '.cache';
                     if (is_readable($cache_file)) {
                         $use_cache = true;

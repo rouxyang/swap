@@ -34,7 +34,7 @@ return [
                 // 'session_dsn'        => ['memcached://ip1:port1', 'memcached://ip2:port2'],
                 // 'session_dsn'        => 'mysql://user:pass@ip:port/db_name/table_name',
                 // 'session_dsn'        => 'pgsql://user:pass@ip:port/db_name/table_name',
-                'session_dsn'           => 'sqlite://' . kern\run_dir . '/session/session.db/user_session',
+                'session_dsn'           => 'sqlite://' . kern\data_dir . '/session/session.db/user_session',
             ],
         ],
     ],

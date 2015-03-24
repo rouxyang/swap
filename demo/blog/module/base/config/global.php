@@ -41,7 +41,7 @@ return [
                 'sid_name'              => 'member_sid',
                 'default_alive_seconds' => 3600,
                 'trace_last_active'     => false,
-                'session_dsn'           => 'sqlite://' . kern\run_dir . '/session/session.db/member_session',
+                'session_dsn'           => 'sqlite://' . kern\data_dir . '/session/session.db/member_session',
             ],
         ],
     ],        

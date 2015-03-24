@@ -11,7 +11,7 @@ define('kern\config_dir',     kern\root_dir . '/config');
 # 控制器
 define('kern\controller_dir', kern\root_dir . '/controller');
 # 相关数据
-define('kern\run_dir',        kern\root_dir . '/run');
+define('kern\data_dir',       kern\root_dir . '/data');
 # 过滤器
 define('kern\filter_dir',     kern\root_dir . '/filter');
 # 控制器助手
