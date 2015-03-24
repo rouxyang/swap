@@ -17,7 +17,7 @@ define('kern\filter_dir',     kern\root_dir . '/filter');
 # 控制器助手
 define('kern\helper_dir',     kern\root_dir . '/helper');
 # 通用库
-define('kern\utility_dir',    kern\root_dir . '/utility');
+define('kern\library_dir',    kern\root_dir . '/library');
 # 三方库
 define('kern\vendor_dir',     kern\root_dir . '/vendor');
 # 业务逻辑

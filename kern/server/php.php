@@ -32,8 +32,8 @@ class /* @kern */ php_dispatcher {
         }
     }
     protected static function load_global_file() {
-        if (defined('kern\utility_dir')) {
-            $global_file = utility_dir . '/global.php';
+        if (defined('kern\library_dir')) {
+            $global_file = library_dir . '/global.php';
             if (is_readable($global_file)) {
                 loader::load_file($global_file);
             }
@@ -837,7 +837,7 @@ abstract class before_filter {
 // [实体] 预先加载拦截过滤器
 class preload_filter extends before_filter {
     public static function run(array $files) {
-        // 例如：[kern\utility_dir . '/utility_one.php', kern\utility_dir . '/utility_two.php']
+        // 例如：[kern\library_dir . '/library_one.php', kern\library_dir . '/library_two.php']
         foreach ($files as $file) {
             loader::load_file($file);
         }

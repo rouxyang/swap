@@ -6,7 +6,7 @@ define('kern\controller_dir', kern\root_dir . '/controller');
 define('kern\data_dir',       kern\root_dir . '/data');
 define('kern\filter_dir',     kern\root_dir . '/filter');
 define('kern\helper_dir',     kern\root_dir . '/helper');
-define('kern\utility_dir',    kern\root_dir . '/utility');
+define('kern\library_dir',    kern\root_dir . '/library');
 define('kern\vendor_dir',     kern\root_dir . '/vendor');
 define('kern\logic_dir',      kern\root_dir . '/logic');
 define('kern\view_dir',       kern\root_dir . '/view');
