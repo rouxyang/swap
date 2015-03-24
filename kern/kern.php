@@ -478,7 +478,7 @@ class debug {
             ob_start();
             call_user_func_array('var_dump', func_get_args());
             $text = ob_get_clean();
-            $file = data_dir . '/debug/dump.log';
+            $file = data_dir . '/log/debug_dump.log';
             @file_put_contents($file, '[' . clock::get_datetime() . '] ' . $text . "\n", FILE_APPEND);
         }
     }
@@ -490,7 +490,7 @@ class debug {
         if ($uri === '' && !kernel::is_cli_mode()) {
             $uri = visitor::uri();
         }
-        $file = data_dir . '/debug/' . $filename . '.log';
+        $file = data_dir . '/log/debug_' . $filename . '.log';
         @file_put_contents($file, '[' . clock::get_datetime() . '][' . $uri . '] - ' . $text . "\n", FILE_APPEND);
     }
     public static function /* @kern */ save_required_files() {
