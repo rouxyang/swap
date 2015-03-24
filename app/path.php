@@ -19,7 +19,7 @@ define('kern\helper_dir',     kern\root_dir . '/helper');
 # 通用库
 define('kern\utility_dir',    kern\root_dir . '/utility');
 # 三方库
-define('kern\third_dir',      kern\root_dir . '/third');
+define('kern\vendor_dir',     kern\root_dir . '/vendor');
 # 业务逻辑
 define('kern\logic_dir',      kern\root_dir . '/logic');
 # 视图文件

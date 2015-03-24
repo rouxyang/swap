@@ -27,8 +27,8 @@ class router {
         self::$base_is_https = config::get_base('url.is_https', false);
         self::$base_domains = config::get_base('url.domains', []);
         foreach (self::$base_domains as $domain) {
-            # base 模块的 module_name 统一为 ''
-            self::$domain_modules[$domain] = '';
+            # base 模块的 module_name 统一为 'base'
+            self::$domain_modules[$domain] = 'base';
         }
         self::$base_enable_rewrite = config::get_base('url.enable_rewrite', false);
         self::$base_csrf_key = config::get_base('url.csrf_key', self::default_csrf_key);
@@ -49,11 +49,12 @@ class router {
             self::$module_routes[$module_name] = config::get_module('url.routes', []);
             self::$module_flipped_routes[$module_name] = array_flip(self::$module_routes[$module_name]);
         }
+        # 实际是哪个 module_name 需要解析
         config::set_module_name(null);
     }
     public static function /* @kern */ parse_php_uri($uri, $host) {
-        $at_module_name = isset(self::$domain_modules[$host]) ? self::$domain_modules[$host] : '';
-        if ($at_module_name === '') {
+        $at_module_name = isset(self::$domain_modules[$host]) ? self::$domain_modules[$host] : 'base';
+        if ($at_module_name === 'base') {
             $enable_rewrite = self::$base_enable_rewrite;
         } else {
             $enable_rewrite = self::$module_enable_rewrites[$at_module_name];
@@ -71,10 +72,10 @@ class router {
         if ($mark_pos !== false && $mark_pos !== strlen($uri) - 1) {
             parse_str(substr($uri, $mark_pos + 1), $target_params);
         }
-        $target_key = $at_module_name === '' ? self::$base_target_key : self::$module_target_keys[$at_module_name];
+        $target_key = $at_module_name === 'base' ? self::$base_target_key : self::$module_target_keys[$at_module_name];
         if (isset($target_params[$target_key])) {
             $target_path = $target_params[$target_key];
-            if ($at_module_name === '' && in_string('-', $target_path)) {
+            if ($at_module_name === 'base' && in_string('-', $target_path)) {
                 $parts = explode('-', $target_path, 2);
                 if (isset(self::$module_domains[$parts[0]]) && self::$module_domains[$parts[0]] === [] && is_identifier($parts[0])) {
                     $target_module = $parts[0];
@@ -98,7 +99,7 @@ class router {
             }
         }
         $target_name = $target_controller . '/' . $target_action;
-        if ($target_module !== '') {
+        if ($target_module !== 'base') {
             $target_name = $target_module . '-' . $target_name;
         }
         return new target([$target_name, $target_params]);
@@ -112,7 +113,7 @@ class router {
             $target_params = [];
         }
         // 进行 request_path 解析。先尝试匹配路由规则
-        $routes = $at_module_name === '' ? self::$base_routes : self::$module_routes[$at_module_name];
+        $routes = $at_module_name === 'base' ? self::$base_routes : self::$module_routes[$at_module_name];
         foreach ($routes as $match_pattern => $target_pattern) {
             $match_pattern = str_replace('.', '\\.', $match_pattern); # “.” 号特殊处理
             // 将形式正则改成实际正则
@@ -145,7 +146,7 @@ class router {
         $target_module = $at_module_name;
         $target_controller = self::default_controller_name;
         $target_action = self::default_action_name;
-        if ($at_module_name === '' && in_string('-', $request_path)) {
+        if ($at_module_name === 'base' && in_string('-', $request_path)) {
             $parts = explode('-', $request_path, 2);
             $parts[0] = ltrim($parts[0], '/');
             if (isset(self::$module_domains[$parts[0]]) && self::$module_domains[$parts[0]] === [] && is_identifier($parts[0])) {
@@ -170,7 +171,7 @@ class router {
             }
         }
         $target_name = $target_controller . '/' . $target_action;
-        if ($target_module !== '') {
+        if ($target_module !== 'base') {
             $target_name = $target_module . '-' . $target_name;
         }
         return new target([$target_name, $target_params]);

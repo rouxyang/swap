@@ -204,11 +204,7 @@ class visitor {
         return self::$request['target']->get_target_path();
     }
     public static function get_module_name() {
-        $target = self::$request['target'];
-        if ($target->has_module()) {
-            return $target->get_module_name();
-        }
-        return '';
+        return self::$request['target']->get_module_name();
     }
     public static function get_controller_name() {
         return self::$request['target']->get_controller_name();

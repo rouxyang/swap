@@ -22,8 +22,8 @@ class kernel {
     }
     protected static function init_web_environment() {
         self::init_kern_environment();
-        ob_start(); # 确保不会在无意中 echo 出内容
-        ob_implicit_flush(false); # 不许隐式输出内容
+        ob_start();
+        ob_implicit_flush(false);
     }
     protected static function init_kern_environment() {
         clock::stop();
@@ -204,46 +204,46 @@ class clock {
 // [实体] 配置参数维护器
 class config {
     public static function get_kern($key, $default_value = null) {
-        return self::get('kern.' . $key, $default_value);
+        return self::do_get('kern.' . $key, $default_value);
     }
     public static function get_base($key, $default_value = null) {
-        return self::get('base.' . $key, $default_value);
+        return self::do_get('base.' . $key, $default_value);
     }
     public static function get_logic($key, $default_value = null) {
-        return self::get('logic.' . $key, $default_value);
+        return self::do_get('logic.' . $key, $default_value);
     }
     public static function get_module($key, $default_value = null) {
         if (self::$module_name === null) {
             throw new developer_error("you cannot use kern\config::get_module() when module_name is not set");
         }
         if (isset(self::$configs['modules'][self::$module_name])) {
-            $value = self::get('modules.' . self::$module_name . '.' . $key, null);
+            $value = self::do_get('modules.' . self::$module_name . '.' . $key, null);
             if ($value !== null) {
                 return $value;
             }
         }
         return self::get_base($key, $default_value);
     }
-    public static function get_third($key, $default_value = null) {
-        return self::get('third.' . $key, $default_value);
+    public static function get_vendor($key, $default_value = null) {
+        return self::do_get('vendor.' . $key, $default_value);
     }
     public static function set_kern($key, $value) {
-        self::set('kern.' . $key, $value);
+        self::do_set('kern.' . $key, $value);
     }
     public static function set_logic($key, $value) {
-        self::set('logic.' . $key, $value);
+        self::do_set('logic.' . $key, $value);
     }
     public static function set_base($key, $value) {
-        self::set('base.' . $key, $value);
+        self::do_set('base.' . $key, $value);
     }
     public static function set_module($key, $value) {
         if (self::$module_name === null) {
             throw new developer_error("you cannot use kern\config::set_module() when module_name is not set");
         }
-        self::set('modules.' . self::$module_name . '.' . $key, $value);
+        self::do_set('modules.' . self::$module_name . '.' . $key, $value);
     }
-    public static function set_third($key, $value) {
-        self::set('third.' . $key, $value);
+    public static function set_vendor($key, $value) {
+        self::do_set('vendor.' . $key, $value);
     }
     public static function /* @kern */ load() {
         if (defined('kern\config_dir')) {
@@ -252,8 +252,8 @@ class config {
                 self::$module_names = array_keys(self::$configs['modules']);
             }
         }
-        if (defined('kern\third_dir')) {
-            self::$configs['third'] = self::load_in_dir(third_dir . '/config');
+        if (defined('kern\vendor_dir')) {
+            self::$configs['vendor'] = self::load_in_dir(vendor_dir . '/config');
         }
         if (defined('kern\logic_dir')) {
             self::$configs['logic'] = self::load_in_dir(logic_dir . '/config');
@@ -268,7 +268,7 @@ class config {
     public static function /* @kern */ get_module_names() {
         return self::$module_names;
     }
-    protected static function get($key, $default_value = null) {
+    protected static function do_get($key, $default_value = null) {
         $value = self::$configs;
         if (strpos($key, '.') !== false) {
             $keys = explode('.', $key);
@@ -318,16 +318,15 @@ class config {
     }
     protected static $configs = [];
     protected static $module_names = [];
-    // 可更改
-    protected static $module_name = null;
+    protected static $module_name = null; # 可更改
 }
 // [实体] 组件加载器
 class loader {
     public static function load_utility($file) {
         self::load_file(utility_dir . '/' . $file);
     }
-    public static function load_third($file) {
-        self::load_file(third_dir . '/' . ltrim($file, '/'));
+    public static function load_vendor($file) {
+        self::load_file(vendor_dir . '/' . ltrim($file, '/'));
     }
     public static function load_file($_file) {
         require_once $_file;
@@ -347,7 +346,7 @@ class loader {
             $class_name = ltrim($class_name, '\\');
             $namespace = str_replace('\\', '/', substr($class_name, 0, $last_pos));
             $class_name = str_replace('_', '/', substr($class_name, $last_pos + 1));
-            self::load_third($namespace . '/' . $class_name . '.php');
+            self::load_vendor($namespace . '/' . $class_name . '.php');
         } else if (in_string('_', $class_name)) {
             if (ends_with('_model', $class_name)) {
                 self::load_file(logic_dir . '/model/' . $class_name . '.php');
