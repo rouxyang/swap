@@ -75,7 +75,7 @@ class router {
         $target_key = $at_module_name === 'base' ? self::$base_target_key : self::$module_target_keys[$at_module_name];
         if (isset($target_params[$target_key])) {
             $target_path = $target_params[$target_key];
-            if ($at_module_name === 'base' && in_string('-', $target_path)) {
+            if ($at_module_name === 'base' && strpos($target_path, '-') !== false) {
                 $parts = explode('-', $target_path, 2);
                 if (isset(self::$module_domains[$parts[0]]) && self::$module_domains[$parts[0]] === [] && is_identifier($parts[0])) {
                     $target_module = $parts[0];
@@ -105,7 +105,7 @@ class router {
         return new target([$target_name, $target_params]);
     }
     protected static function parse_rewrited_uri($uri, $at_module_name) {
-        if (in_string('?', $uri)) {
+        if (strpos($uri, '?') !== false) {
             list($request_path, $query_str) = explode('?', $uri, 2);
             parse_str($query_str, $target_params);
         } else {
@@ -117,7 +117,7 @@ class router {
         foreach ($routes as $match_pattern => $target_pattern) {
             $match_pattern = str_replace('.', '\\.', $match_pattern); # “.” 号特殊处理
             // 将形式正则改成实际正则
-            if (in_string('*', $match_pattern)) {
+            if (strpos($match_pattern, '*') !== false) {
                 $match_pattern = str_replace('*', self::lazy_unit_pattern, $match_pattern);
                 $rep_pos = strrpos($match_pattern, self::lazy_unit_pattern);
                 $rep_len = strlen(self::lazy_unit_pattern);
@@ -146,7 +146,7 @@ class router {
         $target_module = $at_module_name;
         $target_controller = self::default_controller_name;
         $target_action = self::default_action_name;
-        if ($at_module_name === 'base' && in_string('-', $request_path)) {
+        if ($at_module_name === 'base' && strpos($request_path, '-') !== false) {
             $parts = explode('-', $request_path, 2);
             $parts[0] = ltrim($parts[0], '/');
             if (isset(self::$module_domains[$parts[0]]) && self::$module_domains[$parts[0]] === [] && is_identifier($parts[0])) {
@@ -187,7 +187,7 @@ class router {
         $param_strs = explode(';', $query_str);
         $dirty_params = [];
         foreach ($param_strs as $param_str) {
-            if (in_string('=', $param_str)) {
+            if (strpos($param_str, '=') !== false) {
                 list($param_key, $param_value) = explode('=', $param_str, 2);
                 if ($param_key !== '') {
                     $dirty_params[$param_key] = $param_value;
@@ -198,7 +198,7 @@ class router {
         if (isset($dirty_params['page']) && is_string($dirty_params['page'])) {
             $page = $dirty_params['page'];
             if (substr_count($page, '/') === 1) {
-                if (in_string('-', $page)) {
+                if (strpos($page, '-') !== false) {
                     list($module_name, $page) = explode('-', $page, 2);
                     if (is_identifier($module_name)) {
                         $target_module = $module_name;
@@ -224,7 +224,7 @@ class router {
         foreach (['link', 'block'] as $arg_name) {
             if (isset($dirty_params[$arg_name]) && is_string($dirty_params[$arg_name])) {
                 $arg = $dirty_params[$arg_name];
-                $args = in_string(',', $arg) ? explode(',', $arg) : [$arg];
+                $args = strpos($arg, ',') !== false ? explode(',', $arg) : [$arg];
                 $target_params[$arg_name] = [];
                 foreach ($args as $arg) {
                     if (is_identifier_path($arg)) {
@@ -524,7 +524,7 @@ class target implements html_escapable {
                 return;
             }
             $params = [];
-            if (in_string('?', $target_token)) {
+            if (strpos($target_token, '?') !== false) {
                 list($target_name, $params_str) = explode('?', $target_token, 2);
                 parse_str($params_str, $params);
             } else {
@@ -536,7 +536,7 @@ class target implements html_escapable {
         }
         $this->target_name = $target_name;
         if ($target_name !== '') {
-            if (in_string('-', $target_name)) {
+            if (strpos($target_name, '-') !== false) {
                 $this->target_file = str_replace('-', '/', $target_name);
                 list($module_name, $target_path) = explode('-', $target_name, 2);
                 if (is_identifier($module_name)) {

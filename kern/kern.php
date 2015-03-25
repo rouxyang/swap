@@ -286,7 +286,7 @@ class config {
     }
     protected static function set($key, $value) {
         $configs =& self::$configs;
-        if (in_string('.', $key)) {
+        if (strpos($key, '.') !== false) {
             $keys = explode('.', $key);
             $last_key = array_pop($keys);
             foreach ($keys as $next_key) {
@@ -346,7 +346,7 @@ class loader {
             $namespace = str_replace('\\', '/', substr($class_name, 0, $last_pos));
             $class_name = str_replace('_', '/', substr($class_name, $last_pos + 1));
             self::load_vendor($namespace . '/' . $class_name . '.php');
-        } else if (in_string('_', $class_name)) {
+        } else if (strpos($class_name, '_') !== false) {
             if (ends_with('_model', $class_name)) {
                 self::load_file(logic_dir . '/model/' . $class_name . '.php');
             } else if (ends_with('_service', $class_name)) {
@@ -366,7 +366,6 @@ class loader {
         'kern\greedy_checker'          => 'server/logic/checker.php',
         'kern\instant_checker'         => 'server/logic/checker.php',
         'kern\binder'                  => 'server/logic/model.php',
-        'kern\model_api'               => 'server/logic/model.php',
         'kern\model'                   => 'server/logic/model.php',
         'kern\session'                 => 'server/sess/session.php',
         'kern\session_manager'         => 'server/sess/session.php',
@@ -548,45 +547,9 @@ function random_sha1() {
     $random_str .= microtime(true) . mt_rand() . uniqid($secret_key, true);
     return sha1($random_str . $secret_key);
 }
-// 检查 $small_str 是否在 $big_str 内
-function in_string($small_str, $big_str) {
-    return strpos($big_str, $small_str) !== false;
-}
-// 检查 $big_str 是否以 $small_str 开头
-function starts_with($small_str, $big_str) {
-    return strpos($big_str, $small_str) === 0;
-}
 // 检查 $big_str 是否以 $small_str 结尾
 function ends_with($small_str, $big_str) {
     return strpos(strrev($big_str), strrev($small_str)) === 0;
-}
-// 去除 $str 首部的 $left
-function strip_left($str, $left) {
-    $pos = strpos($str, $left);
-    if ($pos === 0) {
-        $str = substr($str, strlen($left));
-    }
-    return $str;
-}
-// 去除 $str 尾部的 $right
-function strip_right($str, $right) {
-    $pos = strrpos($str, $right);
-    if ($pos === strlen($str) - strlen($right)) {
-        $str = substr($str, 0, $pos);
-    }
-    return $str;
-}
-// 去除 $str 外边的 $left 和 $right
-function strip_edge($str, $left, $right) {
-    $pos = strpos($str, $left);
-    if ($pos === 0) {
-        $t = substr($str, strlen($left));
-        $pos = strrpos($t, $right);
-        if ($pos === strlen($t) - strlen($right)) {
-            $str = substr($t, 0, $pos);
-        }
-    }
-    return $str;
 }
 // 计算字符串的字节数
 function str_bytes($str) {

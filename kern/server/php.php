@@ -712,9 +712,9 @@ abstract class controller extends tpl_rendor {
     protected static function /* @kern */ get_target_name_from_page_name($page_name = null) {
         if ($page_name === null || $page_name === '') {
             $target_name = parent::$target->get_target_name();
-        } else if (in_string('-', $page_name)) {
+        } else if (strpos($page_name, '-') !== false) {
             $target_name = $page_name;
-        } else if (in_string('/', $page_name)) {
+        } else if (strpos($page_name, '/') !== false) {
             if (parent::$target->has_module()) {
                 $target_name = parent::$target->get_module_name() . '-' . $page_name;
             } else {
