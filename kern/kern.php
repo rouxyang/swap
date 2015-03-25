@@ -39,7 +39,6 @@ class kernel {
         set_exception_handler([__CLASS__, 'exception_handler']);
         $error_reporting = config::get_kern('error_reporting', self::$is_debug ? E_ALL | E_STRICT : E_ALL & ~E_NOTICE);
         set_error_handler([__CLASS__, 'error_handler'], $error_reporting);
-        logger::init();
         loader::init();
     }
     protected static function send_php_response() {
@@ -448,28 +447,16 @@ class logger {
     const error = 'ERROR';
     public static function log_error($msg) {
         if (defined('kern\data_dir')) {
-            @file_put_contents(self::get_log_file_for('error'), '[' . clock::get_datetime() . '] ' . $msg . "\n", FILE_APPEND);
+            $log_file = data_dir . '/log/error-' . clock::get('Y-m-d') . '.log';
+            @file_put_contents($log_file, '[' . clock::get_datetime() . '] ' . $msg . "\n", FILE_APPEND);
         }
     }
     public static function log($filename, $msg, $level = self::notice) {
         if (defined('kern\data_dir')) {
-            @file_put_contents(self::get_log_file_for($filename), '[' . clock::get_datetime() . '][' . $level . '] ' . $msg . "\n", FILE_APPEND);
-        }
-    }
-    public static function /* @kern */ init() {
-        self::$rotate_method = config::get_kern('log_rotate_method', '');
-    }
-    protected static function get_log_file_for($filename) {
-        if (self::$rotate_method === 'day') {
             $log_file = data_dir . '/log/' . $filename . '-' . clock::get('Y-m-d') . '.log';
-        } else if (self::$rotate_method === 'hour') {
-            $log_file = data_dir . '/log/' . $filename . '-' . clock::get('Y-m-d-H') . '.log';
-        } else {
-            $log_file = data_dir . '/log/' . $filename . '.log';
+            @file_put_contents($log_file, '[' . clock::get_datetime() . '][' . $level . '] ' . $msg . "\n", FILE_APPEND);
         }
-        return $log_file;
     }
-    protected static $rotate_method = '';
 }
 // [实体] 调试器
 class debug {

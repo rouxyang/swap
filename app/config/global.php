@@ -6,7 +6,6 @@ return [
     'is_debug'          => true,
     'log_errors'        => true,
     'log_with_trace'    => true,
-    'log_rotate_method' => 'day',
     'error_reporting'   => E_ALL | E_STRICT,
     'display_errors'    => true,
     'locale'            => 'zh_cn',
