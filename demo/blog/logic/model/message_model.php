@@ -14,7 +14,6 @@ class message_model extends kern\model {
                 'change_to'  => 'string',
                 'pass_if_be' => '',
                 'char_size'  => array(4, self::email_len, '邮箱长度为%d到%d个字符'),
-                'value_type' => array(kern\value::email_type, '邮箱地址不合法'),
             ),
             'site' => array(
                 'change_to'  => 'string',

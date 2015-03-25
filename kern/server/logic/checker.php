@@ -149,29 +149,6 @@ abstract class checker {
             return $reason;
         }
     }
-    protected function check_value_type($prop_name, $prop_value, $rule_value) {
-        list($type_value, $reason) = $rule_value;
-        $type_name = is_array($type_value) ? $type_value[0] : $type_value;
-        $value_type = 'kern\\' . $type_name . '_value';
-        $check_function = 'is_valid_' . $type_name;
-        $type_num = count($type_value);
-        switch ($type_num) {
-        case 1:
-            $result = $value_type::$check_function($prop_value);
-            break;
-        case 2:
-            $result = $value_type::$check_function($prop_value, $type_value[1]);
-            break;
-        case 3:
-            $result = $value_type::$check_function($prop_value, $type_value[1], $type_value[2]);
-            break;
-        default:
-            throw new developer_error('暂不支持过长的数组');
-        }
-        if (!$result) {
-            return $reason;
-        }
-    }
     protected function check_regexp($prop_name, $prop_value, $rule_value) {
         list($regexp, $reason) = $rule_value;
         if (!preg_match($regexp, $prop_value)) {

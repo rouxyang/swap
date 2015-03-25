@@ -185,7 +185,8 @@ class visitor {
             } else {
                 $ip = $clients_list;
             }
-            if (ip_value::is_valid_ip($ip)) {
+            $long = ip2long($ip);
+            if ($long !== false && long2ip($long) === $ip) {
                 return $ip;
             }
         }
