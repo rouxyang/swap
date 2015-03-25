@@ -11,7 +11,6 @@ return [
     'display_errors'    => true,
     'locale'            => 'zh_cn',
     'time_zone'         => 'Asia/Shanghai',
-    'module_domain'     => '127.0.0.1:8080',
     'static_domain'     => '',
     'upload_domain'     => '',
     'version_key'       => 'v',
